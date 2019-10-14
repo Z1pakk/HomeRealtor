@@ -17,6 +17,8 @@ namespace HomeRealtorApi.Entities
         public string StateName { get; set; }
         [ForeignKey("TypeOf")]
         public int TypeId { get; set; }
+        [Required]
+        public double Price { get; set; }
         public DateTime TimeOfPost { get; set; }
         [ForeignKey("UserOf")]
         public int UserId { get; set; }
