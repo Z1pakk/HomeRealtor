@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeRealtorApi", "HomeRealtorApi\HomeRealtorApi.csproj", "{B944CD19-E1A8-4941-9178-1CD7BCC849B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeRealtorApi", "HomeRealtorApi\HomeRealtorApi.csproj", "{B944CD19-E1A8-4941-9178-1CD7BCC849B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealtorUI", "RealtorUI\RealtorUI.csproj", "{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B944CD19-E1A8-4941-9178-1CD7BCC849B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B944CD19-E1A8-4941-9178-1CD7BCC849B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B944CD19-E1A8-4941-9178-1CD7BCC849B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
