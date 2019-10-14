@@ -7,22 +7,16 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
-    [Table("tbl_RealStates")]
-    public class RealEstate
+    [Table("tbl_ImageUsers")]
+    public class ImageUser
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Image { get; set; }
-        [Required,StringLength(20)]
-        public string StateName { get; set; }
-        [ForeignKey("TypeOf")]
-        public int TypeId { get; set; }
-        public DateTime TimeOfPost { get; set; }
+        public string Name { get; set; }
         [ForeignKey("UserOf")]
         public int UserId { get; set; }
         public virtual User UserOf { get; set; }
-        public virtual ICollection<ImageEstate> ImageEstates { get; set; }
 
     }
 }
