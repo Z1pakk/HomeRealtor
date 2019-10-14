@@ -16,6 +16,8 @@ namespace HomeRealtorApi.Entities
         public string FirstName { get; set; }
         [Required,StringLength(20),EmailAddress]
         public string Email { get; set; }
+        [Required,Phone]
+        public string PhoneNumber { get; set; }
         [Required, StringLength(20)]
         public string LastName { get; set; }
         [Required]
