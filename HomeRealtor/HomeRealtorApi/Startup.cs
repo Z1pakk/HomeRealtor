@@ -27,9 +27,8 @@ namespace HomeRealtorApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EFContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HRConnection")));
+            services.AddDbContext<EFContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HomeRealtorDb")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<EFContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HRConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
