@@ -26,7 +26,26 @@ namespace HomeRealtorApi.Controllers
             _userManager = userManager;
             _sigInManager = sigInManager;
         }
+        [HttpPost("add")]
+        public async Task<ActionResult<string>> Add([FromBody]UserModel User)
+        {
 
+            User userApp = new User()
+            {
+                Email = User.Email,
+                Age = User.Age,
+                PhoneNumber=User.PhoneNumber,
+                FirstName = User.FirstName,
+                AboutMe=User.AboutMe,
+                LastName = User.LastName
+            };
+            var result = await _userManager.CreateAsync(userApp, User.Password);
+            if (result.Succeeded)
+            {
+                return "All done";
+            }
+            return "Еррор:";
+        }
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
