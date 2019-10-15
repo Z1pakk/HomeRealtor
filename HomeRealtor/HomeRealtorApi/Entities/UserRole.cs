@@ -10,9 +10,15 @@ namespace HomeRealtorApi.Entities
     [Table("tbl_UserRoles")]
     public class UserRole
     {
+
+        
         [Key,ForeignKey("UserOf")]
         public int UserId { get; set; }
         [Key,ForeignKey("RoleOf")]
         public int RoleId { get; set; }
+
+        public virtual User UserOf { get; set; }
+        public virtual Role RoleOf { get; set; }
+
     }
 }
