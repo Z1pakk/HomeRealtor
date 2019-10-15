@@ -12,5 +12,10 @@ namespace RealtorUI
         {
             InitializeComponent();
         }
+
+        private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }
