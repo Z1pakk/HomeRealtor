@@ -1,5 +1,5 @@
 ﻿using MahApps.Metro.Controls;
-
+using RealtorUI.Pages;
 
 namespace RealtorUI
 {
@@ -19,6 +19,8 @@ namespace RealtorUI
         }
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            HomePage page = new HomePage();
+            frame.Content = page;
 
         }
     }
