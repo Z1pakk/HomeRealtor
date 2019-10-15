@@ -14,12 +14,16 @@ namespace HomeRealtorApi.Controllers
     public class NewsController : ControllerBase
     {
         private readonly EFContext _context;
-     
-        [HttpGet("news")]
+        public NewsController(EFContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet("news_")]
         public ContentResult GetProducts()
         {
-            List<News> products = _context.News.ToList();
-            string json = JsonConvert.SerializeObject(products);
+            List<News> news = _context.News.ToList();
+            string json = JsonConvert.SerializeObject(news);
             return Content(json, "application/json");
         }
     }
