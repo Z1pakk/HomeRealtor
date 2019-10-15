@@ -15,7 +15,7 @@ namespace HomeRealtorApi.Entities
 
         [Required]
         public string Image { get; set; }
-
+        [Required, StringLength(20)]
         public string StateName { get; set; }
 
         [Required]
@@ -34,5 +34,7 @@ namespace HomeRealtorApi.Entities
 
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
+        public virtual ICollection<ImageEstate> ImageEstates { get; set; }
+
     }
 }
