@@ -23,6 +23,7 @@ namespace HomeRealtorApi.Entities
         [StringLength(100)]
         public string  AboutMe { get; set; }
         public string Image { get; set; }
+        public string Password { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
         public virtual ICollection<Advertising> Advertisings { get; set; }

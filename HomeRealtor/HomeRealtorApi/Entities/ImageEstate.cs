@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
-    [Table("tbl_ImageUsers")]
+    [Table("tbl_ImageEstates")]
     public class ImageEstate
     { 
             [Key]
