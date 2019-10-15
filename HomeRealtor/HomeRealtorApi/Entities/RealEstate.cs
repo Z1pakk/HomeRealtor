@@ -12,17 +12,27 @@ namespace HomeRealtorApi.Entities
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Image { get; set; }
-        [Required,StringLength(20)]
+        [Required, StringLength(20)]
         public string StateName { get; set; }
-        [ForeignKey("TypeOf")]
-        public int TypeId { get; set; }
+
         [Required]
         public double Price { get; set; }
+
         public DateTime TimeOfPost { get; set; }
+
+        [Required]
+        public bool Active { get; set; }
+
+        [ForeignKey("TypeOf")]
+        public int TypeId { get; set; }
+
         [ForeignKey("UserOf")]
         public int UserId { get; set; }
+
+        public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
         public virtual ICollection<ImageEstate> ImageEstates { get; set; }
 

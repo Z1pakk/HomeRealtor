@@ -28,5 +28,6 @@ namespace HomeRealtorApi.Entities
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
 
+        public virtual List<RealEstate> RealEstates { get; set; }
     }
 }
