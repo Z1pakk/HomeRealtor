@@ -6,16 +6,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealtorUI"
         mc:Ignorable="d"
-        Title="Login" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Height="400" Width="450">
+        Title="Login" Height="500" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="73*"/>
-            <RowDefinition Height="298*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="47*"/>
-            <ColumnDefinition Width="101*"/>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="131*"/>
         </Grid.ColumnDefinitions>
-       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="249*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="122*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
+            <Label Content="Input email or phone number:" FontSize="20" Grid.RowSpan="2"/>
+            <TextBox x:Name="loginBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
+            <Label Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
+            <PasswordBox x:Name="passwdBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal"  >
+            <Button Content="Registration" Click="Button_Click" Width="120" FontSize="14"/>
+            <Button Content="Login" Width="100" FontSize="14" Margin="95,0,0,0"/>
+        </StackPanel>
+        <Label  Cursor="Hand" MouseLeftButtonDown="Forgot_Password" Content="Forgot password" Grid.Row="3" Grid.Column="1" FontSize="16" Margin="0,36,247,41">
+
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Label.Style>
+        </Label>
     </Grid>
 </Controls:MetroWindow>

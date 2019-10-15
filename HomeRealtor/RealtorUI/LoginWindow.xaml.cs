@@ -24,5 +24,16 @@ namespace RealtorUI
         {
             InitializeComponent();
         }
+
+        private void Forgot_Password(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterWindow window = new RegisterWindow();
+            window.ShowDialog();
+        }
     }
 }
