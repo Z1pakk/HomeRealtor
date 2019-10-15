@@ -23,6 +23,8 @@ namespace HomeRealtorApi.Entities
 
         public DateTime TimeOfPost { get; set; }
 
+        public double TerritorySize { get; set; }
+
         [Required]
         public bool Active { get; set; }
 
