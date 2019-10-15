@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,22 @@ namespace RealtorUI
     /// </summary>
     public partial class RegisterWindow : MetroWindow
     {
+        private string ImagePath;
+
         public RegisterWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            var result = dlg.ShowDialog();
+            if (result.HasValue && result.Value == true)
+            {
+                ImagePath = dlg.FileName;
+                pbImage.Source = new BitmapImage(new Uri(ImagePath));
+            }
         }
     }
 }
