@@ -15,11 +15,15 @@ namespace HomeRealtorApi.Entities
 
         [Required]
         public string Image { get; set; }
+
         [Required, StringLength(20)]
         public string StateName { get; set; }
 
         [Required]
         public double Price { get; set; }
+
+        [Required,StringLength(500)]
+        public string Location { get; set; }
 
         public DateTime TimeOfPost { get; set; }
 
@@ -32,7 +36,7 @@ namespace HomeRealtorApi.Entities
         public int TypeId { get; set; }
 
         [ForeignKey("UserOf")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
