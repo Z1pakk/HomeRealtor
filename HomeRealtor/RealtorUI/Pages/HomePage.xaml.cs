@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RealtorUI
+namespace RealtorUI.Pages
 {
     /// <summary>
-    /// Interaction logic for RealtorWindow.xaml
+    /// Interaction logic for HomePage.xaml
     /// </summary>
-    public partial class RealtorWindow : Page
+    public partial class HomePage : Page
     {
-        public RealtorWindow()
+        public HomePage()
         {
             InitializeComponent();
         }

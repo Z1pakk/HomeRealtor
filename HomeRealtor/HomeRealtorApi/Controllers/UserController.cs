@@ -17,20 +17,20 @@ namespace HomeRealtorApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        //private readonly SignInManager<User> _sigInManager;
+        private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
 
-        public UserController(EFContext context)
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
-            //_userManager = userManager;
-            //_sigInManager = sigInManager;
+            _userManager = userManager;
+            _sigInManager = sigInManager;
             _context = context;
         }
         [HttpPost("add")]
-        public string Add([FromBody]UserModel User)
+        public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
 
             User user = new User()
@@ -43,31 +43,29 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
-            var res=_context.Users.Add(user);
-            if (res.IsKeySet == true)
-                return "Added";
-            else
-                return "error";
-            
+
+            var result = await _userManager.CreateAsync(user, User.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return "Еррор:";
         }
+
         [HttpGet("getToken")]
-        public void Get([FromBody]UserLoginModel loginModel)
+        public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
 
-            //User user = await _userManager.FindByNameAsync(loginModel.Email);
-            //var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-            //if (!result.Succeeded)
-            //{
-            //    return "Error";
-            //}
+            User user = await _userManager.FindByNameAsync(loginModel.Email);
+            var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            if (!result.Succeeded)
+            {
+                return "Error";
+            }
 
-            //return CreateTokenAsync(user);
+            return CreateTokenAsync(user);
         }
-        [HttpGet("get")]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+
         private string CreateTokenAsync(User user)
         {
             var now = DateTime.UtcNow;
