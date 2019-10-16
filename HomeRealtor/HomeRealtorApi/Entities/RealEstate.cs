@@ -36,7 +36,7 @@ namespace HomeRealtorApi.Entities
         public int TypeId { get; set; }
 
         [ForeignKey("UserOf")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
