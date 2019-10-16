@@ -27,7 +27,7 @@ namespace HomeRealtorApi.Controllers
             _sigInManager = sigInManager;
         }
         [HttpPost("add")]
-        public async Task<ActionResult<string>> Add([FromBody]UserModel User)
+        public async Task<IActionResult> Add([FromBody]UserModel User)
         {
 
             User userApp = new User()
@@ -42,14 +42,14 @@ namespace HomeRealtorApi.Controllers
             var result = await _userManager.CreateAsync(userApp, User.Password);
             if (result.Succeeded)
             {
-                return "All done";
+                return Ok();
             }
-            return "Еррор:";
+            return BadRequest(result.Errors);
         }
+
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
-
             User user = await _userManager.FindByNameAsync(loginModel.Email);
             var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
             if (!result.Succeeded)
@@ -59,6 +59,7 @@ namespace HomeRealtorApi.Controllers
 
             return CreateTokenAsync(user);
         }
+
         private string CreateTokenAsync(User user)
         {
             var now = DateTime.UtcNow;
