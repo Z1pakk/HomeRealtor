@@ -23,13 +23,6 @@ namespace HomeRealtorApi.Controllers
 
         private readonly EFContext _context;
 
-<<<<<<<<< Temporary merge branch 1
-        public UserController(EFContext context)
-        {
-            //_userManager = userManager;
-            //_sigInManager = sigInManager;
-=========
-
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
             _userManager = userManager;
@@ -40,7 +33,7 @@ namespace HomeRealtorApi.Controllers
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
 
-            User userApp = new User()
+            User user = new User()
             {
                 Email = User.Email,
                 Age = User.Age,
@@ -49,21 +42,11 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
-<<<<<<<<< Temporary merge branch 1
             var res=_context.Users.Add(user);
             if (res.IsKeySet == true)
                 return "Added";
             else
                 return "error";
-            
-=========
-            var result = await _userManager.CreateAsync(userApp, User.Password);
-            if (result.Succeeded)
-            {
-                return "All done";
-            }
-            return "Еррор:";
->>>>>>>>> Temporary merge branch 2
         }
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
