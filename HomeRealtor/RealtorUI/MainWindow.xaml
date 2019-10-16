@@ -27,7 +27,7 @@
                     <Button Name="btnHome" Content="Home" Height="50" FontSize="18"/>
                     <Button Name="btnBuy" Content="Buy" Height="50" FontSize="18"/>
                     <Button Name="btnRental" Content="Rental" Height="50" FontSize="18"/>
-                    <Button Name="btnNews" Content="News" Height="50" FontSize="18"/>
+                    <Button Name="btnNews" Click="BtnNews_Click" Content="News" Height="50" FontSize="18"/>
                     <Button Name="btnAbout" Content="About us" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
@@ -43,7 +43,7 @@
     
     
     <Grid>
-        
+        <Frame NavigationUIVisibility="Hidden" x:Name="frame"/>
     </Grid>
 </Controls:MetroWindow>
     
