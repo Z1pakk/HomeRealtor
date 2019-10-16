@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HomeRealtorApi.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,13 +13,13 @@ namespace HomeRealtorApi.Controllers
     [ApiController]
     public class AdminController : Controller
     {
-        //private readonly EFContext _context;
-        //private readonly IHostingEnvironment _appEnvironment;
-        //public AdminController(EFContext context, IHostingEnvironment appEnvironment)
-        //{
-        //    _context = context;
-        //    _appEnvironment = appEnvironment;
-        //}
+        private readonly EFContext _context;
+        private readonly IHostingEnvironment _appEnvironment;
+        public AdminController(EFContext context, IHostingEnvironment appEnvironment)
+        {
+            _context = context;
+            _appEnvironment = appEnvironment;
+        }
         public IActionResult Index()
         {
             return View();
@@ -26,13 +27,13 @@ namespace HomeRealtorApi.Controllers
 
 
 
-        //[HttpGet("GetSorted")]
-        //public ContentResult GetSortedUsers()
-        //{
-        //    List<User> products = _context.User.ToList();
-        //    string json = JsonConvert.SerializeObject(products.OrderBy(x=> x.FirstName ));
-        //    return Content(json, "application/json");
-        //}
+        [HttpGet("GetRealtors")]
+        public ContentResult GetSortedUsers()
+        {
+            List<User> useres = _context.Users.ToList();
+            string json = JsonConvert.SerializeObject(useres.Where(x => x.UserRoles.FirstOrDefault(y=>y.RoleOf.Name=="Realtor")!=null));
+            return Content(json, "application/json");
+        }
 
 
         //[HttpGet("GetRieltors")]

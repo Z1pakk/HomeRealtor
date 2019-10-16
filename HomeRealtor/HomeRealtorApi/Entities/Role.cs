@@ -13,7 +13,7 @@ namespace HomeRealtorApi.Entities
         [Key]
         public int Id { get; set; }
         [Required, StringLength(20)]
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<UserRole>  UserRoles { get; set; }
     }
