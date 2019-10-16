@@ -11,38 +11,34 @@ namespace HomeRealtorApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : Controller
+    public class AdminController : ControllerBase
     {
         private readonly EFContext _context;
-        private readonly IHostingEnvironment _appEnvironment;
-        public AdminController(EFContext context, IHostingEnvironment appEnvironment)
+        public AdminController(EFContext context)
         {
             _context = context;
-            _appEnvironment = appEnvironment;
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
-
-
-        [HttpGet("GetRealtors")]
-        public ContentResult GetSortedUsers()
+        [HttpGet("GetRealInfo")]
+        public ContentResult GetRealtorInfo()
         {
             List<User> useres = _context.Users.ToList();
             string json = JsonConvert.SerializeObject(useres.Where(x => x.UserRoles.FirstOrDefault(y=>y.RoleOf.Name=="Realtor")!=null));
             return Content(json, "application/json");
         }
 
-
-        //[HttpGet("GetRieltors")]
-        //public ContentResult GetSortedUsers()
-        //{
-        //    List<User> products = _context.User.ToList();
-        //    string json = JsonConvert.SerializeObject(products.OrderBy(x => x.FirstName));
-        //    return Content(json, "application/json");
-        //}
+        [HttpGet("GetReal")]
+        public ContentResult GetRealtor()
+        {
+            List<User> useres = _context.Users.ToList();
+            string json = null;
+            foreach (var item in useres)
+            {
+                if(item.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
+                    json += JsonConvert.SerializeObject(item.FirstName + " " + item.LastName);
+            }
+            return Content(json, "application/json");
+        }
 
         //Delete User
         /*[HttpDelete("delete/{id}")]
