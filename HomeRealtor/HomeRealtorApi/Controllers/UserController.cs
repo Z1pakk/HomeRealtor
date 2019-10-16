@@ -17,11 +17,18 @@ namespace HomeRealtorApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        //private readonly SignInManager<User> _sigInManager;
+        private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
+
+<<<<<<<<< Temporary merge branch 1
+        public UserController(EFContext context)
+        {
+            //_userManager = userManager;
+            //_sigInManager = sigInManager;
+=========
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
@@ -30,12 +37,11 @@ namespace HomeRealtorApi.Controllers
             _context = context;
         }
         [HttpPost("add")]
-        public string Add([FromBody]UserModel User)
+        public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
 
-            User user = new User()
+            User userApp = new User()
             {
-               
                 Email = User.Email,
                 Age = User.Age,
                 PhoneNumber=User.PhoneNumber,
@@ -43,36 +49,34 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
-
+<<<<<<<<< Temporary merge branch 1
+            var res=_context.Users.Add(user);
+            if (res.IsKeySet == true)
+                return "Added";
+            else
+                return "error";
+            
+=========
             var result = await _userManager.CreateAsync(userApp, User.Password);
             if (result.Succeeded)
             {
                 return "All done";
             }
             return "Еррор:";
-            var res=_context.Users.Add(user);
-            if (res.IsKeySet == true)
-                return "Added";
-            else
-                return "error";
+>>>>>>>>> Temporary merge branch 2
         }
         [HttpGet("getToken")]
-        public void Get([FromBody]UserLoginModel loginModel)
+        public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
 
-            //User user = await _userManager.FindByNameAsync(loginModel.Email);
-            //var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-            //if (!result.Succeeded)
-            //{
-            //    return "Error";
-            //}
+            User user = await _userManager.FindByNameAsync(loginModel.Email);
+            var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            if (!result.Succeeded)
+            {
+                return "Error";
+            }
 
-            //return CreateTokenAsync(user);
-        }
-        [HttpGet("get")]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
+            return CreateTokenAsync(user);
         }
         private string CreateTokenAsync(User user)
         {
