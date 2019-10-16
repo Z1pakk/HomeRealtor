@@ -38,5 +38,11 @@ namespace RealtorUI
                 pbImage.Source = new BitmapImage(new Uri(ImagePath));
             }
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MainWindow m = new MainWindow();
+            m.Show();
+        }
     }
 }

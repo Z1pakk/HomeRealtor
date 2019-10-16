@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +26,42 @@ namespace RealtorUI
         public AboutUs()
         {
             InitializeComponent();
-            lstAddIns.Items.Add(new { Name = "Semen" });
+            
+           
+           
+           
+            
+        }
+        public void GetNews()
+        {
+            string url = @"http://localhost:55164/api/news/news";
+            try
+            {
+
+
+                string s;
+                HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
+                WebResponse response = myReq.GetResponse();
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    s = stream.ReadToEnd();
+                }
+                response.Close();
+
+                //List<News> valuta = JsonConvert.DeserializeObject<List<News>>(s);
+
+
+
+               // foreach (var item in valuta)
+               // {
+               //     lstAddIns.Items.Add(Name = item.Headline.ToString());
+               // }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
