@@ -21,10 +21,14 @@ namespace HomeRealtorApi.Controllers
 
         private readonly SignInManager<User> _sigInManager;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> sigInManager)
+        private readonly EFContext _context;
+
+
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
             _userManager = userManager;
             _sigInManager = sigInManager;
+            _context = context;
         }
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
@@ -40,6 +44,8 @@ namespace HomeRealtorApi.Controllers
                 LastName = User.LastName
             };
             var result = await _userManager.CreateAsync(userApp, User.Password);
+           // await _context.Users.AddAsync((User)result);
+           // _context.SaveChanges();
             if (result.Succeeded)
             {
                 return "All done";
