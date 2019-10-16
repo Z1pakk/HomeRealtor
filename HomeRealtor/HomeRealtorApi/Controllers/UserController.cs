@@ -17,9 +17,9 @@ namespace HomeRealtorApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        //private readonly SignInManager<User> _sigInManager;
+        private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
 
@@ -44,7 +44,7 @@ namespace HomeRealtorApi.Controllers
                 LastName = User.LastName
             };
 
-            var result = await _userManager.CreateAsync(userApp, User.Password);
+            var result = await _userManager.CreateAsync(user, User.Password);
             if (result.Succeeded)
             {
                 return Ok();
