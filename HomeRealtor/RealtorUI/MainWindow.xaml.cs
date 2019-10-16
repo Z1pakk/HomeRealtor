@@ -14,8 +14,13 @@ namespace RealtorUI
         }
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            AboutUs aboutUs = new AboutUs();
-            frame.Content = aboutUs;
+           // AboutUs aboutUs = new AboutUs();
+            //frame.Content = aboutUs;
+        }
+
+        private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
         }
     }
 }
