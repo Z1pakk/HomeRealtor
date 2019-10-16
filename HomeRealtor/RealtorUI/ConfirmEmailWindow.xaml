@@ -1,0 +1,24 @@
+﻿<Controls:MetroWindow x:Class="RealtorUI.ConfirmEmailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealtorUI"
+        mc:Ignorable="d"
+        Title="Confirm Email" Height="305.911" Width="286.607" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="118*"/>
+            <RowDefinition Height="89*"/>
+            <RowDefinition Height="68*"/>
+        </Grid.RowDefinitions>
+        <Image  Source="C:\Users\redfreshka\Desktop\HomeRealtor\HomeRealtor\RealtorUI\bin\Debug\email-icon.png" Margin="5" />
+        <StackPanel Grid.Row="1">
+            <Label FontSize="14"  HorizontalAlignment="Left" Margin="10,0,0,0" Content="A CODE HAS BEEN SENT TO YOUR EMAIL"/>
+            <Label  HorizontalAlignment="Left" Margin="10,0,0,0"  Content="Your code:"/>
+            <TextBox Margin="10 0" ></TextBox>
+        </StackPanel>
+        <Button Grid.Row="2" Margin="10 5" >Confirm</Button>
+    </Grid>
+</Controls:MetroWindow>
