@@ -35,6 +35,7 @@ namespace HomeRealtorApi.Controllers
 
             User user = new User()
             {
+               
                 Email = User.Email,
                 Age = User.Age,
                 PhoneNumber=User.PhoneNumber,
@@ -42,12 +43,15 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
-            var res=_context.Users.Add(user);
-            if (res.IsKeySet == true)
-                return "Added";
-            else
-                return "error";
+
+            var result = await _userManager.CreateAsync(user, User.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return "Еррор:";
         }
+
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
@@ -61,6 +65,7 @@ namespace HomeRealtorApi.Controllers
 
             return CreateTokenAsync(user);
         }
+
         private string CreateTokenAsync(User user)
         {
             var now = DateTime.UtcNow;
