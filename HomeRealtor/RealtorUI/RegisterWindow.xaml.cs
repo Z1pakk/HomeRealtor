@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,12 +23,12 @@ namespace RealtorUI
     public partial class RegisterWindow : MetroWindow
     {
         private string ImagePath;
+        private int Code;
 
         public RegisterWindow()
         {
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -37,6 +38,11 @@ namespace RealtorUI
                 ImagePath = dlg.FileName;
                 pbImage.Source = new BitmapImage(new Uri(ImagePath));
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
