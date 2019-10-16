@@ -16,6 +16,8 @@ namespace HomeRealtorApi.Entities
         public string FirstName { get; set; }
         [Required,StringLength(20),EmailAddress]
         public string Email { get; set; }
+        [Required,Phone]
+        public string PhoneNumber { get; set; }
         [Required, StringLength(20)]
         public string LastName { get; set; }
         [Required]
@@ -23,6 +25,7 @@ namespace HomeRealtorApi.Entities
         [StringLength(100)]
         public string  AboutMe { get; set; }
         public string Image { get; set; }
+        public string Password { get; set; }
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
         public virtual ICollection<Advertising> Advertisings { get; set; }
