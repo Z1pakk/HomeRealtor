@@ -20,10 +20,10 @@ namespace HomeRealtorApi.Entities
         public bool Status { get; set; }
 
         [ForeignKey("UserOf")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey("RealtorOf")]
-        public int RealtorId { get; set; }
+        public string RealtorId { get; set; }
 
 
         public virtual RealEstate EstateOf { get; set; }
