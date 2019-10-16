@@ -23,10 +23,10 @@ namespace HomeRealtorApi.Controllers
 
         private readonly EFContext _context;
 
-        public UserController(EFContext context)
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
-            //_userManager = userManager;
-            //_sigInManager = sigInManager;
+            _userManager = userManager;
+            _sigInManager = sigInManager;
             _context = context;
         }
         [HttpPost("add")]
@@ -43,12 +43,18 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
+
+            var result = await _userManager.CreateAsync(userApp, User.Password);
+            if (result.Succeeded)
+            {
+                return "All done";
+            }
+            return "Еррор:";
             var res=_context.Users.Add(user);
             if (res.IsKeySet == true)
                 return "Added";
             else
                 return "error";
-            
         }
         [HttpGet("getToken")]
         public void Get([FromBody]UserLoginModel loginModel)
