@@ -21,17 +21,21 @@ namespace HomeRealtorApi.Controllers
 
         private readonly SignInManager<User> _sigInManager;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> sigInManager)
+        private readonly EFContext _context;
+
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
             _userManager = userManager;
             _sigInManager = sigInManager;
+            _context = context;
         }
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
 
-            User userApp = new User()
+            User user = new User()
             {
+               
                 Email = User.Email,
                 Age = User.Age,
                 PhoneNumber=User.PhoneNumber,
@@ -39,13 +43,15 @@ namespace HomeRealtorApi.Controllers
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
             };
-            var result = await _userManager.CreateAsync(userApp, User.Password);
+
+            var result = await _userManager.CreateAsync(user, User.Password);
             if (result.Succeeded)
             {
-                return "All done";
+                return Ok();
             }
             return "Еррор:";
         }
+
         [HttpGet("getToken")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
@@ -59,6 +65,7 @@ namespace HomeRealtorApi.Controllers
 
             return CreateTokenAsync(user);
         }
+
         private string CreateTokenAsync(User user)
         {
             var now = DateTime.UtcNow;
