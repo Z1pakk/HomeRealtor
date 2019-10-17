@@ -8,9 +8,11 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        string Id;
+        public MainWindow(string id)
         {
             InitializeComponent();
+            Id = id;
         }
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -21,6 +23,11 @@ namespace RealtorUI
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 
+        }
+
+        private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            frame.Navigate(new EstateShowPage());
         }
     }
 }

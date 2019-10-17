@@ -20,18 +20,16 @@ namespace HomeRealtorApi.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> GetRealEstate()
+        public ContentResult GetRealEstate()
         {
             /*List<RealEstate> estates= new List<RealEstate>();
             foreach (var estate in _context.RealEstates)
                 estates.Add(estate);
             string estateJson = JsonConvert.SerializeObject(estates);*/
 
-            List<string> estatesJson = new List<string>();
-            foreach (var estate in _context.RealEstates)
-                estatesJson.Add(JsonConvert.SerializeObject(estate));
+            string json = JsonConvert.SerializeObject( _context.RealEstates.ToList());
 
-            return estatesJson;
+            return Content(json);
         }
 
         // GET api/values/get/realEstate/5

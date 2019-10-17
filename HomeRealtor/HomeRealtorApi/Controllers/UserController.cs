@@ -54,18 +54,27 @@ namespace HomeRealtorApi.Controllers
             return "Еррор:";
         }
 
-        [HttpGet("login")]
-        public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
-            User user = await _userManager.FindByNameAsync(loginModel.Email);
+            User user = await _userManager.FindByEmailAsync(loginModel.Email);
+            //TODO: FindByPhoneAsync
+            //if(user==null)
+            //{
+            //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
+            //}
+            if (user == null)
+            {
+                return "Error";
+            }
             var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
             if (!result.Succeeded)
             {
                 return "Error";
             }
 
-            return CreateTokenAsync(user);
+            return user.Id;
         }
 
         private string CreateTokenAsync(User user)
