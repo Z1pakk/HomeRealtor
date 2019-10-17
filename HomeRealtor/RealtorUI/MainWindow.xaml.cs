@@ -22,5 +22,10 @@ namespace RealtorUI
         {
 
         }
+
+        private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            frame.Navigate(new EstateShowPage());
+        }
     }
 }
