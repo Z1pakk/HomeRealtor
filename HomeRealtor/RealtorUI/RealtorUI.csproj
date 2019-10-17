@@ -78,11 +78,12 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
-	 <Compile Include="Pages\RealtorWindow.xaml.cs">
+    <Compile Include="Pages\RealtorWindow.xaml.cs">
       <DependentUpon>RealtorWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -104,15 +105,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	 <Page Include="RegisterWindow.xaml">
+    <Page Include="RegisterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="Pages\RealtorWindow.xaml">
+    <Page Include="Pages\RealtorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="Pages\HomePage.xaml">
+    <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
