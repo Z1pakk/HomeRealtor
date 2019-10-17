@@ -1,17 +1,16 @@
-﻿using APIConnectService.Helpers;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace APIConnectService.Service
 {
-    public class BaseServices
+    public class AddUserService
     {
+        public void AddUser(string url)
+        {
 
+        }
     }
 }
