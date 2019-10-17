@@ -19,7 +19,7 @@ namespace HomeRealtorApi.Controllers
             _context = context;
         }
 
-        [HttpGet("GetRealInfo")]
+       /* [HttpGet("GetRealInfo")]
         public ContentResult GetRealtorInfo()
         {
             List<User> useres = _context.Users.ToList();
@@ -39,7 +39,7 @@ namespace HomeRealtorApi.Controllers
             }
             return Content(json, "application/json");
         }
-
+        */
         //Delete User
         /*[HttpDelete("delete/{id}")]
         public ContentResult DeleteProduct(int id)
