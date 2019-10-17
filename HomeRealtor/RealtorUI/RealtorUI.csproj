@@ -85,7 +85,6 @@
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="ImageHelper.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Pages\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>
@@ -163,6 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
+      <Project>{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}</Project>
+      <Name>APIConnectService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

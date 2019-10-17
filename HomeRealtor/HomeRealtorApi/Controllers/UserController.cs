@@ -35,10 +35,9 @@ namespace HomeRealtorApi.Controllers
 
             User user = new User()
             {
-               
+                UserName = User.UserName,
                 Email = User.Email,
                 Age = User.Age,
-                UserName = User.UserName,
                 PhoneNumber =User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe=User.AboutMe,
