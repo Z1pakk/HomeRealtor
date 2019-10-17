@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -14,9 +18,11 @@ namespace HomeRealtorApi.Controllers
     public class RealEstateController : ControllerBase
     {
         private readonly EFContext _context;
-        public RealEstateController(EFContext context)
+        private readonly IHostingEnvironment _appEnvoronment;
+        public RealEstateController(EFContext context, IHostingEnvironment appEnvoronment)
         {
             _context = context;
+            _appEnvoronment = appEnvoronment;
         }
         // GET api/values
         [HttpGet]
@@ -36,30 +42,33 @@ namespace HomeRealtorApi.Controllers
 
         // GET api/values/get/realEstate/5
         [HttpGet("get/{id}")]
-        public ActionResult<string> GetRealEstate(int id)
+        public ContentResult GetRealEstate(int id)
         {
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
             string estateJson = JsonConvert.SerializeObject(estate);
-            return estateJson;
+            return Content(estateJson);
         }
 
-        // POST api/values/add/realEstate
+        // POST api/values/realestate/add
         [HttpPost("add")]
         public ContentResult AddRealEstate([FromBody]RealEstateViewModel model)
         {
             try
             {
+                string path = string.Empty;
+
                 RealEstate estate = new RealEstate()
                 {
                     Active = model.Active,
+                    //ImageEstates = model.ImageEstates,
                     Image = model.Image,
-                    ImageEstates = model.ImageEstates,
                     Price = model.Price,
                     StateName = model.StateName,
                     TypeId = model.TypeId,
                     UserId = model.UserId,
                     TimeOfPost = model.TimeOfPost
                 };
+
                 _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
@@ -79,7 +88,6 @@ namespace HomeRealtorApi.Controllers
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
                 estate.Image = model.Image;
-                estate.ImageEstates = model.ImageEstates;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
                 estate.TypeId = model.TypeId;

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace RealtorUI
 {
@@ -29,6 +32,7 @@ namespace RealtorUI
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
         {
+
             OpenFileDialog openFile = new OpenFileDialog();
             var res = openFile.ShowDialog();
             if (res.HasValue && res.Value == true)
@@ -37,7 +41,17 @@ namespace RealtorUI
                 lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
             }
 
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/add/realEstate");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(JsonConvert.SerializeObject());
+            }
+
 
         }
+
     }
 }
