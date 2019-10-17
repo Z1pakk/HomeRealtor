@@ -17,11 +17,11 @@ using System.Windows.Shapes;
 namespace RealtorUI.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MyUserInfoPage.xaml
+    /// Логика взаимодействия для MyRealtorInfoPage.xaml
     /// </summary>
-    public partial class MyUserInfoPage : Page
+    public partial class MyRealtorInfoPage : Page
     {
-        public MyUserInfoPage(UserModel user)
+        public MyRealtorInfoPage(UserModel user)
         {
             InitializeComponent();
             imgPerson.Source = new BitmapImage(new Uri("https://localhost:53606/Content/" + user.Image));
@@ -31,19 +31,19 @@ namespace RealtorUI.Pages
             lblPhone.Content = lblPhone.Content + user.PhoneNumber;
         }
 
-        private void btnUpdateR_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void btnCancelR_Click(object sender, RoutedEventArgs e)
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //new page
+
         }
     }
 }

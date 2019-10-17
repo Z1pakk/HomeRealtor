@@ -88,6 +88,9 @@
     <Compile Include="Pages\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MyRealtorInfoPage.xaml.cs">
+      <DependentUpon>MyRealtorInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyUserInfoPage.xaml.cs">
       <DependentUpon>MyUserInfoPage.xaml</DependentUpon>
     </Compile>
@@ -117,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\EstateShowPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyRealtorInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

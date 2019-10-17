@@ -29,6 +29,7 @@ namespace HomeRealtorApi.Controllers
             _sigInManager = sigInManager;
             _context = context;
         }
+
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
