@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.705
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeRealtorApi", "HomeRealtorApi\HomeRealtorApi.csproj", "{B944CD19-E1A8-4941-9178-1CD7BCC849B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealtorUI", "RealtorUI\RealtorUI.csproj", "{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIConnectService", "APIConnectService\APIConnectService.csproj", "{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBE4EDC3-B320-428D-AD11-A9DD5F01288C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
