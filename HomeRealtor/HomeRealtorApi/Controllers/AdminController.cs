@@ -19,14 +19,14 @@ namespace HomeRealtorApi.Controllers
             _context = context;
         }
 
-        [HttpGet("GetRealInfo")]
+        /*[HttpGet("GetRealInfo")]
         public ContentResult GetRealtorInfo()
         {
             List<User> useres = _context.Users.ToList();
             string json = JsonConvert.SerializeObject(useres.Where(x => x.UserRoles.FirstOrDefault(y=>y.RoleOf.Name=="Realtor")!=null));
             return Content(json, "application/json");
         }
-
+        
         [HttpGet("GetReal")]
         public ContentResult GetRealtor()
         {
@@ -38,7 +38,7 @@ namespace HomeRealtorApi.Controllers
                     json += JsonConvert.SerializeObject(item.FirstName + " " + item.LastName);
             }
             return Content(json, "application/json");
-        }
+        }*/
 
         //Delete User
         /*[HttpDelete("delete/{id}")]
