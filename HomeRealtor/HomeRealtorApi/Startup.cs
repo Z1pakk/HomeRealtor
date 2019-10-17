@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
+using HomeRealtorApi.Entities.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,7 +38,7 @@ namespace HomeRealtorApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +51,12 @@ namespace HomeRealtorApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            // Seed the database
+            await EFContextSeed.SeedAsync(app, env, Configuration);
         }
+
+
+        
     }
 }
