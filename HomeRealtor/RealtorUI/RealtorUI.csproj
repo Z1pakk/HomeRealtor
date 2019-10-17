@@ -83,6 +83,7 @@
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImageHelper.cs" />
+    <Compile Include="Models\UserImageModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
@@ -117,7 +118,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="Pages\HomePage.xaml">
+    <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

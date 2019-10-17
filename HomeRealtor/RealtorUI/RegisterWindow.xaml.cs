@@ -1,8 +1,12 @@
 ﻿using MahApps.Metro.Controls;
 using Microsoft.Win32;
+using Newtonsoft.Json;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +46,26 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            
+            UserModel user = new UserModel()
+            {
+                FirstName = tbFName.Text,
+                LastName = tbLName.Text,
+                Email = tbEmail.Text,
+                PhoneNumber = tbPhNum.Text,
+                Password = tbPass.Password,
+                Age = int.Parse(tbAge.Text),
+                Image = ImagePath
+            };
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:60946/api/user/add");
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(JsonConvert.SerializeObject(user));
+            }
+
+            WebResponse response = request.GetResponse();
         }
     }
 }
