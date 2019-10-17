@@ -33,7 +33,7 @@ namespace HomeRealtorApi.Entities.Seed
             IConfiguration configuration,
             int? retry = 0
             )
-        {
+            {
             int retryForAvailability = retry.Value;
 
             try
@@ -51,6 +51,8 @@ namespace HomeRealtorApi.Entities.Seed
                         );
                         isCanSaveChanges = true;
                     }
+
+                    //suda pisat rofliki s rolyami
 
                   
 
