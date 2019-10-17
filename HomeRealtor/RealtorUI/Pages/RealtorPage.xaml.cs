@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
+using RealtorUI.Models;
 
 namespace RealtorUI
 {
@@ -32,6 +33,11 @@ namespace RealtorUI
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
         {
+            List<ImageEstateModel> images = new List<ImageEstateModel>();
+            RealEstateModel realEstate = new RealEstateModel() {
+                Active = true,
+                //Location = 
+            };
 
             OpenFileDialog openFile = new OpenFileDialog();
             var res = openFile.ShowDialog();
@@ -41,13 +47,13 @@ namespace RealtorUI
                 lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
             }
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/add/realEstate");
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/add");
             request.Method = "POST";
             request.ContentType = "application/json";
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-                writer.Write(JsonConvert.SerializeObject());
+               // writer.Write(JsonConvert.SerializeObject());
             }
 
 

@@ -28,10 +28,6 @@ namespace HomeRealtorApi.Controllers
         [HttpGet]
         public ContentResult GetRealEstate()
         {
-            /*List<RealEstate> estates= new List<RealEstate>();
-            foreach (var estate in _context.RealEstates)
-                estates.Add(estate);
-            string estateJson = JsonConvert.SerializeObject(estates);*/
 
             string json = JsonConvert.SerializeObject( _context.RealEstates.ToList());
 
@@ -58,10 +54,11 @@ namespace HomeRealtorApi.Controllers
                 RealEstate estate = new RealEstate()
                 {
                     Active = model.Active,
-                    //ImageEstates = model.ImageEstates,
                     Image = model.Image,
                     Price = model.Price,
                     StateName = model.StateName,
+                    TerritorySize = model.TerritorySize,
+                    Location = model.Location,
                     TypeId = model.TypeId,
                     UserId = model.UserId,
                     TimeOfPost = model.TimeOfPost
