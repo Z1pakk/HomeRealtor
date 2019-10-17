@@ -8,9 +8,11 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+        string Id;
+        public MainWindow(string id)
         {
             InitializeComponent();
+            Id = id;
         }
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
