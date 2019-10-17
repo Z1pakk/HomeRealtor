@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
@@ -59,6 +60,8 @@ namespace HomeRealtorApi.Controllers
         {
 
             User user = await _userManager.FindByEmailAsync(loginModel.Email);
+            List<string> role=(List<string>)await _userManager.GetRolesAsync(user);
+            
             //TODO: FindByPhoneAsync
             //if(user==null)
             //{
@@ -74,18 +77,26 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            return user.Id;
+            return  CreateTokenAsync(user,role[0]);
+                
+             
         }
 
-        private string CreateTokenAsync(User user)
+        private string CreateTokenAsync(User user,string role)
         {
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim("id",user.Id),
+                new Claim("role",role)
+            };
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
             // Generate the jwt token
             var jwt = new JwtSecurityToken(
                 signingCredentials: signinCredentials,
-                expires: now.Add(TimeSpan.FromDays(1))
+                expires: now.Add(TimeSpan.FromDays(1)),
+                claims: claims
                 );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
