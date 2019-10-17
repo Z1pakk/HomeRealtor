@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RealtorUI.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -21,14 +24,26 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class HomePage : Page
     {
-        WebRequest request = WebRequest.Create("http://localhost:63993/api/values");
 
         public HomePage()
         {
-            request.ContentType = "application/json";
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:63993/api/advertising/advertising_");
             request.Method = "GET";
+            request.ContentType = "application/json";
+
+            WebResponse response = request.GetResponse();
+            using (StreamReader writer = new StreamReader(response.GetResponseStream()))
+            {
+                string temp = writer.ReadToEnd();
+                List<AdvertisingModel> advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
+            }
 
             InitializeComponent();
+        }
+
+        private void Tile_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

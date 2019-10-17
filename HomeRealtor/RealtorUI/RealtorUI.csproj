@@ -83,6 +83,7 @@
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImageHelper.cs" />
+    <Compile Include="Models\AdvertisingModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Pages\ChangePasswordPage.xaml.cs">

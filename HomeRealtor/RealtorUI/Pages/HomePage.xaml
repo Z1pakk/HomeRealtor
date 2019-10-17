@@ -23,7 +23,7 @@
     </Page.Resources>
     <Grid>
         <WrapPanel Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Controls:Tile Title="Mail" Style="{StaticResource ResourceKey=LargeTileStyle}" Content="ImageHere" Margin="3"/>
+            <Controls:Tile Title="Mail" Style="{StaticResource ResourceKey=LargeTileStyle}" Content="ImageHere" Margin="3" Click="Tile_Click"/>
             <Controls:Tile Title="{Binding StateName}" Style="{StaticResource ResourceKey=LargeTileStyle}"  Margin="3">
                 <Controls:Tile.Background>
                     <ImageBrush ImageSource="{Binding Image}" />
