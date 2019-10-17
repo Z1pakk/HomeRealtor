@@ -4,14 +4,16 @@ using HomeRealtorApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeRealtorApi.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20191016140136_Update tbl_Role")]
+    partial class Updatetbl_Role
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,6 +83,48 @@ namespace HomeRealtorApi.Migrations
                     b.ToTable("tbl_ImageUsers");
                 });
 
+            modelBuilder.Entity("HomeRealtorApi.Entities.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Headline")
+                        .IsRequired();
+
+                    b.Property<string>("Text")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tbl.News");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApartId");
+
+                    b.Property<int>("RealtorId");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartId");
+
+                    b.HasIndex("RealtorId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tblOrders");
+                });
+
             modelBuilder.Entity("HomeRealtorApi.Entities.RealEstate", b =>
                 {
                     b.Property<int>("Id")
@@ -91,6 +135,10 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<string>("Image")
                         .IsRequired();
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(500);
 
                     b.Property<double>("Price");
 
@@ -136,7 +184,8 @@ namespace HomeRealtorApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Name")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.HasKey("Id");
@@ -212,6 +261,24 @@ namespace HomeRealtorApi.Migrations
                 {
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("ImageUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.Order", b =>
+                {
+                    b.HasOne("HomeRealtorApi.Entities.RealEstate", "EstateOf")
+                        .WithMany()
+                        .HasForeignKey("ApartId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HomeRealtorApi.Entities.User", "RealtorOf")
+                        .WithMany()
+                        .HasForeignKey("RealtorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

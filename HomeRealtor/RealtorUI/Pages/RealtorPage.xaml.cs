@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,23 @@ namespace RealtorUI
     /// </summary>
     public partial class RealtorWindow : Page
     {
+        private string imagePath;
         public RealtorWindow()
         {
             InitializeComponent();
+        }
+
+        private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            var res = openFile.ShowDialog();
+            if (res.HasValue && res.Value == true)
+            {
+                imagePath = openFile.FileName;
+                lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
+            }
+
+
         }
     }
 }
