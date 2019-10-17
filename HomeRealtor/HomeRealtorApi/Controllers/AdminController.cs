@@ -19,26 +19,26 @@
 //            _context = context;
 //        }
 
-        [HttpGet("GetRealInfo")]
-        public ContentResult GetRealtorInfo()
-        {
-            List<User> useres = _context.Users.ToList();
-            string json = JsonConvert.SerializeObject(useres.Where(x => x.UserRoles.FirstOrDefault(y=>y.RoleOf.Name=="Realtor")!=null));
-            return Content(json, "application/json");
-        }
+//        [HttpGet("GetRealInfo")]
+//        public ContentResult GetRealtorInfo()
+//        {
+//            List<User> useres = _context.Users.ToList();
+//            string json = JsonConvert.SerializeObject(useres.Where(x => x.UserRoles.FirstOrDefault(y=>y.RoleOf.Name=="Realtor")!=null));
+//            return Content(json, "application/json");
+//        }
 
-        [HttpGet("GetReal")]
-        public ContentResult GetRealtor()
-        {
-            List<User> useres = _context.Users.ToList();
-            string json = null;
-            foreach (var item in useres)
-            {
-                if(item.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
-                    json += JsonConvert.SerializeObject(item.FirstName + " " + item.LastName);
-            }
-            return Content(json, "application/json");
-        }
+//        [HttpGet("GetReal")]
+//        public ContentResult GetRealtor()
+//        {
+//            List<User> useres = _context.Users.ToList();
+//            string json = null;
+//            foreach (var item in useres)
+//            {
+//                if(item.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
+//                    json += JsonConvert.SerializeObject(item.FirstName + " " + item.LastName);
+//            }
+//            return Content(json, "application/json");
+//        }
 
 //        //Delete User
 //        /*[HttpDelete("delete/{id}")]
