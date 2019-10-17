@@ -38,7 +38,8 @@ namespace HomeRealtorApi.Controllers
                
                 Email = User.Email,
                 Age = User.Age,
-                PhoneNumber=User.PhoneNumber,
+                UserName = User.UserName,
+                PhoneNumber =User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
@@ -52,7 +53,7 @@ namespace HomeRealtorApi.Controllers
             return "Еррор:";
         }
 
-        [HttpGet("getToken")]
+        [HttpGet("login")]
         public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
         {
 
