@@ -23,7 +23,7 @@
             <TextBox x:Name="loginBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
             <Label Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
             <PasswordBox x:Name="passwdBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
-            <RadioButton Content="Sig in as user" FontSize="20" Margin="5,15,5,5"/>
+            <RadioButton IsChecked="True" Content="Sig in as user" FontSize="20" Margin="5,15,5,5"/>
             <RadioButton Content="Sig in as realtor" FontSize="20" Margin="5"/>
         </StackPanel>
         
