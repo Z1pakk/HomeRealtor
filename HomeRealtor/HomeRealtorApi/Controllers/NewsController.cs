@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
-using HomeRealtorApi.Model;
+using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -25,10 +25,22 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("news")]
         public ContentResult GetProducts()
         {
+
+            List<GetNewsViewModel> getnews=new List<GetNewsViewModel>();
+            List<News> news=_context.News.ToList();
+          GetNewsViewModel getNews = new GetNewsViewModel();
            
-            List<News> news = _context.News.ToList();
-            string json = JsonConvert.SerializeObject(news);
-           return Content(json, "application/json");
+            foreach (var item in news)
+            {  
+                getNews.Headline = item.Headline;
+                getNews.Text = item.Text;
+                getNews.Id = item.Id;
+               getnews.Add(getNews);
+            }
+           
+            
+            string json = JsonConvert.SerializeObject(getnews);
+            return Content(json, "application/json");
         }
         [HttpPost("add")]
         public ContentResult AddNews([FromBody] AddNewsViewModel model)
@@ -39,6 +51,7 @@ namespace HomeRealtorApi.Controllers
                 {
                     Headline = model.Headline,
                     Text = model.Text
+                    
                 };
                 _context.News.Add(news);
                 _context.SaveChanges();

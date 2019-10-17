@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,16 +22,12 @@ namespace RealtorUI
     /// <summary>
     /// Interaction logic for AboutUs.xaml
     /// </summary>
-    public partial class AboutUs : Page
+    public partial class AboutUs :Page
     {
         public AboutUs()
         {
             InitializeComponent();
-            
-           
-           
-           
-            
+            GetNews();
         }
         public void GetNews()
         {
@@ -41,6 +38,8 @@ namespace RealtorUI
 
                 string s;
                 HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
+                myReq.Method="GET";
+                myReq.ContentType = "application/json";
                 WebResponse response = myReq.GetResponse();
                 using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                 {
@@ -48,20 +47,28 @@ namespace RealtorUI
                 }
                 response.Close();
 
-                //List<News> valuta = JsonConvert.DeserializeObject<List<News>>(s);
-
-
-
-               // foreach (var item in valuta)
-               // {
-               //     lstAddIns.Items.Add(Name = item.Headline.ToString());
-               // }
+                List<NewsModels> news  = JsonConvert.DeserializeObject<List<NewsModels>>(s);
+                
+               foreach (var item in news)
+                {
+                    lstAddIns.Items.Add(item);
+                }
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private void lstAddIns_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            NewsModels selectedOffer = (lstAddIns.SelectedItem as NewsModels);
+            if (selectedOffer != null)
+            {
+                
+            }
+            
         }
     }
 }
