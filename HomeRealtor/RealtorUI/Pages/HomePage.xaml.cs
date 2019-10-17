@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +21,13 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        WebRequest request = WebRequest.Create("http://localhost:63993/api/values");
+
         public HomePage()
         {
+            request.ContentType = "application/json";
+            request.Method = "GET";
+
             InitializeComponent();
         }
     }

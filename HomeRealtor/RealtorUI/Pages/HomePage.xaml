@@ -23,17 +23,17 @@
     </Page.Resources>
     <Grid>
         <WrapPanel Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Controls:Tile Title="Mail" Style="{StaticResource ResourceKey=LargeTileStyle}" Content="ImageHere" Background="Teal" Margin="3"/>
-            <Controls:Tile Title="Desktop" Style="{StaticResource ResourceKey=LargeTileStyle}"  Margin="3">
-                <!--<Controls:Tile.Background>
-                    <ImageBrush ImageSource="Images/windesktop.jpg" />
-                </Controls:Tile.Background>-->
+            <Controls:Tile Title="Mail" Style="{StaticResource ResourceKey=LargeTileStyle}" Content="ImageHere" Margin="3"/>
+            <Controls:Tile Title="{Binding StateName}" Style="{StaticResource ResourceKey=LargeTileStyle}"  Margin="3">
+                <Controls:Tile.Background>
+                    <ImageBrush ImageSource="{Binding Image}" />
+                </Controls:Tile.Background>
             </Controls:Tile>
-            <Controls:Tile Title="Finance" Style="{StaticResource ResourceKey=LargeTileStyle}" Background="Green" Width="255" />
-            <Controls:Tile Title="People" Style="{StaticResource ResourceKey=LargeTileStyle}" Background="#D2691E" />
-            <Controls:Tile Title="Weather" Style="{StaticResource ResourceKey=LargeTileStyle}" Background="#1E90FF" />
-            <Controls:Tile Title="Weather" Style="{StaticResource ResourceKey=SmallTileStyle}" Background="#1E90FF" />
-            <Controls:Tile Title="Store" Style="{StaticResource ResourceKey=SmallTileStyle}" Background="Green" />
+            <Controls:Tile Title="Finance" Style="{StaticResource ResourceKey=LargeTileStyle}" Width="255" />
+            <Controls:Tile Title="People" Style="{StaticResource ResourceKey=LargeTileStyle}" />
+            <Controls:Tile Title="Weather" Style="{StaticResource ResourceKey=LargeTileStyle}" />
+            <Controls:Tile Title="Weather" Style="{StaticResource ResourceKey=SmallTileStyle}" />
+            <Controls:Tile Title="Store" Style="{StaticResource ResourceKey=SmallTileStyle}" />
         </WrapPanel>
     </Grid>
 </Page>
