@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeRealtorApi.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20191016144623_Change to Identity")]
-    partial class ChangetoIdentity
+    [Migration("20191017121438_Initialize")]
+    partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
