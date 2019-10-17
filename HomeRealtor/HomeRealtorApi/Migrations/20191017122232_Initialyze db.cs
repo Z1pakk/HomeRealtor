@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeRealtorApi.Migrations
 {
-    public partial class ChangetoIdentity : Migration
+    public partial class Initialyzedb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
