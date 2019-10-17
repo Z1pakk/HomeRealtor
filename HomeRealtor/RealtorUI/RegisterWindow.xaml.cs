@@ -23,7 +23,7 @@ namespace RealtorUI
     public partial class RegisterWindow : MetroWindow
     {
         private string ImagePath;
-        private int Code;
+        //private int Code;
 
         public RegisterWindow()
         {
