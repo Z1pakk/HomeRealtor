@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ServiceResult.cs" />
+    <Compile Include="Models\OrderModel.cs" />
+    <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AddUserService.cs" />
