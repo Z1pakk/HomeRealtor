@@ -25,13 +25,29 @@ namespace HomeRealtorApi.Controllers
             _appEnvoronment = appEnvoronment;
         }
         // GET api/values
-        [HttpGet]
+        [HttpGet("get")]
         public ContentResult GetRealEstate()
         {
 
             string json = JsonConvert.SerializeObject( _context.RealEstates.ToList());
 
             return Content(json);
+        }
+        [HttpGet("getlast")]
+        public ContentResult GetLastRealEstate()
+        {
+
+            RealEstate estate = _context.RealEstates.Last();
+            string estateJson = JsonConvert.SerializeObject(estate);
+            return Content(estateJson);
+        }
+        [HttpGet("getlastid")]
+        public ContentResult GetLastRealEstateId()
+        {
+
+            RealEstate estate = _context.RealEstates.Last();
+            string idJson = JsonConvert.SerializeObject(estate.Id);
+            return Content(idJson);
         }
 
         // GET api/values/get/realEstate/5
