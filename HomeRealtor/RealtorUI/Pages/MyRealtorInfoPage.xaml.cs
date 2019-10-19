@@ -1,5 +1,6 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Service;
+using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -58,27 +59,38 @@ namespace RealtorUI.Pages
                 }
             }
         }
-            private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:55945/api/realestate/get", string.Empty, "GET");
+            if (res.Success == true)
             {
-                BaseServices services = new BaseServices();
-                ServiceResult res = await services.RealEstateMethod("https://localhost:55945/api/realestate/get", string.Empty, "GET");
-                if (res.Success == true)
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
                 {
-                    dgEstates.Items.Clear();
-                    foreach (var item in res.Result)
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
                     {
-                        if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
-                        {
-                            dgEstates.Items.Add(item);
-                        }
+                        dgEstates.Items.Add(item);
                     }
                 }
-                else MessageBox.Show(res.ExceptionMessage);
             }
+            else MessageBox.Show(res.ExceptionMessage);
+        }
 
-            private void Button_Click(object sender, RoutedEventArgs e)
-            {
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
-            }
+        }
+
+        private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
+        {
+            UserModel sser = UserM;
+            sser.AboutMe = txtAboutMe.Text;
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.OrderMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+            if (res.Result == false)
+                MessageBox.Show(res.ExceptionMessage);
+            else MessageBox.Show(res.Result);
         }
     }
+}

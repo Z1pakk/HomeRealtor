@@ -1,5 +1,6 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Service;
+using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace RealtorUI.Pages
             {
                 if (resOrder.Success == true)
                 {
-                    dgRent.Items.Clear();                
+                    dgRent.Items.Clear();
                     foreach (var item in resOrder.Result)
                     {
                         if (((OrderModel)(item)).UserId == UserM.Id.ToString())
@@ -59,7 +60,7 @@ namespace RealtorUI.Pages
                             }
                         }
                     }
-                    
+
                 }
                 else MessageBox.Show(resOrder.ExceptionMessage);
 
@@ -94,6 +95,17 @@ namespace RealtorUI.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             //new page
+        }
+
+        private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
+        {
+            UserModel sser = UserM;
+            sser.AboutMe = txtAboutMe.Text;
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.OrderMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+            if (res.Result == false) 
+                MessageBox.Show(res.ExceptionMessage); 
+            else MessageBox.Show(res.Result);
         }
     }
 }

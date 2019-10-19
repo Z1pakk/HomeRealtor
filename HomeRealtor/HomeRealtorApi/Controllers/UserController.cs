@@ -54,6 +54,31 @@ namespace HomeRealtorApi.Controllers
             }
             return "Еррор:";
         }
+        [HttpPut("edit/{id}")]
+        public ContentResult Edit(string id,[FromBody]UserModel User)
+        {
+            try
+            {
+                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                edit.Image=User.Image;
+                edit.LastName = User.LastName;
+                edit.PhoneNumber = User.PhoneNumber;
+                edit.UserName = User.UserName;
+                edit.FirstName = User.FirstName;
+                edit.AboutMe = User.AboutMe;
+                edit.Age = User.Age;
+                edit.Email = User.Email;
+                _context.SaveChanges();
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
+
+                return Content( "Еррор:"+ex.Message);
+
+            }
+            
+        }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
