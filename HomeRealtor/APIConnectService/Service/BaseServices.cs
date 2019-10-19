@@ -71,5 +71,22 @@ namespace APIConnectService.Service
                 return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
             }
         }
+
+        public List<RealEstateModel> GetEstates(string url, string method)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            request.ContentType = "application/json";
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            List<RealEstateModel> models = JsonConvert.DeserializeObject<List<RealEstateModel>>(responceFromServer);
+            return models;
+        }
     }
 }

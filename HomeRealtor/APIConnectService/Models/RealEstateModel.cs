@@ -16,6 +16,8 @@ namespace APIConnectService.Models
 
         public string Location { get; set; }
 
+        public int RoomCount { get; set; }
+
         public DateTime TimeOfPost { get; set; }
 
         public double TerritorySize { get; set; }
