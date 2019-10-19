@@ -32,7 +32,13 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json, "application/json");
         }
-
+        [HttpDelete("delete/{id}")]
+        public ContentResult DeleteOrder(int id)
+        {
+           
+            _context.Orders.Remove(_context.Orders.FirstOrDefault(t => t.Id == id));
+            return Content("OK");
+        }
         [HttpPost("add")]
         public ContentResult AddOrder([FromBody]AddOrderModel model)
         {

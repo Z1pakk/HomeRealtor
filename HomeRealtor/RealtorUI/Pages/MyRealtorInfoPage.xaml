@@ -39,7 +39,7 @@
                 <Grid>
                     <Button x:Name="btnUpdate" Content="Update" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30 40 0 0" Height="50" Click="btnUpdate_Click"/>
                     <Button x:Name="btnCancel" Content="Cancel" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,125,0,0" Height="50" Click="btnCancel_Click"/>
-                    <DataGrid Margin="200 30 30 30" Grid.ColumnSpan="2">
+                    <DataGrid Margin="200 30 30 30" Grid.ColumnSpan="2" Name="dgEstates">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding StateName}" Header="Name" Width="100"/>
                             <DataGridTextColumn Binding="{Binding Price}" Header="Price"/>

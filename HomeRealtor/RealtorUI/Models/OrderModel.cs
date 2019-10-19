@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIConnectService.Models
+namespace RealtorUI.Models
 {
     public class OrderModel
     {
         public int Id { get; set; }
+
         public int ApartId { get; set; }
 
         public bool Status { get; set; }
