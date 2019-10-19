@@ -102,7 +102,7 @@ namespace RealtorUI.Pages
             UserModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.OrderMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
             if (res.Result == false) 
                 MessageBox.Show(res.ExceptionMessage); 
             else MessageBox.Show(res.Result);

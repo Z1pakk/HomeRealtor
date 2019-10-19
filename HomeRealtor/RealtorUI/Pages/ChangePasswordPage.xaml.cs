@@ -1,4 +1,8 @@
-﻿using System;
+﻿using APIConnectService.Helpers;
+using APIConnectService.Models;
+using APIConnectService.Service;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +24,33 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class ChangePasswordPage : Page
     {
-        public ChangePasswordPage()
+        public UserModel UserM { get; set; }
+        public ChangePasswordPage(UserModel u)
         {
             InitializeComponent();
+            UserM = u;
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (lblPassword.Visibility == Visibility.Visible && txtPassword.Visibility == Visibility.Visible&&txtPassword.Text!="")
+            {
+                UserModel sser = UserM;
+                sser.Password = txtPassword.Text;
+                BaseServices services = new BaseServices();
+                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+                if (res.Result == false)
+                    MessageBox.Show(res.ExceptionMessage);
+                else MessageBox.Show(res.Result);
+            }
+            else
+            if (txtEmail.Text == UserM.Email || txtUserName.Text == UserM.UserName)
+            {
+                lblPassword.Visibility = Visibility.Visible;
+                txtPassword.Visibility = Visibility.Visible;
+            }
+
+
         }
     }
 }
