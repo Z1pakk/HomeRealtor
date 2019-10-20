@@ -52,7 +52,7 @@ namespace HomeRealtorApi.Controllers
             {
                 return Ok();
             }
-            return "Еррор:";
+            return  BadRequest();
         }
 
         [HttpPost("login")]

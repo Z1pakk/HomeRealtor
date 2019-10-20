@@ -65,8 +65,6 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                string path = string.Empty;
-
                 RealEstate estate = new RealEstate()
                 {
                     Active = model.Active,
@@ -99,6 +97,8 @@ namespace HomeRealtorApi.Controllers
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
                 estate.Image = model.Image;
+                estate.Location = model.Location;
+                estate.TerritorySize = model.TerritorySize;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
                 estate.TypeId = model.TypeId;
