@@ -28,5 +28,7 @@ namespace APIConnectService.Models
         public int TypeId { get; set; }
 
         public string UserId { get; set; }
+
+        public int SellType { get; set; }
     }
 }

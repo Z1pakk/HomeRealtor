@@ -43,10 +43,12 @@ namespace RealtorUI.Pages
                     TimeOfPost = result[i].TimeOfPost,
                     Active= result[i].Active,
                     TypeId= result[i].TypeId,
-                    UserId = result[i].UserId
+                    UserId = result[i].UserId,
+                    SellType = result[i].SellType
                 });                
             }
-            lv_Buy.ItemsSource = Estates;
+            lv_Buy.ItemsSource = Estates.Where(t=>t.SellType==398);
+            lv_Rent.ItemsSource = Estates.Where(t => t.SellType == 397);
 
         }
 
