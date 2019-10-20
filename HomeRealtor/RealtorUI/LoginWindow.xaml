@@ -19,7 +19,7 @@
             <RowDefinition Height="85*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="3">
-            <Label Content="Input email or phone number:" FontSize="20" Grid.RowSpan="2"/>
+            <Label Content="Input email :" FontSize="20" Grid.RowSpan="2"/>
             <TextBox x:Name="loginBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
             <Label Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
             <PasswordBox x:Name="passwdBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
