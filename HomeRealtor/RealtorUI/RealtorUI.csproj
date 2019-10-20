@@ -91,15 +91,27 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ImageEstateModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
+    <Compile Include="Models\RealEstateViewModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Pages\AboutUs.xaml.cs">
+      <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MyRealtorInfoPage.xaml.cs">
+      <DependentUpon>MyRealtorInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyUserInfoPage.xaml.cs">
       <DependentUpon>MyUserInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RealtorPage.xaml.cs">
+      <DependentUpon>RealtorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
@@ -119,6 +131,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AboutUs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\ChangePasswordPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,9 +143,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MyRealtorInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MyUserInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RealtorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="RegisterWindow.xaml">
       <SubType>Designer</SubType>
@@ -172,6 +196,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HRLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
+      <Project>{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}</Project>
+      <Name>APIConnectService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

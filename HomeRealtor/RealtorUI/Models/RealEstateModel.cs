@@ -8,6 +8,7 @@ namespace RealtorUI.Models
 {
     public class RealEstateModel
     {
+        public int Id { get; set; }
         public string Image { get; set; }
 
         public string StateName { get; set; }

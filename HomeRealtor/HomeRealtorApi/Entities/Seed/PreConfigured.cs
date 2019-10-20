@@ -38,10 +38,26 @@ namespace HomeRealtorApi.Entities.Seed
                     Price = 255000,
                     Location = "Juravlina 8",
                     TimeOfPost = DateTime.Now,
+                    RoomCount = 8,
                     TerritorySize = 250,
                     Active = true,
                     TypeId = 1,
-                    UserId = "f92c2cdf-9914-422c-913d-4fc4d8a9e033"
+                    UserId = "ae6767bc-088b-4ab6-8f7c-1aacff200e6d",
+                    SellType = 1
+                },
+                new RealEstate()
+                {
+                    Image = "pomidorchik",
+                    StateName = "Kvartirka",
+                    Price = 25000,
+                    Location = "Bulby Borovcia bud.1, kv.3",
+                    TimeOfPost = DateTime.Now,
+                    RoomCount = 1,
+                    TerritorySize = 60,
+                    Active = true,
+                    TypeId = 2,
+                    UserId = "ae6767bc-088b-4ab6-8f7c-1aacff200e6d",
+                    SellType = 1
                 }
             };
         }
@@ -53,6 +69,33 @@ namespace HomeRealtorApi.Entities.Seed
                 new RealEstateType()
                 {
                     TypeName = "Budinok"
+                },
+                new RealEstateType()
+                {
+                    TypeName = "Appartment"
+                },
+                new RealEstateType()
+                {
+                    TypeName = "Territory"
+                }
+            };
+        }
+
+        public static IEnumerable<RealEstateSellType> GetPreconfiguredRealEstateSellTypes()
+        {
+            return new List<RealEstateSellType>
+            {
+                new RealEstateSellType()
+                {
+                    SellTypeName = "Sell"
+                },
+                new RealEstateSellType()
+                {
+                    SellTypeName = "Rent"
+                },
+                new RealEstateSellType()
+                {
+                    SellTypeName = "Sublease"
                 }
             };
         }
