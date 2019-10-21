@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
@@ -86,7 +87,7 @@ namespace HomeRealtorApi.Controllers
 
             User user = await _userManager.FindByEmailAsync(loginModel.Email);
             List<string> role=(List<string>)await _userManager.GetRolesAsync(user);
-            
+            Thread.Sleep(5000);
             //TODO: FindByPhoneAsync
             //if(user==null)
             //{
