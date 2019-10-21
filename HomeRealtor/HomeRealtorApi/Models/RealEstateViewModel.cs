@@ -8,6 +8,7 @@ namespace HomeRealtorApi.Models
 {
     public class RealEstateViewModel
     {
+        public int Id { get; set; }
         public string Image { get; set; }
         public string StateName { get; set; }
         public double Price { get; set; }
