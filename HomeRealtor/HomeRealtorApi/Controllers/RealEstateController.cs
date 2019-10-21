@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
@@ -33,7 +34,7 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json);
         }
-        [HttpGet("getlast")]
+        /*[HttpGet("getlast")]
         public ContentResult GetLastRealEstate()
         {
 
@@ -48,7 +49,7 @@ namespace HomeRealtorApi.Controllers
             RealEstate estate = _context.RealEstates.Last();
             string idJson = JsonConvert.SerializeObject(estate.Id);
             return Content(idJson);
-        }
+        }*/
 
         // GET api/values/get/realEstate/5
         [HttpGet("get/{id}")]
@@ -75,9 +76,29 @@ namespace HomeRealtorApi.Controllers
                     Location = model.Location,
                     TypeId = model.TypeId,
                     UserId = model.UserId,
-                    TimeOfPost = model.TimeOfPost
+                    TimeOfPost = model.TimeOfPost,
+                    RoomCount = model.RoomCount,
+                    SellType = model.SellType
                 };
+                foreach (var imgEst in model.images)
+                {
+                    string path = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        //Назва фотки із розширення
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image realEstateImage = Image.FromStream(stream);
+                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
 
+                    ImageEstate estateImage = new ImageEstate()
+                    {
+                        Name = path,
+                        EstateId = estate.Id
+                    };
+                    _context.ImageEstates.Add(estateImage);
+                }
                 _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
