@@ -62,7 +62,7 @@ namespace HomeRealtorApi.Controllers
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 edit.Image=User.Image;
-                edit.LastName = User.LastName;
+                edit.LastName = User.LastName;  
                 edit.PhoneNumber = User.PhoneNumber;
                 edit.UserName = User.UserName;
                 edit.FirstName = User.FirstName;
@@ -103,7 +103,7 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            return  CreateTokenAsync(user,role[0]);
+            return CreateTokenAsync(user,role[0]);
                 
              
         }

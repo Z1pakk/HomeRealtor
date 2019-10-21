@@ -13,12 +13,12 @@
         IsChecked="{Binding ElementName=yourMahAppFlyout, Path=IsOpen}" Cursor="Hand"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <Controls:MetroWindow.RightWindowCommands>
+    <!--<Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
         IsChecked="{Binding ElementName=checkOutFlayout, Path=IsOpen}" Cursor="Hand"/>
         </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>-->
     
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
@@ -31,11 +31,11 @@
                     <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
+            <!--<Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
                 <StackPanel>
                     
                 </StackPanel>
-            </Controls:Flyout>
+            </Controls:Flyout>-->
         </Controls:FlyoutsControl>
         
     </Controls:MetroWindow.Flyouts>
