@@ -102,7 +102,7 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            return  CreateTokenAsync(user,role[0]);
+            return CreateTokenAsync(user,role[0]);
                 
              
         }

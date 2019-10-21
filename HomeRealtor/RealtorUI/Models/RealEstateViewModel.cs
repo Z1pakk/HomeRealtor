@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RealtorUI.Models
 {
-    class RealEstateViewModel
+    public class RealEstateViewModel
     {
         public string Image { get; set; }
         public string StateName { get; set; }
