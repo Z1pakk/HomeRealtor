@@ -52,7 +52,7 @@ namespace HomeRealtorApi.Controllers
             {
                 return Ok();
             }
-            return "Еррор:";
+            return  BadRequest();
         }
         [HttpPut("edit/{id}")]
         public ContentResult Edit(string id,[FromBody]UserModel User)

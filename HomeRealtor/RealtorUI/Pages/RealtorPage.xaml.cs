@@ -43,7 +43,7 @@ namespace RealtorUI
             {
                 imagePath = openFile.FileName;
                 lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
-                images.Add(new ImageEstateModel() { EstateId = 0, Name = imagePath });
+                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
             }
 
         }
