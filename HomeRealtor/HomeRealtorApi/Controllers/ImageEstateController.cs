@@ -25,7 +25,7 @@ namespace HomeRealtorApi.Controllers
             _appEnvoronment = appEnvoronment;
         }
         // GET api/values
-        [HttpGet]
+        [HttpGet("get")]
         public ContentResult Get()
         {
             List<string> estatesJson = new List<string>();
@@ -34,7 +34,7 @@ namespace HomeRealtorApi.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public ContentResult Get(int id)
         {
             ImageEstate estate = _context.ImageEstates.FirstOrDefault(x => x.Id == id);
@@ -60,9 +60,10 @@ namespace HomeRealtorApi.Controllers
 
                 ImageEstate estate = new ImageEstate()
                 {
-                    Name = (_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg).ToString(),
+                    Name = path,
                     EstateId = model.EstateId
                 };
+                _context.ImageEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Image Estate is added");
             }

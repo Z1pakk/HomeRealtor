@@ -65,31 +65,17 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                string path = "";
-
-                if (model.Image != null)
-                {
-                    byte[] imageBytes = Convert.FromBase64String(model.Image);
-                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                    {
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image productImage = Image.FromStream(stream);
-                        productImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
-                    }
-                }
                 RealEstate estate = new RealEstate()
                 {
-                    Image = model.Image,
                     Active = model.Active,
+                    Image = model.Image,
                     Price = model.Price,
                     StateName = model.StateName,
-                    RoomCount = model.RoomCount,
                     TerritorySize = model.TerritorySize,
                     Location = model.Location,
                     TypeId = model.TypeId,
                     UserId = model.UserId,
-                    TimeOfPost = model.TimeOfPost,
-                    SellType = model.SellType
+                    TimeOfPost = model.TimeOfPost
                 };
 
                 _context.RealEstates.Add(estate);
@@ -111,6 +97,8 @@ namespace HomeRealtorApi.Controllers
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
                 estate.Image = model.Image;
+                estate.Location = model.Location;
+                estate.TerritorySize = model.TerritorySize;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
                 estate.TypeId = model.TypeId;
