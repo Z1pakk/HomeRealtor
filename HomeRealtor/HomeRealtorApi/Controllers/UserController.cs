@@ -47,6 +47,7 @@ namespace HomeRealtorApi.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, User.Password);
+            await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
                 return Ok();

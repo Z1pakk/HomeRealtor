@@ -58,9 +58,15 @@ namespace RealtorUI
                 Password = tbPass.Password,
                 Age = int.Parse(tbAge.Text),
                 Image = ImagePath,
-                AboutMe = null
+                AboutMe = null,
+                Role = cbRole.Text
             };
-            service.AddUser("http://localhost:60946/api/user/add", user);
+            service.AddUser("http://localhost:60946/api/user/add/", user);
+
+            this.Close();
+            LoginWindow window = new LoginWindow();
+            window.ShowDialog();
+
         }
     }
 }
