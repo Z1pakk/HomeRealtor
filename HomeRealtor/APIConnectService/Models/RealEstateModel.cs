@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealtorUI.Models
+namespace APIConnectService.Models
 {
     public class RealEstateModel
     {
@@ -17,6 +17,8 @@ namespace RealtorUI.Models
 
         public string Location { get; set; }
 
+        public int RoomCount { get; set; }
+
         public DateTime TimeOfPost { get; set; }
 
         public double TerritorySize { get; set; }
@@ -26,5 +28,7 @@ namespace RealtorUI.Models
         public int TypeId { get; set; }
 
         public string UserId { get; set; }
+
+        public int SellType { get; set; }
     }
 }

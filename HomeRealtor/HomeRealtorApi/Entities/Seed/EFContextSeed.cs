@@ -33,7 +33,7 @@ namespace HomeRealtorApi.Entities.Seed
             IConfiguration configuration,
             int? retry = 0
             )
-        {
+            {
             int retryForAvailability = retry.Value;
 
             try
@@ -51,7 +51,24 @@ namespace HomeRealtorApi.Entities.Seed
                         );
                         isCanSaveChanges = true;
                     }
+                    //suda pisat rofliki s rolyami
+                    if (!context.RealEstateTypes.Any())
+                    {
+                        context.RealEstateTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateTypes());
+                        isCanSaveChanges = true;
+                    }
 
+                    if (!context.RealEstateSellTypes.Any())
+                    {
+                        context.RealEstateSellTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateSellTypes());
+                        isCanSaveChanges = true;
+                    }
+
+                    if (!context.RealEstates.Any())
+                    {
+                        context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
+                        isCanSaveChanges = true;
+                    }
                     if (!context.Users.Any())
                     {
                         context.Users.AddRange(
@@ -67,7 +84,8 @@ namespace HomeRealtorApi.Entities.Seed
                             );
                         isCanSaveChanges = true;
                     }
-                  
+
+
 
                     //Save changes
                     if (isCanSaveChanges)

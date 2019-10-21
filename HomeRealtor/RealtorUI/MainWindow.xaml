@@ -24,11 +24,11 @@
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="yourMahAppFlyout" Position="Left" Width="200">
                 <StackPanel>
-                    <Button Name="btnHome" Content="Home" Height="50" FontSize="18" Click="BtnHome_Click"/>
-                    <Button Name="btnBuy" Content="Buy" Height="50" FontSize="18"/>
-                    <Button Name="btnRental" Content="Rental" Height="50" FontSize="18"/>
+                    <Button Name="btnHome" Content="Home" Height="50" FontSize="18" />
+                    <Button Name="btnBuy" Click="btn_BuyClick" Content="Order" Height="50" FontSize="18"/>
                     <Button Name="btnNews" Click="BtnNews_Click" Content="News" Height="50" FontSize="18"/>
                     <Button Name="btnAbout" Content="About us" Height="50" FontSize="18"/>
+                    <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">

@@ -25,5 +25,7 @@ namespace HomeRealtorApi.Entities
         public virtual DbSet<News> News{ get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Advertising> Advertisings { get; set; }
+        public virtual DbSet<RealEstateSellType> RealEstateSellTypes { get; set; }
+
     }
 }
