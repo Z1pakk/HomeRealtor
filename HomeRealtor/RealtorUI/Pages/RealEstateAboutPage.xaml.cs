@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealtorUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,30 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class RealEstateAboutPage : Page
     {
-        public RealEstateAboutPage()
+        RealEstateViewModel _model; 
+        
+        public RealEstateAboutPage(RealEstateViewModel model)
         {
             InitializeComponent();
-        }
+            _model = model;
+            var uri = new Uri(_model.Image);
+            var bitmap = new BitmapImage(uri);
+            img_Estate.Source = bitmap;
+            txt_Name.Text += _model.StateName;
+            txt_Price.Text += _model.Price.ToString();
+            txt_Location.Text += _model.Location;
+            txt_RoomCount.Text += _model.RoomCount.ToString();
+            txt_TerritorySize.Text += _model.TerritorySize.ToString();
+            txt_TimeOfPost.Text += _model.TimeOfPost.ToString();
+            if(_model.Active==true)
+            {
+                txt_Active.Text += "On Saling";
+            }
+            else
+            {
+                txt_Active.Text += "Sold";
+            }
+            txt_Type.Text += "Budinok";
+        } 
     }
 }
