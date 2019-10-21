@@ -1,5 +1,8 @@
 ﻿using MahApps.Metro.Controls;
 using RealtorUI.Pages;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 
 namespace RealtorUI
 {
@@ -28,10 +31,16 @@ namespace RealtorUI
         {
             frame.Navigate(new EstateShowPage());
         }
-
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 
+        }
+
+        private void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", "");
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
     }
 }

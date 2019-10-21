@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,6 +27,26 @@ namespace RealtorUI
     {
         public LoginWindow()
         {
+            if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
+            {
+
+
+                var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+                if (stream != "")
+                {
+
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(stream);
+                    if (jsonToken.ValidTo >= DateTime.Now)
+                    {
+                        MainWindow mainWindow = new MainWindow(stream);
+                        this.Visibility = Visibility.Hidden;
+                        this.Close();
+                        mainWindow.ShowDialog();
+                        return;
+                    }
+                }
+            }
             InitializeComponent();
         }
 
@@ -44,6 +65,9 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+          
+            
+
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -66,9 +90,13 @@ namespace RealtorUI
                 string temp = reader.ReadToEnd();
                 userId=temp;
             }
-            if(userId!= "Error")
+            
+
+            //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
+            if (userId!= "Error")
             {
 
+                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", userId);
                 MainWindow mainWindow = new MainWindow(userId);
                 this.Visibility = Visibility.Hidden;
                 this.Close();
@@ -80,6 +108,7 @@ namespace RealtorUI
                 passwdBox.Password = "";
                MessageBox.Show("Incorrect login or password");
             }
+          
         }
 
         
