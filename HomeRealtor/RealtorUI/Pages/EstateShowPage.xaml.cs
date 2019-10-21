@@ -56,5 +56,10 @@ namespace RealtorUI.Pages
         {
 
         }
+
+        private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
