@@ -1,4 +1,5 @@
 ﻿using APIConnectService.Helpers;
+using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
 using RealtorUI.Models;

@@ -61,7 +61,7 @@ namespace HomeRealtorApi.Controllers
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 edit.Image=User.Image;
-                edit.LastName = User.LastName;
+                edit.LastName = User.LastName;  
                 edit.PhoneNumber = User.PhoneNumber;
                 edit.UserName = User.UserName;
                 edit.FirstName = User.FirstName;

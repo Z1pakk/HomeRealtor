@@ -95,11 +95,9 @@
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ImageEstateModel.cs" />
-    <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
