@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeRealtorApi.Migrations
 {
-    public partial class first : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -77,6 +77,19 @@ namespace HomeRealtorApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblEstateTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblSellTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SellTypeName = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblSellTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,15 +251,23 @@ namespace HomeRealtorApi.Migrations
                     StateName = table.Column<string>(maxLength: 20, nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Location = table.Column<string>(maxLength: 500, nullable: false),
+                    RoomCount = table.Column<int>(nullable: false),
                     TimeOfPost = table.Column<DateTime>(nullable: false),
                     TerritorySize = table.Column<double>(nullable: false),
                     Active = table.Column<bool>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    SellType = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_RealStates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbl_RealStates_tblSellTypes_SellType",
+                        column: x => x.SellType,
+                        principalTable: "tblSellTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tbl_RealStates_tblEstateTypes_TypeId",
                         column: x => x.TypeId,
@@ -370,6 +391,11 @@ namespace HomeRealtorApi.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_RealStates_SellType",
+                table: "tbl_RealStates",
+                column: "SellType");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_RealStates_TypeId",
                 table: "tbl_RealStates",
                 column: "TypeId");
@@ -432,6 +458,9 @@ namespace HomeRealtorApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_RealStates");
+
+            migrationBuilder.DropTable(
+                name: "tblSellTypes");
 
             migrationBuilder.DropTable(
                 name: "tblEstateTypes");

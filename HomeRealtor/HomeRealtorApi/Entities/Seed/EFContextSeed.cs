@@ -64,11 +64,11 @@ namespace HomeRealtorApi.Entities.Seed
                         isCanSaveChanges = true;
                     }
 
-                    if (!context.RealEstates.Any())
-                    {
-                        context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
-                        isCanSaveChanges = true;
-                    }
+                    //if (!context.RealEstates.Any())
+                    //{
+                    //    context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
+                    //    isCanSaveChanges = true;
+                    //}
                     if (!context.Users.Any())
                     {
                         context.Users.AddRange(
@@ -77,13 +77,13 @@ namespace HomeRealtorApi.Entities.Seed
                         isCanSaveChanges = true;
                     }
 
-                    if (!context.Advertisings.Any())
-                    {
-                        context.Advertisings.AddRange(
-                            PreConfigured.GetPreconfiguredAdvertisings()
-                            );
-                        isCanSaveChanges = true;
-                    }
+                    //if (!context.Advertisings.Any())
+                    //{
+                    //    context.Advertisings.AddRange(
+                    //        PreConfigured.GetPreconfiguredAdvertisings()
+                    //        );
+                    //    isCanSaveChanges = true;
+                    //}
 
 
 
