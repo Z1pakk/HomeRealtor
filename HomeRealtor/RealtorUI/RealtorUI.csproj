@@ -94,6 +94,7 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdvertisingModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />
@@ -208,7 +209,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="HRLogo.png" />
+    <Resource Include="HRLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">

@@ -31,9 +31,11 @@ namespace RealtorUI
         {
             frame.Navigate(new EstateShowPage());
         }
+
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            HomePage home = new HomePage();
+            frame.Content = home;
         }
 
         private void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -42,5 +44,6 @@ namespace RealtorUI
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
+
     }
 }

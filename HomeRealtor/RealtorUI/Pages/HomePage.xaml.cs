@@ -30,15 +30,20 @@ namespace RealtorUI.Pages
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:63993/api/advertising/advertising_");
             request.Method = "GET";
             request.ContentType = "application/json";
+            List<AdvertisingModel> advertisings = new List<AdvertisingModel>();
 
             WebResponse response = request.GetResponse();
             using (StreamReader writer = new StreamReader(response.GetResponseStream()))
             {
                 string temp = writer.ReadToEnd();
-                List<AdvertisingModel> advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
+                advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
             }
 
+
             InitializeComponent();
+
+            lbAdvertising.ItemsSource = advertisings;
+
         }
 
         private void Tile_Click(object sender, RoutedEventArgs e)
