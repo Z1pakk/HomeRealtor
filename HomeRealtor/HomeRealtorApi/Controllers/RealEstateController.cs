@@ -25,11 +25,22 @@ namespace HomeRealtorApi.Controllers
             _appEnvoronment = appEnvoronment;
         }
         // GET api/values
-        [HttpGet("get")]
-        public ContentResult GetRealEstate()
+        [HttpGet("get/{type}")]
+        public ContentResult GetRealEstate(string type)
         {
+            var list = _context.RealEstates.
+                Where(t=>t.SellOf.SellTypeName==type).
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize
+                }).ToList();
 
-            string json = JsonConvert.SerializeObject( _context.RealEstates.ToList());
+           string json = JsonConvert.SerializeObject(list);
 
             return Content(json);
         }
@@ -51,11 +62,25 @@ namespace HomeRealtorApi.Controllers
         }
 
         // GET api/values/get/realEstate/5
-        [HttpGet("get/{id}")]
+        [HttpGet("get/byid/{id}")]
         public ContentResult GetRealEstate(int id)
         {
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
-            string estateJson = JsonConvert.SerializeObject(estate);
+            GetRealEstateViewModel model = new GetRealEstateViewModel()
+            {
+                Id = estate.Id,
+                Active = estate.Active,
+                Image = estate.Image,
+                Location = estate.Location,
+                Price = estate.Price,
+                RoomCount = estate.RoomCount,
+                StateName = estate.StateName,
+                TerritorySize = estate.TerritorySize,
+                TimeOfPost = estate.TimeOfPost,
+                TypeName = estate.TypeOf?.TypeName,
+                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}"
+            };
+            string estateJson = JsonConvert.SerializeObject(model);
             return Content(estateJson);
         }
 

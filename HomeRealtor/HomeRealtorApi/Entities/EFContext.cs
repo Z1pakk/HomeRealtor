@@ -18,6 +18,11 @@ namespace HomeRealtorApi.Entities
             base.OnModelCreating(builder);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
         public virtual DbSet<ImageEstate> ImageEstates { get; set; }
         public virtual DbSet<ImageUser> ImageUsers { get; set; }
         public virtual DbSet<RealEstate> RealEstates { get; set; }
