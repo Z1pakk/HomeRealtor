@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using APIConnectService.Models;
+using APIConnectService.Service;
+using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using RealtorUI.Models;
