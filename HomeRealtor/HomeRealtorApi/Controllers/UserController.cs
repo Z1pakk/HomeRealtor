@@ -35,15 +35,14 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
-
             User user = new User()
             {
                 UserName = User.UserName,
                 Email = User.Email,
                 Age = User.Age,
-                PhoneNumber =User.PhoneNumber,
+                PhoneNumber = User.PhoneNumber,
                 FirstName = User.FirstName,
-                AboutMe=User.AboutMe,
+                AboutMe = User.AboutMe,
                 LastName = User.LastName
             };
 
@@ -53,16 +52,16 @@ namespace HomeRealtorApi.Controllers
             {
                 return Ok();
             }
-            return  BadRequest();
+            return BadRequest();
         }
         [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id,[FromBody]UserModel User)
+        public ContentResult Edit(string id, [FromBody]UserModel User)
         {
             try
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                edit.Image=User.Image;
-                edit.LastName = User.LastName;  
+                edit.Image = User.Image;
+                edit.LastName = User.LastName;
                 edit.PhoneNumber = User.PhoneNumber;
                 edit.UserName = User.UserName;
                 edit.FirstName = User.FirstName;
@@ -75,44 +74,52 @@ namespace HomeRealtorApi.Controllers
             catch (Exception ex)
             {
 
-                return Content( "Еррор:"+ex.Message);
+                return Content("Еррор:" + ex.Message);
 
             }
-            
+
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody]UserLoginModel loginModel)
         {
 
-            User user = await _userManager.FindByEmailAsync(loginModel.Email);
-            List<string> role=(List<string>)await _userManager.GetRolesAsync(user);
-            Thread.Sleep(5000);
-            //TODO: FindByPhoneAsync
-            //if(user==null)
-            //{
-            //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
-            //}
-            if (user == null)
+            try
             {
-                return "Error";
+                User user = await _userManager.FindByEmailAsync(loginModel.Email);
+                List<string> role = (List<string>)await _userManager.GetRolesAsync(user);
+                Thread.Sleep(5000);
+                //TODO: FindByPhoneAsync
+                //if(user==null)
+                //{
+                //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
+                //}
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+                if (!result.Succeeded)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(CreateTokenAsync(user, role[0]));
+
             }
-            var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-            if (!result.Succeeded)
+            catch (Exception)
             {
-                return "Error";
+                return BadRequest();
             }
 
-            return CreateTokenAsync(user,role[0]);
-                
-             
+
         }
 
-        private string CreateTokenAsync(User user,string role)
+        private string CreateTokenAsync(User user, string role)
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id",user.Id),
+                new Claim(ClaimTypes.Name,user.UserName),
                 new Claim("role",role)
             };
             var now = DateTime.UtcNow;

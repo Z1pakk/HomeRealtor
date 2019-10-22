@@ -50,8 +50,8 @@ namespace HomeRealtorApi
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example")),
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                 };
@@ -70,6 +70,8 @@ namespace HomeRealtorApi
             {
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();

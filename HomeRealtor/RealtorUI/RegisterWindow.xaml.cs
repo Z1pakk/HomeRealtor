@@ -61,7 +61,7 @@ namespace RealtorUI
                 AboutMe = null,
                 Role = cbRole.Text
             };
-            service.AddUser("http://localhost:60946/api/user/add/", user);
+            service.AddUser("https://localhost:44325/api/user/add/", user);
 
             this.Close();
             LoginWindow window = new LoginWindow();
