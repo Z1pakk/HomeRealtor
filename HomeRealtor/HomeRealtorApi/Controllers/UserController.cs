@@ -38,10 +38,9 @@ namespace HomeRealtorApi.Controllers
 
             User user = new User()
             {
-               
+                UserName = User.UserName,
                 Email = User.Email,
                 Age = User.Age,
-                UserName = User.UserName,
                 PhoneNumber =User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe=User.AboutMe,
@@ -49,6 +48,7 @@ namespace HomeRealtorApi.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, User.Password);
+            await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
                 return Ok();
