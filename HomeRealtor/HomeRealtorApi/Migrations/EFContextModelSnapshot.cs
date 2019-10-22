@@ -140,6 +140,10 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<double>("Price");
 
+                    b.Property<int>("RoomCount");
+
+                    b.Property<int>("SellType");
+
                     b.Property<string>("StateName")
                         .IsRequired()
                         .HasMaxLength(20);
@@ -154,11 +158,28 @@ namespace HomeRealtorApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SellType");
+
                     b.HasIndex("TypeId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("tbl_RealStates");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.RealEstateSellType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("SellTypeName")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblSellTypes");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.RealEstateType", b =>
@@ -392,6 +413,11 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.RealEstate", b =>
                 {
+                    b.HasOne("HomeRealtorApi.Entities.RealEstateSellType", "SellOf")
+                        .WithMany("RealEstates")
+                        .HasForeignKey("SellType")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HomeRealtorApi.Entities.RealEstateType", "TypeOf")
                         .WithMany("RealEstates")
                         .HasForeignKey("TypeId")

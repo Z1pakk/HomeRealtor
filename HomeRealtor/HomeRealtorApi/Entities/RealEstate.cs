@@ -25,6 +25,9 @@ namespace HomeRealtorApi.Entities
         [Required,StringLength(500)]
         public string Location { get; set; }
 
+        [Required]
+        public int RoomCount { get; set; }
+
         public DateTime TimeOfPost { get; set; }
 
         public double TerritorySize { get; set; }
@@ -38,8 +41,12 @@ namespace HomeRealtorApi.Entities
         [ForeignKey("UserOf")]
         public string UserId { get; set; }
 
+        [ForeignKey("SellOf")]
+        public int SellType { get; set; }
+
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
+        public virtual RealEstateSellType SellOf { get; set; }
         public virtual ICollection<ImageEstate> ImageEstates { get; set; }
 
     }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
@@ -29,6 +31,7 @@ namespace HomeRealtorApi.Controllers
             _sigInManager = sigInManager;
             _context = context;
         }
+
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
@@ -38,7 +41,8 @@ namespace HomeRealtorApi.Controllers
                
                 Email = User.Email,
                 Age = User.Age,
-                PhoneNumber=User.PhoneNumber,
+                UserName = User.UserName,
+                PhoneNumber =User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe=User.AboutMe,
                 LastName = User.LastName
@@ -49,32 +53,76 @@ namespace HomeRealtorApi.Controllers
             {
                 return Ok();
             }
-            return "Еррор:";
+            return  BadRequest();
+        }
+        [HttpPut("edit/{id}")]
+        public ContentResult Edit(string id,[FromBody]UserModel User)
+        {
+            try
+            {
+                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                edit.Image=User.Image;
+                edit.LastName = User.LastName;  
+                edit.PhoneNumber = User.PhoneNumber;
+                edit.UserName = User.UserName;
+                edit.FirstName = User.FirstName;
+                edit.AboutMe = User.AboutMe;
+                edit.Age = User.Age;
+                edit.Email = User.Email;
+                _context.SaveChanges();
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
+
+                return Content( "Еррор:"+ex.Message);
+
+            }
+            
         }
 
-        [HttpGet("getToken")]
-        public async Task<ActionResult<string>> Get([FromBody]UserLoginModel loginModel)
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
-            User user = await _userManager.FindByNameAsync(loginModel.Email);
+            User user = await _userManager.FindByEmailAsync(loginModel.Email);
+            List<string> role=(List<string>)await _userManager.GetRolesAsync(user);
+            Thread.Sleep(5000);
+            //TODO: FindByPhoneAsync
+            //if(user==null)
+            //{
+            //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
+            //}
+            if (user == null)
+            {
+                return "Error";
+            }
             var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
             if (!result.Succeeded)
             {
                 return "Error";
             }
 
-            return CreateTokenAsync(user);
+            return CreateTokenAsync(user,role[0]);
+                
+             
         }
 
-        private string CreateTokenAsync(User user)
+        private string CreateTokenAsync(User user,string role)
         {
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim("id",user.Id),
+                new Claim("role",role)
+            };
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
             // Generate the jwt token
             var jwt = new JwtSecurityToken(
                 signingCredentials: signinCredentials,
-                expires: now.Add(TimeSpan.FromDays(1))
+                expires: now.Add(TimeSpan.FromDays(1)),
+                claims: claims
                 );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
