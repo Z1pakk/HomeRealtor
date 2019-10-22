@@ -53,5 +53,10 @@ namespace RealtorUI.Pages
             txt_Type.Text += model.TypeName;
             txt_Owner.Text += model.FullName;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

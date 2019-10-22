@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
