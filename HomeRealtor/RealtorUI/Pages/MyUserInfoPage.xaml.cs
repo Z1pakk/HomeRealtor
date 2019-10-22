@@ -29,7 +29,7 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             UserM = user;
-            imgPerson.Source = new BitmapImage(new Uri("https://localhost:53606/Content/" + user.Image));
+            imgPerson.Source = new BitmapImage(new Uri("https://localhost:55945/Content/" + user.Image));
             lblName.Content = lblName.Content + user.FirstName + " " + user.LastName;
             lblEmail.Content = lblEmail.Content + user.Email;
             lblAge.Content = lblAge.Content + user.Age.ToString();

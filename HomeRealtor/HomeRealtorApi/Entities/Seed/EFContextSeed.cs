@@ -60,17 +60,17 @@ namespace HomeRealtorApi.Entities.Seed
                         isCanSaveChanges = true;
                     }
 
-                    if(!context.RealEstateSellTypes.Any())
+                    if (!context.RealEstateSellTypes.Any())
                     {
                         context.RealEstateSellTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateSellTypes());
                         isCanSaveChanges = true;
                     }
 
-                    if(!context.RealEstates.Any())
-                    {
-                        context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
-                        isCanSaveChanges = true;
-                    }
+                    //if (!context.RealEstates.Any())
+                    //{
+                    //    context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
+                    //    isCanSaveChanges = true;
+                    //}
                   
 
                     //Save changes

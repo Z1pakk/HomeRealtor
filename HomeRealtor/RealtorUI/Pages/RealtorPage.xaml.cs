@@ -51,7 +51,7 @@ namespace RealtorUI
         private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
         {
             imagePath = images.First().Name;
-            RealEstateModel realEstate = new RealEstateModel()
+            RealEstateViewModel realEstate = new RealEstateViewModel()
             {
                 Active = true,
                 Image = imagePath,
@@ -60,7 +60,8 @@ namespace RealtorUI
                 StateName = tbState.Text,
                 TerritorySize = Double.Parse(tbArea.Text),
                 TypeId = cbType.SelectedIndex,
-                TimeOfPost = DateTime.Now
+                TimeOfPost = DateTime.Now,
+                images = images
             };
 
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/add");
@@ -72,7 +73,7 @@ namespace RealtorUI
                 writer.Write(JsonConvert.SerializeObject(realEstate));
             }
 
-            request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/getlastid");
+           /* request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/getlastid");
             request.Method = "GET";
             request.ContentType = "application/json";
 
@@ -91,7 +92,7 @@ namespace RealtorUI
             {
                 foreach (var imgEst in images)
                     writer.Write(JsonConvert.SerializeObject(imgEst));
-            }
+            }*/
         }
     }
 }
