@@ -36,16 +36,16 @@ namespace RealtorUI
                 if (stream != "")
                 {
 
-                    var handler = new JwtSecurityTokenHandler();
-                    var jsonToken = handler.ReadToken(stream);
-                    if (jsonToken.ValidTo >= DateTime.Now)
-                    {
-                        MainWindow mainWindow = new MainWindow(stream);
-                        this.Visibility = Visibility.Hidden;
-                        this.Close();
-                        mainWindow.ShowDialog();
-                        return;
-                    }
+                    //var handler = new JwtSecurityTokenHandler();
+                    //var jsonToken = handler.ReadToken(stream);
+                    //if (jsonToken.ValidTo >= DateTime.Now)
+                    //{
+                        //MainWindow mainWindow = new MainWindow(stream);
+                        //this.Visibility = Visibility.Hidden;
+                        //this.Close();
+                        //mainWindow.ShowDialog();
+                        //return;
+                    //}
                 }
             }
             InitializeComponent();
