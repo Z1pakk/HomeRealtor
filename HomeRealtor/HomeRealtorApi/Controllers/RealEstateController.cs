@@ -45,22 +45,6 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json);
         }
-        /*[HttpGet("getlast")]
-        public ContentResult GetLastRealEstate()
-        {
-
-            RealEstate estate = _context.RealEstates.Last();
-            string estateJson = JsonConvert.SerializeObject(estate);
-            return Content(estateJson);
-        }
-        [HttpGet("getlastid")]
-        public ContentResult GetLastRealEstateId()
-        {
-
-            RealEstate estate = _context.RealEstates.Last();
-            string idJson = JsonConvert.SerializeObject(estate.Id);
-            return Content(idJson);
-        }*/
 
         // GET api/values/get/realEstate/5
         [HttpGet("get/byid/{id}")]
