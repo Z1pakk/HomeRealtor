@@ -1,5 +1,4 @@
-﻿using APIConnectService.Models;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using RealtorUI.Models;
@@ -28,7 +27,7 @@ namespace RealtorUI
     public partial class RegisterWindow : MetroWindow
     {
         private string ImagePath;
-        //private int Code;
+        AddUserService service = new AddUserService();
 
         public RegisterWindow()
         {
@@ -49,24 +48,23 @@ namespace RealtorUI
         {
             UserModel user = new UserModel()
             {
+                UserName = tbUsrName.Text,
                 FirstName = tbFName.Text,
                 LastName = tbLName.Text,
                 Email = tbEmail.Text,
                 PhoneNumber = tbPhNum.Text,
                 Password = tbPass.Password,
                 Age = int.Parse(tbAge.Text),
-                Image = ImagePath
+                Image = ImagePath,
+                AboutMe = null,
+                Role = cbRole.Text
             };
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:60946/api/user/add");
-            request.Method = "POST";
-            request.ContentType = "application/json";
+            service.AddUser("http://localhost:60946/api/user/add/", user);
 
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                writer.Write(JsonConvert.SerializeObject(user));
-            }
+            this.Close();
+            LoginWindow window = new LoginWindow();
+            window.ShowDialog();
 
-            WebResponse response = request.GetResponse();
         }
     }
 }

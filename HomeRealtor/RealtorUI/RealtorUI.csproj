@@ -100,7 +100,6 @@
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
