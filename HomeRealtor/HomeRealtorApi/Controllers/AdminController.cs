@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
+using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -19,35 +21,54 @@ namespace HomeRealtorApi.Controllers
             _context = context;
         }
 
-        [HttpGet("GetRealInfo")]
-        public ContentResult GetRealtorInfo()
+        [HttpGet("getall")]
+        public ContentResult GetAll()
         {
-           // useres.Where(x => x.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
-           // List<User> useres = _context.Users.ToList();
-            //string json = JsonConvert.SerializeObject(useres.Where(u=>u.));
-            //return Content(json, "application/json");
+            List<User> useres = _context.Users.ToList();
+            string json = null;
+            json += JsonConvert.SerializeObject(useres);
+            return Content(json, "application/json");
         }
+
+        //[HttpGet("GetRealInfo")]
+        //public ContentResult GetRealtorInfo()
+        //{
+        //   // useres.Where(x => x.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
+        //   // List<User> useres = _context.Users.ToList();
+        //    //string json = JsonConvert.SerializeObject(useres.Where(u=>u.));
+        //    //return Content(json, "application/json");
+        //}
 
         [HttpGet("GetReal")]
         public ContentResult GetRealtor()
         {
             List<User> useres = _context.Users.ToList();
+            List<HelpAdminControler> helps = new List<HelpAdminControler>();
             string json = null;
             foreach (var item in useres)
             {
                 //if (item.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
-                    json += JsonConvert.SerializeObject(item.FirstName + " " + item.LastName);
+                {
+                    helps.Add(new HelpAdminControler
+                    {
+                        Name = item.FirstName + " " + item.LastName,
+                        Age = item.Age,
+                        Email = item.Email 
+                    });
+                }
             }
+            json = JsonConvert.SerializeObject(helps);
             return Content(json, "application/json");
         }
 
+
         //Delete User
         /*[HttpDelete("delete/{id}")]
-        public ContentResult DeleteProduct(int id)
+        public ContentResult DeleteUser(int id)
         {
-            try
-            {
-                var seekUser = _context.User.FirstOrDefault(e => e.Id == id);
+         //   try
+          //  {
+                var seekUser = _context.Users.FirstOrDefault(e => e.Id == id);
                 if (seekUser.Id != 0)
                 {
                     _context.Products.Remove(seekUser);
@@ -63,46 +84,17 @@ namespace HomeRealtorApi.Controllers
                 {
                     return Content("Something wrong");
                 }
-            }
-            catch (Exception ex)
-            {
-                APIResponse api = new APIResponse()
-                {
-                    Success = false,
-                    Result = ex.Message
-                };
-                return Content(JsonConvert.SerializeObject(api), "application/json");
-            }
+          //  }
+            //catch (Exception ex)
+           // {
+                //APIResponse api = new APIResponse()
+                //{
+                //    Success = false,
+                //    Result = ex.Message
+                //};
+                //return Content(JsonConvert.SerializeObject(api), "application/json");
+          //  }
 
         }*/
-
-        //edit
-        /* [HttpPut("edit/{id}")]
-         public ContentResult EditProduct(int id, [FromBody]User model)
-         {
-             try
-             {
-                 var seekUser = _context.User.FirstOrDefault(e => e.Id == id);
-                 if (seekUser.Id != 0)
-                 {
-
-
-                     //ToDo  seekUser. Something = model. Something
-                     _context.SaveChanges();
-
-
-                     return Content("Edit complate");
-                 }
-                 else
-                 {
-                     return Content("ERORA");
-                 }
-
-             }
-             catch (Exception ex)
-             {
-                 return Content(ex.Message);
-             }
-         }*/
     }
 }
