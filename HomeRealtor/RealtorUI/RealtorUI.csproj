@@ -214,22 +214,18 @@
     <Resource Include="HRLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
-      <Project>{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}</Project>
-      <Name>APIConnectService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HomeRealtorApi\HomeRealtorApi.csproj">
-      <Project>{B944CD19-E1A8-4941-9178-1CD7BCC849B1}</Project>
-      <Name>HomeRealtorApi</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="login.gif" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
+      <Project>{ed296726-3f45-4ce5-98cd-1d29cca4cccc}</Project>
+      <Name>APIConnectService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
