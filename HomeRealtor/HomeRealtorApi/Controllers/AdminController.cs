@@ -16,9 +16,11 @@ namespace HomeRealtorApi.Controllers
     public class AdminController : ControllerBase
     {
         private readonly EFContext _context;
-        public AdminController(EFContext context)
+        private readonly UserManager<User> _userManager;
+        public AdminController(EFContext context,UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet("getall")]
@@ -30,32 +32,37 @@ namespace HomeRealtorApi.Controllers
             return Content(json, "application/json");
         }
 
-        //[HttpGet("GetRealInfo")]
-        //public ContentResult GetRealtorInfo()
-        //{
-        //   // useres.Where(x => x.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
-        //   // List<User> useres = _context.Users.ToList();
-        //    //string json = JsonConvert.SerializeObject(useres.Where(u=>u.));
-        //    //return Content(json, "application/json");
-        //}
+        [HttpGet("GetRealInfo")]
+        public async Task<ContentResult> GetRealtorInfo()
+        {
+            List<User> useres = (List<User>)await _userManager.GetUsersInRoleAsync("REALTOR");
+            string json = JsonConvert.SerializeObject(useres);
+            return Content(json, "application/json");
+        }
+
+        [HttpGet("GetUser")]
+        public async Task<ContentResult> GetUserInfo()
+        {
+            List<User> useres = (List<User>)await _userManager.GetUsersInRoleAsync("USER");
+            string json = JsonConvert.SerializeObject(useres);
+            return Content(json, "application/json");
+        }
 
         [HttpGet("GetReal")]
-        public ContentResult GetRealtor()
+        public async Task<ContentResult> GetRealtor()
         {
-            List<User> useres = _context.Users.ToList();
+            List<User> useres = (List<User>)await _userManager.GetUsersInRoleAsync("REALTOR");
             List<HelpAdminControler> helps = new List<HelpAdminControler>();
             string json = null;
             foreach (var item in useres)
             {
-                //if (item.UserRoles.FirstOrDefault(y => y.RoleOf.Name == "Realtor") != null)
-                {
                     helps.Add(new HelpAdminControler
                     {
                         Name = item.FirstName + " " + item.LastName,
                         Age = item.Age,
                         Email = item.Email 
                     });
-                }
+               
             }
             json = JsonConvert.SerializeObject(helps);
             return Content(json, "application/json");
