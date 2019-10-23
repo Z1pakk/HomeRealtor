@@ -8,10 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -77,6 +79,24 @@ namespace HomeRealtorApi.Controllers
                 return Content("Еррор:" + ex.Message);
 
             }
+
+        }
+
+        [HttpGet("current")]
+        [Authorize]
+        public ContentResult CurrentUser()
+        {
+            try
+            {
+                //_userManager.FindByNameAsync(this.User.Identity.Name);
+                string json = JsonConvert.SerializeObject(_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name));
+                return Content(json);
+            }
+            catch (Exception ec)
+            {
+                return Content("Error: " + ec.Message);
+            }
+
 
         }
 
