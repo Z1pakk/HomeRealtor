@@ -53,11 +53,10 @@ namespace RealtorUI
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/get", string.Empty, "GET");
+            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/current", string.Empty, "GET");
             if (res.Success == true)
             {
-                List<UserModel> users = (List<UserModel>)res.Result;
-                UserModel user = users.FirstOrDefault(t => t.Id == Id);
+                UserModel user = (UserModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
             }
