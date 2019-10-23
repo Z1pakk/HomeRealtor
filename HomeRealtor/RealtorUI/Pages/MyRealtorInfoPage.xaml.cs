@@ -2,7 +2,6 @@
 using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
