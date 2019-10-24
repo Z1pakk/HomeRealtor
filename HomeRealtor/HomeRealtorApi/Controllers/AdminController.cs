@@ -68,6 +68,20 @@ namespace HomeRealtorApi.Controllers
             return Content(json, "application/json");
         }
 
+        [HttpGet("GetUserPagin/{value}")]
+        public ContentResult GetUserPagination(int value)
+        {
+            var useres = _context.Users;
+            string json = null;
+            var helps = useres.Select(p => new HelpAdminControler
+            {
+                Name = p.FirstName + " " + p.LastName,
+                Age = p.Age,
+                Email = p.Email
+            }).ToList().Skip((value - 1) * 10).Take(10);
+            json = JsonConvert.SerializeObject(helps);
+            return Content(json, "application/json");
+        }
 
         //Delete User
         /*[HttpDelete("delete/{id}")]
