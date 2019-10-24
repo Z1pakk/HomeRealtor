@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -27,8 +28,10 @@ namespace HomeRealtorApi.Controllers
         }
         // GET api/values
         [HttpGet("get/{type}")]
+        [Authorize]
         public ContentResult GetRealEstate(string type)
         {
+
             var list = _context.RealEstates.
                 Where(t=>t.SellOf.SellTypeName==type).
                 Select(t =>
@@ -50,6 +53,7 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/byid/{id}")]
         public ContentResult GetRealEstate(int id)
         {
+           
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {

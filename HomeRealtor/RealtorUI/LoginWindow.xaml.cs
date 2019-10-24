@@ -36,16 +36,16 @@ namespace RealtorUI
                 if (stream != "")
                 {
 
-                    var handler = new JwtSecurityTokenHandler();
-                    var jsonToken = handler.ReadToken(stream);
-                    if (jsonToken.ValidTo >= DateTime.Now)
-                    {
-                        MainWindow mainWindow = new MainWindow(stream);
-                        this.Visibility = Visibility.Hidden;
-                        this.Close();
-                        mainWindow.ShowDialog();
-                        return;
-                    }
+                    //var handler = new JwtSecurityTokenHandler();
+                    //var jsonToken = handler.ReadToken(stream);
+                    //if (jsonToken.ValidTo >= DateTime.Now)
+                    //{
+                        //MainWindow mainWindow = new MainWindow(stream);
+                        //this.Visibility = Visibility.Hidden;
+                        //this.Close();
+                        //mainWindow.ShowDialog();
+                        //return;
+                    //}
                 }
             }
             InitializeComponent();
@@ -66,7 +66,7 @@ namespace RealtorUI
         private async Task<string> LoginAsync()
         {
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/login");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
 

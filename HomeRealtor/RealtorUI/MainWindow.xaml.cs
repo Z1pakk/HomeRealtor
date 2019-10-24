@@ -52,12 +52,12 @@ namespace RealtorUI
 
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            string tok=File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/get", string.Empty, "GET");
+            ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
             if (res.Success == true)
             {
-                List<UserModel> users = (List<UserModel>)res.Result;
-                UserModel user = users.FirstOrDefault(t => t.Id == Id);
+                UserModel user = (UserModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
             }
