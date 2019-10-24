@@ -95,5 +95,21 @@ namespace RealtorUI.Pages
                 MessageBox.Show(res.ExceptionMessage);
             else MessageBox.Show(res.Result);
         }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            RealtorPage page = new RealtorPage();
+            NavigationService.Navigate(page);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAdvertise_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

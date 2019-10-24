@@ -17,21 +17,40 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RealtorUI.Models;
 using Newtonsoft.Json;
+using APIConnectService.Models;
 
-namespace RealtorUI
+namespace RealtorUI.Pages
 {
     /// <summary>
     /// Interaction logic for RealtorWindow.xaml
     /// </summary>
     /// 
-    public partial class RealtorWindow : Page
+    public partial class RealtorPage : Page
     {
         List<ImageEstateModel> images = new List<ImageEstateModel>();
+        List<TypeViewModel> types = new List<TypeViewModel>();
+        List<TypeViewModel> sellTypes = new List<TypeViewModel>();
         private string imagePath;
 
-        public RealtorWindow()
+        public RealtorPage()
         {
             InitializeComponent();
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44389/api/realEstate/get/types");
+            httpWebRequest.Method = "GET";
+            httpWebRequest.ContentType = "application/json";
+            WebResponse webResponse = httpWebRequest.GetResponse();
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                types = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
+            }
+            httpWebRequest = WebRequest.CreateHttp("https://localhost:44389/api/realEstate/get/selltypes");
+
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
+            }
+            cbType.ItemsSource = types.ToString();
+            cbSellType.ItemsSource = sellTypes.ToString();
         }
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -59,8 +78,10 @@ namespace RealtorUI
                 Price = Double.Parse(tbPrice.Text),
                 StateName = tbState.Text,
                 TerritorySize = Double.Parse(tbArea.Text),
-                TypeId = cbType.SelectedIndex,
+                TypeId = types.FirstOrDefault(t=>t.Name== (string)cbType.SelectedItem).Id,
                 TimeOfPost = DateTime.Now,
+                RoomCount = Int32.Parse(tbRoomCount.Text),
+                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
                 images = images
             };
 
@@ -73,6 +94,8 @@ namespace RealtorUI
                 writer.Write(JsonConvert.SerializeObject(realEstate));
             }
 
+            NavigationService.GoBack();
+            
            /* request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/getlastid");
             request.Method = "GET";
             request.ContentType = "application/json";
