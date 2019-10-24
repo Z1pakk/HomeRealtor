@@ -8,8 +8,7 @@ namespace APIConnectService.Models
 {
     public class UserModel
     {
-        
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }
@@ -19,5 +18,6 @@ namespace APIConnectService.Models
         public string AboutMe { get; set; }
         public string Image { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

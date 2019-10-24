@@ -38,7 +38,7 @@ namespace RealtorUI.Pages
                 UserModel sser = UserM;
                 sser.Password = txtPassword.Text;
                 BaseServices services = new BaseServices();
-                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
                 if (res.Result == false)
                     MessageBox.Show(res.ExceptionMessage);
                 else MessageBox.Show(res.Result);

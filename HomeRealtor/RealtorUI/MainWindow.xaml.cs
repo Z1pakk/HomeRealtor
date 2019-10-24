@@ -1,7 +1,12 @@
-﻿using MahApps.Metro.Controls;
+﻿using APIConnectService.Helpers;
+using APIConnectService.Models;
+using APIConnectService.Service;
+using MahApps.Metro.Controls;
 using RealtorUI.Pages;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace RealtorUI
@@ -42,6 +47,20 @@ namespace RealtorUI
             File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", "");
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
+        }
+
+
+        private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string tok=File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
+            if (res.Success == true)
+            {
+                UserModel user = (UserModel)res.Result;
+                if (user != null)
+                    frame.Navigate(new MyUserInfoPage(user));
+            }
         }
     }
 }
