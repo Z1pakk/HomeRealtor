@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HomeRealtorApi.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class initializeDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace HomeRealtorApi.Migrations
                     FirstName = table.Column<string>(maxLength: 20, nullable: false),
                     LastName = table.Column<string>(maxLength: 20, nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    AboutMe = table.Column<string>(maxLength: 100, nullable: true),
+                    CountOfLogins = table.Column<int>(nullable: false),
+                    AboutMe = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -242,6 +243,26 @@ namespace HomeRealtorApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tblUserUnlockCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblUserUnlockCodes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblUserUnlockCodes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_RealStates",
                 columns: table => new
                 {
@@ -419,6 +440,11 @@ namespace HomeRealtorApi.Migrations
                 name: "IX_tblOrders_UserId",
                 table: "tblOrders",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblUserUnlockCodes_UserId",
+                table: "tblUserUnlockCodes",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -452,6 +478,9 @@ namespace HomeRealtorApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "tblOrders");
+
+            migrationBuilder.DropTable(
+                name: "tblUserUnlockCodes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
