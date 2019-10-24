@@ -82,9 +82,7 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageHelper.cs" />
     <Compile Include="Models\NewsModels.cs" />
-    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
