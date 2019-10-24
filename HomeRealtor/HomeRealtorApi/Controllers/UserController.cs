@@ -84,12 +84,25 @@ namespace HomeRealtorApi.Controllers
 
         [HttpGet("current")]
         [Authorize]
-        public ContentResult CurrentUser()
+        public async Task<ContentResult> CurrentUser()
         {
             try
             {
                 //_userManager.FindByNameAsync(this.User.Identity.Name);
-                string json = JsonConvert.SerializeObject(_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name));
+                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                string json = JsonConvert.SerializeObject(new UserInfoModel()
+                {
+                    FirstName = us.FirstName,
+                    LastName = us.LastName,
+                    AboutMe = us.AboutMe,
+                    Age = us.Age,
+                    Email = us.Email,
+                    Image = us.Image,
+                    PhoneNumber = us.PhoneNumber,
+                    Id = us.Id,
+                    UserName = us.UserName,
+                });
+
                 return Content(json);
             }
             catch (Exception ec)

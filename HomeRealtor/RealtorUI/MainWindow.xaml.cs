@@ -57,7 +57,7 @@ namespace RealtorUI
             ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
             if (res.Success == true)
             {
-                UserModel user = (UserModel)res.Result;
+                UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
             }
