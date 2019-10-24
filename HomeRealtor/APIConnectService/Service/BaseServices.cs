@@ -101,7 +101,7 @@ namespace APIConnectService.Service
             }
         }
 
-        public List<RealEstateModel> GetEstates(string url, string method)
+        public List<GetListEstateViewModel> GetEstates(string url, string method)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = method;
@@ -114,8 +114,25 @@ namespace APIConnectService.Service
                 responceFromServer = reader.ReadToEnd();
             }
             wr.Close();
-            List<RealEstateModel> models = JsonConvert.DeserializeObject<List<RealEstateModel>>(responceFromServer);
+            List<GetListEstateViewModel> models = JsonConvert.DeserializeObject<List<GetListEstateViewModel>>(responceFromServer);
             return models;
+        }
+
+
+        public GetRealEstateViewModel GetEstate(string url, string method)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            request.ContentType = "application/json";
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            return JsonConvert.DeserializeObject<GetRealEstateViewModel>(responceFromServer);
         }
     }
 }

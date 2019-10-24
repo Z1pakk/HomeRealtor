@@ -54,7 +54,7 @@ namespace HomeRealtorApi.Controllers
             {
                 return Ok();
             }
-            return "Еррор:";
+            return  BadRequest();
         }
         [HttpPut("edit/{id}")]
         public ContentResult Edit(string id,[FromBody]UserModel User)
@@ -63,7 +63,7 @@ namespace HomeRealtorApi.Controllers
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 edit.Image=User.Image;
-                edit.LastName = User.LastName;
+                edit.LastName = User.LastName;  
                 edit.PhoneNumber = User.PhoneNumber;
                 edit.UserName = User.UserName;
                 edit.FirstName = User.FirstName;
@@ -178,7 +178,9 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            
+            return  CreateTokenAsync(user,role[0]);
+                
+             
         }
 
         private string CreateTokenAsync(User user/*,string role*/)

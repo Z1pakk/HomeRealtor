@@ -1,4 +1,5 @@
-﻿using APIConnectService.Service;
+﻿using APIConnectService.Models;
+using APIConnectService.Service;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -18,41 +19,60 @@ using System.Windows.Shapes;
 
 namespace RealtorUI.Pages
 {
-    /// <summary>
+    /// <summary> 
     /// Interaction logic for EstateShowPage.xaml
     /// </summary>
     public partial class EstateShowPage : Page
     {
-        List<RealEstateViewModel> Estates = new List<RealEstateViewModel>();
+        List<GetListEstateViewModel> _estates = new List<GetListEstateViewModel>();
+        List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
         public EstateShowPage()
         {
             InitializeComponent();
             BaseServices service = new BaseServices();
-            string url = "http://localhost:58446/api/RealEstate/get";
+            string url = "http://localhost:58446/api/RealEstate/get/Buy";
             var result = service.GetEstates(url, "GET");
-            for(int i = 0; i < result.Count;i++)
+            for (int i = 0; i < result.Count; i++)
             {
-                Estates.Add(new RealEstateViewModel()
+                _estates.Add(new GetListEstateViewModel()
                 {
+                    Id = result[i].Id,
                     Image = result[i].Image,
                     StateName = result[i].StateName,
-                    Price = result[i].Price,
-                    Location = result[i].Location,
                     RoomCount = result[i].RoomCount,
                     TerritorySize = result[i].TerritorySize,
-                    TimeOfPost = result[i].TimeOfPost,
-                    Active= result[i].Active,
-                    TypeId= result[i].TypeId,
-                    UserId = result[i].UserId
-                });                
+                });
             }
-            lv_Buy.ItemsSource = Estates;
-
+            lv_Buy.ItemsSource = _estates;
+            BaseServices service1 = new BaseServices();
+            string url1 = "http://localhost:58446/api/RealEstate/get/Rent";
+            var result1 = service1.GetEstates(url1, "GET");
+            for (int i = 0; i < result1.Count; i++)
+            {
+                estates_.Add(new GetListEstateViewModel()
+                {
+                    Id = result1[i].Id,
+                    Image = result1[i].Image,
+                    StateName = result1[i].StateName,
+                    RoomCount = result1[i].RoomCount,
+                    TerritorySize = result1[i].TerritorySize,
+                });
+            }
+            lv_Rent.ItemsSource = estates_;
         }
 
-        private void TabItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            int selectedId=((GetListEstateViewModel)lv_Buy.SelectedItem).Id;
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId);
+            NavigationService.Navigate(page);
+        }
 
+        private void lv_Rent_PreviewMouseDoubleClick_1(object sender, MouseButtonEventArgs e)
+        {
+            int selectedId = ((GetListEstateViewModel)lv_Rent.SelectedItem).Id;
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId);
+            NavigationService.Navigate(page);
         }
     }
 }
