@@ -1,9 +1,10 @@
 ﻿using APIConnectService.Helpers;
+using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             UserM = user;
-            imgPerson.Source = new BitmapImage(new Uri("https://localhost:55945/Content/" + user.Image));
+            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + user.Image));
             lblName.Content = lblName.Content + user.FirstName + " " + user.LastName;
             lblEmail.Content = lblEmail.Content + user.Email;
             lblAge.Content = lblAge.Content + user.Age.ToString();
@@ -41,14 +42,14 @@ namespace RealtorUI.Pages
             if (dgEstates.SelectedItem != null)
             {
                 BaseServices services = new BaseServices();
-                ServiceResult resOrder = await services.OrderMethod("https://localhost:55945/api/order/orders", string.Empty, "GET");
+                ServiceResult resOrder = await services.OrderMethod("https://localhost:44325/api/order/orders", string.Empty, "GET");
                 if (resOrder.Success == true)
                 {
                     foreach (var item in resOrder.Result)
                     {
                         if (((OrderModel)(item)).ApartId == ((RealEstateModel)dgEstates.SelectedItem).Id)
                         {
-                            ServiceResult res = await services.OrderMethod("https://localhost:55945/api/order/delete/" + ((OrderModel)(item)).Id, string.Empty, "GET");
+                            ServiceResult res = await services.OrderMethod("https://localhost:44325/api/order/delete/" + ((OrderModel)(item)).Id, string.Empty, "GET");
                             if (res.Success == false)
                                 MessageBox.Show(res.ExceptionMessage);
                             break;
@@ -61,8 +62,9 @@ namespace RealtorUI.Pages
         }
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.RealEstateMethod("https://localhost:55945/api/realestate/get", string.Empty, "GET");
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET",tok);
             if (res.Success == true)
             {
                 dgEstates.Items.Clear();
@@ -79,7 +81,8 @@ namespace RealtorUI.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            ChangePasswordPage page = new ChangePasswordPage(UserM);
+            NavigationService.Navigate(page);
         }
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
@@ -87,7 +90,7 @@ namespace RealtorUI.Pages
             UserModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT");
+            ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
             if (res.Result == false)
                 MessageBox.Show(res.ExceptionMessage);
             else MessageBox.Show(res.Result);

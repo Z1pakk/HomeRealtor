@@ -8,6 +8,7 @@ namespace RealtorUI.Models
 {
     public class RealEstateViewModel
     {
+        public int Id { get; set; }
         public string Image { get; set; }
         public string StateName { get; set; }
         public double Price { get; set; }
@@ -19,5 +20,7 @@ namespace RealtorUI.Models
         public int TypeId { get; set; }
         public string UserId { get; set; }
         public int SellType { get; set; }
+        public List<ImageEstateModel> images { get; set; }
+
     }
 }

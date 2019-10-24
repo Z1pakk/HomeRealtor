@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
@@ -35,16 +36,16 @@ namespace RealtorUI
                 if (stream != "")
                 {
 
-                    var handler = new JwtSecurityTokenHandler();
-                    var jsonToken = handler.ReadToken(stream);
-                    if (jsonToken.ValidTo >= DateTime.Now)
-                    {
-                        MainWindow mainWindow = new MainWindow(stream);
-                        this.Visibility = Visibility.Hidden;
-                        this.Close();
-                        mainWindow.ShowDialog();
-                        return;
-                    }
+                    //var handler = new JwtSecurityTokenHandler();
+                    //var jsonToken = handler.ReadToken(stream);
+                    //if (jsonToken.ValidTo >= DateTime.Now)
+                    //{
+                        //MainWindow mainWindow = new MainWindow(stream);
+                        //this.Visibility = Visibility.Hidden;
+                        //this.Close();
+                        //mainWindow.ShowDialog();
+                        //return;
+                    //}
                 }
             }
             InitializeComponent();
@@ -62,48 +63,60 @@ namespace RealtorUI
             this.Close();
             window.ShowDialog();
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async Task<string> LoginAsync()
         {
-          
-            
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/login");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
-            
+
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
                 UserLoginModel model = new UserLoginModel();
                 writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
                 {
-                    
-                    Password=passwdBox.Password,
-                    Email=loginBox.Text
+
+                    Password = passwdBox.Password,
+                    Email = loginBox.Text
                 }));
             }
-            WebResponse response = request.GetResponse();
+            WebResponse response =await request.GetResponseAsync();
 
-            string userId;
-            using (StreamReader reader=new StreamReader(response.GetResponseStream()))
+            string token;
+            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
             {
                 string temp = reader.ReadToEnd();
-                userId=temp;
+                token = temp;
             }
-            
+            return token;
+        }
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
 
+            sP.Visibility = Visibility.Hidden;
+            sP2.Visibility = Visibility.Hidden;
+            lB.Visibility = Visibility.Hidden;
+            mE.Visibility = Visibility.Visible;
+
+            string token=await LoginAsync();
+
+           
             //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
-            if (userId!= "Error")
+            if (token != "Error")
             {
 
-                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", userId);
-                MainWindow mainWindow = new MainWindow(userId);
+                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
+                MainWindow mainWindow = new MainWindow(token);
                 this.Visibility = Visibility.Hidden;
                 this.Close();
                 mainWindow.ShowDialog();
             }
             else
             {
+                sP.Visibility = Visibility.Visible;
+                sP2.Visibility = Visibility.Visible;
+                lB.Visibility = Visibility.Visible;
+                mE.Visibility = Visibility.Hidden;
                 passwdBox.BorderBrush = Brushes.Red;
                 passwdBox.Password = "";
                MessageBox.Show("Incorrect login or password");

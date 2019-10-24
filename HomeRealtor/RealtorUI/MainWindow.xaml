@@ -6,20 +6,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealtorUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="465" Width="800">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
         IsChecked="{Binding ElementName=yourMahAppFlyout, Path=IsOpen}" Cursor="Hand"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <!--<Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <ToggleButton Content="Menu" 
-        IsChecked="{Binding ElementName=checkOutFlayout, Path=IsOpen}" Cursor="Hand"/>
+            <!--<ToggleButton Content="Menu" 
+        IsChecked="{Binding ElementName=checkOutFlayout, Path=IsOpen}" Cursor="Hand"/>-->
+            <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
         </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>-->
-    
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="yourMahAppFlyout" Position="Left" Width="200">
@@ -35,13 +36,13 @@
                 <StackPanel>
                     
                 </StackPanel>
-            </Controls:Flyout>-->
+            </Controls:Flyout-->>
         </Controls:FlyoutsControl>
-        
+
     </Controls:MetroWindow.Flyouts>
-    
-    
-    
+
+
+
     <Grid>
         <Frame NavigationUIVisibility="Hidden" x:Name="frame"/>
     </Grid>

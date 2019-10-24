@@ -11,7 +11,7 @@
 
     <Grid>
         <Controls:MetroTabControl>
-            <TabItem Header="Buy" Width="100" PreviewMouseDown="TabItem_PreviewMouseDown">
+            <TabItem Header="Buy" Width="100">
                 <Grid Margin="10,10,10,10">
                     <ListView x:Name="lv_Buy" PreviewMouseDoubleClick="lv_Buy_PreviewMouseDoubleClick">
                         <ListView.ItemTemplate>
@@ -46,7 +46,7 @@
             </TabItem>
             <TabItem Header="Rent" Width="100">
                 <Grid Margin="10,10,10,10">
-                    <ListView x:Name="lv_Rent">
+                    <ListView x:Name="lv_Rent" PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="200">

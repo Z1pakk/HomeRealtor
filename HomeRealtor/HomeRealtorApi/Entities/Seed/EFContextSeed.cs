@@ -51,8 +51,10 @@ namespace HomeRealtorApi.Entities.Seed
                         );
                         isCanSaveChanges = true;
                     }
+
+
                     //suda pisat rofliki s rolyami
-                    if (!context.RealEstateTypes.Any())
+                    if(!context.RealEstateTypes.Any())
                     {
                         context.RealEstateTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateTypes());
                         isCanSaveChanges = true;
@@ -69,23 +71,7 @@ namespace HomeRealtorApi.Entities.Seed
                     //    context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
                     //    isCanSaveChanges = true;
                     //}
-                    if (!context.Users.Any())
-                    {
-                        context.Users.AddRange(
-                            PreConfigured.GetPreconfiguredUsers()
-                            );
-                        isCanSaveChanges = true;
-                    }
-
-                    //if (!context.Advertisings.Any())
-                    //{
-                    //    context.Advertisings.AddRange(
-                    //        PreConfigured.GetPreconfiguredAdvertisings()
-                    //        );
-                    //    isCanSaveChanges = true;
-                    //}
-
-
+                  
 
                     //Save changes
                     if (isCanSaveChanges)
