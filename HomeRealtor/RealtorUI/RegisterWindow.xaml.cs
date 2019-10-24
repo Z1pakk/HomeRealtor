@@ -48,6 +48,21 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            lbReg.Visibility = Visibility.Hidden;
+            sp1.Visibility = Visibility.Hidden;
+            sp2.Visibility = Visibility.Hidden;
+            sp3.Visibility = Visibility.Hidden;
+            sp4.Visibility = Visibility.Hidden;
+            sp5.Visibility = Visibility.Hidden;
+            sp6.Visibility = Visibility.Hidden;
+            sp7.Visibility = Visibility.Hidden;
+            sp8.Visibility = Visibility.Hidden;
+            pbImage.Visibility = Visibility.Hidden;
+            btnCreate.Visibility = Visibility.Hidden;
+            btnLoad.Visibility = Visibility.Hidden;
+
+            loading.Visibility = Visibility.Visible;
+
             UserModel user = new UserModel()
             {
                 UserName = tbUsrName.Text,
@@ -57,13 +72,13 @@ namespace RealtorUI
                 PhoneNumber = tbPhNum.Text,
                 Password = tbPass.Password,
                 Age = int.Parse(tbAge.Text),
-                Image = ImagePath,
+                Image = ImageHelper.ImageToBase64(ImagePath),
                 AboutMe = null,
                 Role = cbRole.Text
             };
             service.AddUser("https://localhost:44325/api/user/add/", user);
 
-            this.Close();
+            this.Visibility = Visibility.Hidden;
             LoginWindow window = new LoginWindow();
             window.ShowDialog();
 

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +24,8 @@ namespace HomeRealtorApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
+
+        private readonly IHostingEnvironment _appEnvoronment;
 
         private readonly SignInManager<User> _sigInManager;
 
@@ -43,8 +49,27 @@ namespace HomeRealtorApi.Controllers
                 PhoneNumber = User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe = User.AboutMe,
-                LastName = User.LastName
+                LastName = User.LastName,
+                Image = User.Image
             };
+
+            string path = string.Empty;
+            byte[] imageBytes = Convert.FromBase64String(User.Image);
+            using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                //Назва фотки із розширення
+                path = Guid.NewGuid().ToString() + ".jpg";
+                Image realEstateImage = Image.FromStream(stream);
+                realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+            }
+
+            ImageUser userImage = new ImageUser()
+            {
+                Name = path,
+                UserId = user.Id
+            };
+            _context.ImageUsers.Add(userImage);
+
 
             var result = await _userManager.CreateAsync(user, User.Password);
             await _userManager.AddToRoleAsync(user, User.Role);

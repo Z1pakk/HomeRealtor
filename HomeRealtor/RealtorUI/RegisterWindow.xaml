@@ -25,45 +25,47 @@
             <RowDefinition Height="65*"/>
             <RowDefinition Height="59*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" HorizontalAlignment="Center" FontSize="60" FontFamily="Lucida Sans Unicode"  Grid.ColumnSpan="2" Content="REGISTER" Margin="22,0" Width="282"/>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+        <Label x:Name="lbReg" Grid.Row="0" HorizontalAlignment="Center" FontSize="60" FontFamily="Lucida Sans Unicode"  Grid.ColumnSpan="2" Content="REGISTER" Margin="22,0" Width="282"/>
+        <StackPanel x:Name="sp1" Grid.Row="1" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Username:"/>
             <TextBox x:Name="tbUsrName" Margin="10 0 "/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="0" >
+        <StackPanel x:Name="sp2" Grid.Row="2" Grid.Column="0" >
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="First Name:"/>
             <TextBox x:Name="tbFName" Margin="10 0 10 5"/>
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.Column="1">
+        <StackPanel x:Name="sp3" Grid.Row="2" Grid.Column="1">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Last Name:"/>
             <TextBox x:Name="tbLName" Margin="10 0 "/>
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="3">
+        <StackPanel x:Name="sp4" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="3">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Email:"/>
             <TextBox x:Name="tbEmail" Margin="10 0 "/>
         </StackPanel>
-        <StackPanel Grid.Row="4" Grid.ColumnSpan="2">
+        <StackPanel x:Name="sp5" Grid.Row="4" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Phone Number:"/>
             <TextBox x:Name="tbPhNum" Margin="10 0 "/>
         </StackPanel>
-        <StackPanel Grid.Row="5" Grid.ColumnSpan="2">
+        <StackPanel x:Name="sp6" Grid.Row="5" Grid.ColumnSpan="2">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Password:"/>
             <PasswordBox x:Name="tbPass" Margin="10 0"/>
         </StackPanel>
-        <StackPanel Grid.Row="6" Grid.Column="0">
+        <StackPanel x:Name="sp7" Grid.Row="6" Grid.Column="0">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Who are you?"/>
             <ComboBox x:Name="cbRole" Margin="10 0 ">
                 <System:String>User</System:String>
                 <System:String>Realtor</System:String>
             </ComboBox>
         </StackPanel>
-        <StackPanel Grid.Row="6" Grid.Column="1">
+        <StackPanel x:Name="sp8" Grid.Row="6" Grid.Column="1">
             <Label HorizontalAlignment="Left" Margin="10 0 0 0" Content="Age:"/>
             <TextBox x:Name="tbAge" Margin="10 0"/>
         </StackPanel>
         <Image x:Name="pbImage" Grid.Row="7" Grid.RowSpan="2" Margin="5" Source="C:\Users\redfreshka\Desktop\HomeRealtor\HomeRealtor\RealtorUI\bin\Debug\no-photo.png"/>
-        <Button Grid.Row="7" Grid.Column="1" Margin="5 5 10 5" Click="Button_Click" Content="Load Photo"/>
-        <Button Grid.Row="8" Grid.Column="1" Margin="5 5 10 5" Content="Create Account" Click="Button_Click_1"/>
+        <Button x:Name="btnLoad" Grid.Row="7" Grid.Column="1" Margin="5 5 10 5" Click="Button_Click" Content="Load Photo"/>
+        <Button x:Name="btnCreate" Grid.Row="8" Grid.Column="1" Margin="5 5 10 5" Content="Create Account" Click="Button_Click_1"/>
+
+        <Controls:ProgressRing x:Name="loading" Visibility="Hidden"  Grid.ColumnSpan="2" Grid.RowSpan="2" Height="80" Margin="124,26,122,24" Grid.Row="2" Width="80"  />
 
     </Grid>
 </Controls:MetroWindow>
