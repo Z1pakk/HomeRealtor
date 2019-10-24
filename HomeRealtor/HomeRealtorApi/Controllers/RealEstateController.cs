@@ -49,6 +49,28 @@ namespace HomeRealtorApi.Controllers
             return Content(json);
         }
 
+        [HttpGet("get/types")]
+        public ContentResult GetRealEstateTypes()
+        {
+            var list = _context.RealEstateTypes.
+                Select(t => new TypeViewModel() {Name = t.TypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
+        [HttpGet("get/selltypes")]
+        public ContentResult GetRealEstateSellTypes()
+        {
+            var list = _context.RealEstateSellTypes.
+                Select(t => new TypeViewModel() { Name = t.SellTypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
         // GET api/values/get/realEstate/5
         [HttpGet("get/byid/{id}")]
         public ContentResult GetRealEstate(int id)
