@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealtorUI.Models
+namespace APIConnectService.Models
 {
     public class UserModel
     {
+        public string Id { get; set; }
+        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }

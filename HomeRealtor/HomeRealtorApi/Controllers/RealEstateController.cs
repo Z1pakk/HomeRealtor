@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -14,36 +19,57 @@ namespace HomeRealtorApi.Controllers
     public class RealEstateController : ControllerBase
     {
         private readonly EFContext _context;
-        public RealEstateController(EFContext context)
+        private readonly IHostingEnvironment _appEnvoronment;
+        public RealEstateController(EFContext context, IHostingEnvironment appEnvoronment)
         {
             _context = context;
+            _appEnvoronment = appEnvoronment;
         }
         // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> GetRealEstate()
+        [HttpGet("get/{type}")]
+        public ContentResult GetRealEstate(string type)
         {
-            /*List<RealEstate> estates= new List<RealEstate>();
-            foreach (var estate in _context.RealEstates)
-                estates.Add(estate);
-            string estateJson = JsonConvert.SerializeObject(estates);*/
+            var list = _context.RealEstates.
+                Where(t=>t.SellOf.SellTypeName==type).
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize
+                }).ToList();
 
-            List<string> estatesJson = new List<string>();
-            foreach (var estate in _context.RealEstates)
-                estatesJson.Add(JsonConvert.SerializeObject(estate));
+           string json = JsonConvert.SerializeObject(list);
 
-            return estatesJson;
+            return Content(json);
         }
 
         // GET api/values/get/realEstate/5
-        [HttpGet("get/{id}")]
-        public ActionResult<string> GetRealEstate(int id)
+        [HttpGet("get/byid/{id}")]
+        public ContentResult GetRealEstate(int id)
         {
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
-            string estateJson = JsonConvert.SerializeObject(estate);
-            return estateJson;
+            GetRealEstateViewModel model = new GetRealEstateViewModel()
+            {
+                Id = estate.Id,
+                Active = estate.Active,
+                Image = estate.Image,
+                Location = estate.Location,
+                Price = estate.Price,
+                RoomCount = estate.RoomCount,
+                StateName = estate.StateName,
+                TerritorySize = estate.TerritorySize,
+                TimeOfPost = estate.TimeOfPost,
+                TypeName = estate.TypeOf?.TypeName,
+                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}"
+            };
+            string estateJson = JsonConvert.SerializeObject(model);
+            return Content(estateJson);
         }
 
-        // POST api/values/add/realEstate
+        // POST api/values/realestate/add
         [HttpPost("add")]
         public ContentResult AddRealEstate([FromBody]RealEstateViewModel model)
         {
@@ -53,13 +79,35 @@ namespace HomeRealtorApi.Controllers
                 {
                     Active = model.Active,
                     Image = model.Image,
-                    ImageEstates = model.ImageEstates,
                     Price = model.Price,
                     StateName = model.StateName,
+                    TerritorySize = model.TerritorySize,
+                    Location = model.Location,
                     TypeId = model.TypeId,
                     UserId = model.UserId,
-                    TimeOfPost = model.TimeOfPost
+                    TimeOfPost = model.TimeOfPost,
+                    RoomCount = model.RoomCount,
+                    SellType = model.SellType
                 };
+                foreach (var imgEst in model.images)
+                {
+                    string path = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        //Назва фотки із розширення
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image realEstateImage = Image.FromStream(stream);
+                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
+
+                    ImageEstate estateImage = new ImageEstate()
+                    {
+                        Name = path,
+                        EstateId = estate.Id
+                    };
+                    _context.ImageEstates.Add(estateImage);
+                }
                 _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
@@ -79,7 +127,8 @@ namespace HomeRealtorApi.Controllers
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
                 estate.Image = model.Image;
-                estate.ImageEstates = model.ImageEstates;
+                estate.Location = model.Location;
+                estate.TerritorySize = model.TerritorySize;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
                 estate.TypeId = model.TypeId;
