@@ -27,7 +27,7 @@ namespace RealtorUI.Pages
 
         public HomePage()
         {
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:63993/api/advertising/advertising_");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/advertising");
             request.Method = "GET";
             request.ContentType = "application/json";
             List<AdvertisingModel> advertisings = new List<AdvertisingModel>();

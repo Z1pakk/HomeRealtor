@@ -1,9 +1,12 @@
 ﻿using APIConnectService.Models;
 using APIConnectService.Service;
+using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,5 +56,30 @@ namespace RealtorUI.Pages
             txt_Type.Text += model.TypeName;
             txt_Owner.Text += model.FullName;
         }
+
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    BaseServices service = new BaseServices();
+        //    string url = $"http://localhost:58446/api/RealEstate/get/byid/{_id}";
+        //    GetRealEstateViewModel model = service.GetEstate(url, "GET");
+        //    AdvertisingModel advModel = new AdvertisingModel()
+        //    {
+        //        Image = model.Image,
+        //        StateName = model.StateName,
+        //        Contacts = model.FullName,
+        //        Price = model.Price
+        //    };
+
+        //    HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
+        //    request.Method = "POST";
+        //    request.ContentType = "application/json";
+        //    using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+        //    {
+        //        writer.Write(JsonConvert.SerializeObject(advModel));
+        //    }
+
+        //    WebResponse response = request.GetResponse();
+            
+        //}
     }
 }

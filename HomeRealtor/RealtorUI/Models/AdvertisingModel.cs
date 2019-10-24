@@ -12,6 +12,5 @@ namespace RealtorUI.Models
         public string StateName { get; set; }
         public double Price { get; set; }
         public string Contacts { get; set; }
-        public string UserId { get; set; }
     }
 }
