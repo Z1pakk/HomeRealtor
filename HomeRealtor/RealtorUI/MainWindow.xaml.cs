@@ -52,8 +52,9 @@ namespace RealtorUI
 
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            string tok=File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/current", string.Empty, "GET");
+            ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
             if (res.Success == true)
             {
                 UserModel user = (UserModel)res.Result;
