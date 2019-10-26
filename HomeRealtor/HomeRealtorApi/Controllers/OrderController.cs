@@ -8,6 +8,7 @@ using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -19,10 +20,13 @@ namespace HomeRealtorApi.Controllers
     {
         private readonly EFContext _context;
         private readonly IHostingEnvironment _appEnvironment;
-        public OrderController(EFContext context, IHostingEnvironment appEnvironment)
+        private readonly UserManager<User> _userManager;
+
+        public OrderController(EFContext context, IHostingEnvironment appEnvironment, UserManager<User> userManager)
         {
             _context = context;
             _appEnvironment = appEnvironment;
+            _userManager = userManager;
         }
 
         [HttpGet("orders")]
@@ -33,25 +37,29 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json, "application/json");
         }
+
         [HttpDelete("delete/{id}")]
         public ContentResult DeleteOrder(int id)
         {
-           
             _context.Orders.Remove(_context.Orders.FirstOrDefault(t => t.Id == id));
             return Content("OK");
         }
-        [HttpPost("add")]
+
+        [HttpPost("add/{id}")]
         [Authorize]
-        public ContentResult AddOrder([FromBody]AddOrderModel model)
+        public async Task<ContentResult> AddOrderAsync([FromBody]AddOrderModel model,int id)
         {
             try
             {
+                User user = await _userManager.FindByNameAsync(this.User.Identity.Name);
+                RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 Order order = new Order()
                 {
-                    ApartId = model.ApartId,
-                    Status = model.Status,
-                    UserId = model.UserId,
-                    RealtorId = model.RealtorId
+                    ApartId = estate.Id,
+                    Status = estate.Active,
+                    UserId = user.Id,
+                    RealtorId = estate.UserId,
+                    Message = model.Message
                 };
 
                 _context.Orders.Add(order);
@@ -60,7 +68,7 @@ namespace HomeRealtorApi.Controllers
                 ApiResponse APIResponse = new ApiResponse()
                 {
                     Success = true,
-                    Result = "PLUS ORDER"
+                    Result = "Your Order was sent!"
                 };
                 return Content(JsonConvert.SerializeObject(APIResponse), "application/json");
             }

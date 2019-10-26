@@ -16,29 +16,31 @@
                     <ListView x:Name="lv_Buy" PreviewMouseDoubleClick="lv_Buy_PreviewMouseDoubleClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="200">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image x:Name="img_EstView" Grid.Column="0" Margin="10,10,10,10" Source="{Binding Image}"/>
-                                    <Grid Grid.Column="1">
+                                <Border Width="{Binding ElementName=lv_Buy, Path=ActualWidth}" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                    <Grid Height="200">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <TextBlock FontSize="18" Text="Real Estate Name:" Height="22"/>
-                                            <TextBlock FontSize="18" Text="Rooms Count:" Height="22"/>
-                                            <TextBlock FontSize="18" Text="Territory Size(m/q):" Height="22"/>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock FontSize="18" Text="{Binding StateName}" Height="22"/>
-                                            <TextBlock FontSize="18" Text="{Binding RoomCount}" Height="22"/>
-                                            <TextBlock FontSize="18" Text="{Binding TerritorySize}" Height="22"/>
-                                        </StackPanel>
+                                        <Image x:Name="img_EstView" Grid.Column="0" Margin="10,10,10,10" Source="{Binding Image}"/>
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock FontSize="18" Text="Real Estate Name:" Height="22"/>
+                                                <TextBlock FontSize="18" Text="Rooms Count:" Height="22"/>
+                                                <TextBlock FontSize="18" Text="Territory Size(m/q):" Height="22"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock FontSize="18" Text="{Binding StateName}" Height="22"/>
+                                                <TextBlock FontSize="18" Text="{Binding RoomCount}" Height="22"/>
+                                                <TextBlock FontSize="18" Text="{Binding TerritorySize}" Height="22"/>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

@@ -106,6 +106,10 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<int>("ApartId");
 
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(5000);
+
                     b.Property<string>("RealtorId");
 
                     b.Property<bool>("Status");
