@@ -34,7 +34,7 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage());
+            frame.Navigate(new EstateShowPage(Id));
             
         }
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)

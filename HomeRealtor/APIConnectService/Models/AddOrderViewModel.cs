@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeRealtorApi.Models
+namespace APIConnectService.Models
 {
-    public class AddOrderModel
+    public class AddOrderViewModel
     {
         public int ApartId { get; set; }
-
-        public bool Status { get; set; }
-
-        public string UserId { get; set; }
-
-        public string RealtorId { get; set; }
 
         public string Message { get; set; }
     }

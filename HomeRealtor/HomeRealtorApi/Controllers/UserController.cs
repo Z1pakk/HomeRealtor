@@ -146,6 +146,8 @@ namespace HomeRealtorApi.Controllers
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
             // Generate the jwt token
+            // tyt byv melnyk )))
+
             var jwt = new JwtSecurityToken(
                 signingCredentials: signinCredentials,
                 expires: now.Add(TimeSpan.FromDays(1)),
