@@ -1,4 +1,5 @@
-﻿<Page x:Class="RealtorUI.AdminPagination"
+﻿<Page:MetroWindow
+    xmlns:Page="http://metro.mahapps.com/winfx/xaml/controls" x:Class="RealtorUI.AdminPagination"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,4 +19,4 @@
         <Button Content="1" Name="But1" HorizontalAlignment="Left" Margin="272,359,0,0" VerticalAlignment="Top" Width="25" Click="But1_Click"/>
 
     </Grid>
-</Page>
+</Page:MetroWindow>

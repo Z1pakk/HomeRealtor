@@ -12,7 +12,7 @@ namespace APIConnectService.Service
     {
         public string GetPagin(string url, int value)
         {
-            HttpWebRequest request = WebRequest.CreateHttp(url);
+            HttpWebRequest request = WebRequest.CreateHttp(url+value.ToString());
             request.Method = "GET";
             request.ContentType = "application/json";
             WebResponse response = request.GetResponse();
