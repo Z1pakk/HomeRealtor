@@ -4,6 +4,7 @@ using APIConnectService.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,12 +34,13 @@ namespace RealtorUI.Pages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (lblPassword.Visibility == Visibility.Visible && txtPassword.Visibility == Visibility.Visible&&txtPassword.Text!="")
+            if ((lblOldPassword.Visibility == Visibility.Visible && txtOldPassword.Visibility == Visibility.Visible&&txtOldPassword.Text!="")
+                && lblNewPassword.Visibility == Visibility.Visible && txtNewPassword.Visibility == Visibility.Visible && txtNewPassword.Text != "")
             {
-                UserInfoModel sser = UserM;
-                //sser.Password = txtPassword.Text;
+                string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+                string[] Passwords = new string[2] { txtOldPassword.Text,txtNewPassword.Text};
                 BaseServices services = new BaseServices();
-                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/change", JsonConvert.SerializeObject(Passwords), "PUT", tok);
                 if (res.Result == false)
                     MessageBox.Show(res.ExceptionMessage);
                 else MessageBox.Show(res.Result);
@@ -46,8 +48,10 @@ namespace RealtorUI.Pages
             else
             if (txtEmail.Text == UserM.Email || txtUserName.Text == UserM.UserName)
             {
-                lblPassword.Visibility = Visibility.Visible;
-                txtPassword.Visibility = Visibility.Visible;
+                lblNewPassword.Visibility = Visibility.Visible;
+                txtNewPassword.Visibility = Visibility.Visible;
+                lblOldPassword.Visibility = Visibility.Visible;
+                txtOldPassword.Visibility = Visibility.Visible;
             }
 
 

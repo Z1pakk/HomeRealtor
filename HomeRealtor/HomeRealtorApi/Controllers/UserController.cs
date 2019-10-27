@@ -56,32 +56,48 @@ namespace HomeRealtorApi.Controllers
             }
             return BadRequest();
         }
-        [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserModel User)
+        //[HttpPut("edit/{id}")]
+        //public ContentResult Edit(string id, [FromBody]UserModel User)
+        //{
+        //    try
+        //    {
+        //        var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+        //        edit.Image = User.Image;
+        //        edit.LastName = User.LastName;
+        //        edit.PhoneNumber = User.PhoneNumber;
+        //        edit.UserName = User.UserName;
+        //        edit.FirstName = User.FirstName;
+        //        edit.AboutMe = User.AboutMe;
+        //        edit.Age = User.Age;
+        //        edit.Email = User.Email;
+        //        _context.SaveChanges();
+        //        return Content("OK");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return Content("Еррор:" + ex.Message);
+
+        //    }
+
+        //}
+        [HttpPut("change")]
+        [Authorize]
+        public async Task<ContentResult> ChangePasswordAsync([FromBody]string []Passwords)
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                edit.Image = User.Image;
-                edit.LastName = User.LastName;
-                edit.PhoneNumber = User.PhoneNumber;
-                edit.UserName = User.UserName;
-                edit.FirstName = User.FirstName;
-                edit.AboutMe = User.AboutMe;
-                edit.Age = User.Age;
-                edit.Email = User.Email;
-                _context.SaveChanges();
+                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                IdentityResult res=await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
                 return Content("OK");
             }
             catch (Exception ex)
             {
-
                 return Content("Еррор:" + ex.Message);
 
             }
 
         }
-
         [HttpGet("current")]
         [Authorize]
         public async Task<ContentResult> CurrentUser()
@@ -89,7 +105,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 //_userManager.FindByNameAsync(this.User.Identity.Name);
-                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                User us  =_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 string json = JsonConvert.SerializeObject(new UserInfoModel()
                 {
                     FirstName = us.FirstName,
