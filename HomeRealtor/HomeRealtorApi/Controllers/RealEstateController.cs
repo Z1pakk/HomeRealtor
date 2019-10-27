@@ -28,7 +28,6 @@ namespace HomeRealtorApi.Controllers
         }
         // GET api/values
         [HttpGet("get/{type}")]
-        [Authorize]
         public ContentResult GetRealEstate(string type)
         {
 

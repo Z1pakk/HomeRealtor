@@ -9,6 +9,7 @@ namespace APIConnectService.Models
     public class OrderModel
     {
         public int Id { get; set; }
+
         public int ApartId { get; set; }
 
         public bool Status { get; set; }
@@ -16,5 +17,7 @@ namespace APIConnectService.Models
         public string UserId { get; set; }
 
         public string RealtorId { get; set; }
+
+        public string Message { get; set; }
     }
 }
