@@ -27,10 +27,12 @@ namespace RealtorUI
     {
         public LoginWindow()
         {
+            try
+            {
             if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
             {
 
-
+                
                 var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
                 if (stream != "")
                 {
@@ -47,6 +49,12 @@ namespace RealtorUI
                     }
                 }
             }
+            }
+            catch
+            {
+
+            }
+            
             InitializeComponent();
         }
 
@@ -110,6 +118,7 @@ namespace RealtorUI
                 lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;
                 MessageBox.Show("Your account is banned ! Please unlock your account in your email");
+                return;
             }
             if (token != "Error")
             {

@@ -131,7 +131,7 @@ namespace HomeRealtorApi.Controllers
                 "<head>" +
                 "Your account is locked press button to unlock :" +
                 "</head>"+
-                $" <a href=\"localhost:54365/api/user/unlock/{code}\">" +
+                $" <a href=\" https://localhost:44325/api/user/unlock/{code}/ \">" +
                 "<button>" +
                 "Unlock" +
                 "</button>" +
@@ -178,7 +178,7 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            return  CreateTokenAsync(user,role[0]);
+          //  return  CreateTokenAsync(user,role[0]);
                 
              
         }
