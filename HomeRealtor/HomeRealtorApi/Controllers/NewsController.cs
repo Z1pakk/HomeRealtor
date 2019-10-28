@@ -46,9 +46,20 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/{id}")]
         public ContentResult Get(int id)
         {
-
-            _context.News.Add(_context.News.FirstOrDefault(t => t.Id == id));
-            return Content("OK");
+            List<News> news = _context.News.ToList();
+            GetNewsViewModel getNews = new GetNewsViewModel();
+            foreach (var item in news)
+            {
+                if (item.Id == id)
+                {
+                    getNews.Id = item.Id;
+                    getNews.Headline = item.Headline;
+                    getNews.Text = item.Text;
+                  
+                }
+            }
+            string json = JsonConvert.SerializeObject(getNews);
+            return Content(json, "application/json");
         }
         [HttpPost("add")]
         public ContentResult AddNews([FromBody] AddNewsViewModel model)

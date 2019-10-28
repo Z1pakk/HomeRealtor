@@ -1,21 +1,12 @@
 ﻿using Newtonsoft.Json;
 using RealtorUI.Models;
+using RealtorUI.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace RealtorUI
 {
@@ -31,7 +22,7 @@ namespace RealtorUI
         }
         public void GetNews()
         {
-            string url = @"http://localhost:55164/api/news/news";
+            string url = @" https://localhost:44325/api/news/news";
             try
             {
 
@@ -66,7 +57,9 @@ namespace RealtorUI
             NewsModels selectedOffer = (lstAddIns.SelectedItem as NewsModels);
             if (selectedOffer != null)
             {
-                
+               int selectedId = ((NewsModels)lstAddIns.SelectedItem).Id;
+               NewsPage page = new NewsPage(selectedId);
+                NavigationService.Navigate(page);
             }
             
         }

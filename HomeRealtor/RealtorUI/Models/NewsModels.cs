@@ -8,7 +8,7 @@ namespace RealtorUI.Models
 {
     public class NewsModels
     {
-       
+       public int Id { get; set; }
        public string Headline { get; set; }
        public string Text { get; set; }
         
