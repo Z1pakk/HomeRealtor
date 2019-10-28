@@ -1,4 +1,6 @@
-﻿using RealtorUI.Models;
+﻿using APIConnectService.Models;
+using APIConnectService.Service;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +23,28 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class RealEstateAboutPage : Page
     {
-        RealEstateViewModel _model; 
-        
-        public RealEstateAboutPage(RealEstateViewModel model)
+        int _id;
+        string _token;
+        string _fullName;
+        public RealEstateAboutPage(int id, string token)
         {
             InitializeComponent();
-            _model = model;
-            var uri = new Uri(_model.Image);
+            BaseServices service = new BaseServices();
+            _id = id;
+            _token = token;
+            string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
+            GetRealEstateViewModel model = service.GetEstate(url, "GET");
+
+            var uri = new Uri(model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
-            txt_Name.Text += _model.StateName;
-            txt_Price.Text += _model.Price.ToString();
-            txt_Location.Text += _model.Location;
-            txt_RoomCount.Text += _model.RoomCount.ToString();
-            txt_TerritorySize.Text += _model.TerritorySize.ToString();
-            txt_TimeOfPost.Text += _model.TimeOfPost.ToString();
-            if(_model.Active==true)
+            txt_Name.Text += model.StateName;
+            txt_Price.Text += model.Price.ToString();
+            txt_Location.Text += model.Location;
+            txt_RoomCount.Text += model.RoomCount.ToString();
+            txt_TerritorySize.Text += model.TerritorySize.ToString();
+            txt_TimeOfPost.Text += model.TimeOfPost.ToString();
+            if (model.Active == true)
             {
                 txt_Active.Text += "On Saling";
             }
@@ -44,7 +52,15 @@ namespace RealtorUI.Pages
             {
                 txt_Active.Text += "Sold";
             }
-            txt_Type.Text += "Budinok";
-        } 
+            txt_Type.Text += model.TypeName;
+            txt_Owner.Text += model.FullName;
+            _fullName = model.FullName;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OrderPage page = new OrderPage(_token, _fullName, _id);
+            NavigationService.Navigate(page);
+        }
     }
 }

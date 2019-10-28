@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIConnectService.Models
 {
-    public class UserModel
+    public class UserInfoModel
     {
         public string Id { get; set; }
         public string UserName { get; set; }
@@ -17,7 +17,5 @@ namespace APIConnectService.Models
         public int Age { get; set; }
         public string AboutMe { get; set; }
         public string Image { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
     }
 }
