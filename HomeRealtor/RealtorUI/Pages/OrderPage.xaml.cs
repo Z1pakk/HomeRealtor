@@ -1,4 +1,5 @@
-﻿using APIConnectService.Models;
+﻿using APIConnectService.Helpers;
+using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
 using System;
@@ -37,14 +38,24 @@ namespace RealtorUI.Pages
 
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
-            BaseServices service = new BaseServices();
-            string url = $"https://localhost:44325/api/Order/add/{_id}";
-            AddOrderViewModel model = new AddOrderViewModel()
+            if (textBoxMess.Text == "")
             {
-                ApartId = _id,
-                Message = this.textBoxMess.Text
-            };
-            await service.AddOrderMethod(url, JsonConvert.SerializeObject(model), "POST", _token);
+                MessageBox.Show("Message is Empty!");
+            }
+            else
+            {
+                BaseServices service = new BaseServices();
+                string url = $"https://localhost:44325/api/Order/add/{_id}";
+                AddOrderViewModel model = new AddOrderViewModel()
+                {
+                    ApartId = _id,
+                    Message = this.textBoxMess.Text
+                };
+                await service.AddOrderMethod(url, JsonConvert.SerializeObject(model), "POST", _token);
+                MessageBox.Show("Message was Sent!");
+                RealEstateAboutPage page = new RealEstateAboutPage(_id, _token);
+                NavigationService.Navigate(page);
+            }
         }
     }
 }

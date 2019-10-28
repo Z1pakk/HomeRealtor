@@ -4,14 +4,16 @@ using HomeRealtorApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HomeRealtorApi.Migrations
 {
     [DbContext(typeof(EFContext))]
-    partial class EFContextModelSnapshot : ModelSnapshot
+    [Migration("20191022135433_Add ForgotPassword table")]
+    partial class AddForgotPasswordtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,10 +127,6 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<int>("ApartId");
 
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(5000);
-
                     b.Property<string>("RealtorId");
 
                     b.Property<bool>("Status");
@@ -225,7 +223,8 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AboutMe");
+                    b.Property<string>("AboutMe")
+                        .HasMaxLength(100);
 
                     b.Property<int>("AccessFailedCount");
 
@@ -233,8 +232,6 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<int>("CountOfLogins");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -285,24 +282,6 @@ namespace HomeRealtorApi.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("HomeRealtorApi.Entities.UserUnlockCodes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("tblUserUnlockCodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -474,13 +453,6 @@ namespace HomeRealtorApi.Migrations
 
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("RealEstates")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("HomeRealtorApi.Entities.UserUnlockCodes", b =>
-                {
-                    b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
-                        .WithMany("UserUnlockCodes")
                         .HasForeignKey("UserId");
                 });
 
