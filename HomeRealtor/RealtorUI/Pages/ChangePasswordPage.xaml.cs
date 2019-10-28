@@ -34,14 +34,14 @@ namespace RealtorUI.Pages
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            if ((lblOldPassword.Visibility == Visibility.Visible && txtOldPassword.Visibility == Visibility.Visible&&txtOldPassword.Text!="")
-                && lblNewPassword.Visibility == Visibility.Visible && txtNewPassword.Visibility == Visibility.Visible && txtNewPassword.Text != "")
+            if ((lblOldPassword.Visibility == Visibility.Visible && txtOldPassword.Visibility == Visibility.Visible&&txtOldPassword.Password != "")
+                && lblNewPassword.Visibility == Visibility.Visible && txtNewPassword.Visibility == Visibility.Visible && txtNewPassword.Password != "")
             {
                 string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-                string[] Passwords = new string[2] { txtOldPassword.Text,txtNewPassword.Text};
+                string[] Passwords = new string[2] { txtOldPassword.Password,txtNewPassword.Password };
                 BaseServices services = new BaseServices();
-                ServiceResult res = await services.UserMethod("https://localhost:55945/api/user/change", JsonConvert.SerializeObject(Passwords), "PUT", tok);
-                if (res.Result == false)
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/change", JsonConvert.SerializeObject(Passwords), "PUT", tok);
+                if (res.Success == false)
                     MessageBox.Show(res.ExceptionMessage);
                 else MessageBox.Show(res.Result);
             }

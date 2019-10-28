@@ -104,6 +104,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
+                
                 //_userManager.FindByNameAsync(this.User.Identity.Name);
                 User us  =_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 string json = JsonConvert.SerializeObject(new UserInfoModel()
