@@ -207,8 +207,8 @@ namespace HomeRealtorApi.Controllers
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id",user.Id),
-                new Claim("role",role)
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Role,role)
             };
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));

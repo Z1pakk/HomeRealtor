@@ -45,7 +45,7 @@ namespace RealtorUI.Pages
             else
             {
                 BaseServices service = new BaseServices();
-                string url = $"https://localhost:44325/api/Order/add/{_id}";
+                string url = $"https://localhost:44325/api/Order/add";
                 AddOrderViewModel model = new AddOrderViewModel()
                 {
                     ApartId = _id,
