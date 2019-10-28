@@ -21,10 +21,10 @@
             <RowDefinition Height="46*"/>
         </Grid.RowDefinitions>
         <Controls:MetroProgressBar Visibility="Hidden" x:Name="mE"  Grid.Column="1" Grid.Row="1" IsIndeterminate="True" />
-        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="5">
+        <StackPanel x:Name="sP" Grid.Row="1" Grid.Column="1" Grid.RowSpan="5">
             <Label Content="Input email :" FontSize="20" Grid.RowSpan="2"/>
             <TextBox x:Name="loginBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
-            <Label Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
+            <Label x:Name="lB" Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
             <PasswordBox  x:Name="passwdBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
             <RadioButton IsChecked="True" Content="Sig in as user" FontSize="20" Margin="5,15,5,5"/>
             <RadioButton Content="Sig in as realtor" FontSize="20" Margin="5"/>
@@ -47,7 +47,7 @@
                     </Style.Triggers>
                 </Style>
             </Label.Style>
-        </Label>-->-->
+        </Label>-->
         <Button Content="Forgot Password"  FontSize="10"  Grid.Row="4" Click="Button_Click_2" Margin="10,10,79,10" Grid.Column="1"  />
 
     </Grid>
