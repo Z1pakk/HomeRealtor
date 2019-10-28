@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -94,5 +95,19 @@ namespace HomeRealtorApi.Controllers
         }
 
 
+
+
+        [HttpGet("checkcode")]
+        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        {
+            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+            if (res != null)
+            {
+                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+            }
+
+
+            return Content("OK");
+        }
     }
 }
