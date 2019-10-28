@@ -127,7 +127,7 @@ namespace HomeRealtorApi.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]UserLoginModel loginModel)
+        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
             User user = await _userManager.FindByEmailAsync(loginModel.Email);
