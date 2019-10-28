@@ -34,7 +34,7 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage());
+            frame.Navigate(new EstateShowPage(Id));
             
         }
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace RealtorUI
             ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
             if (res.Success == true)
             {
-                UserModel user = (UserModel)res.Result;
+                UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
             }
