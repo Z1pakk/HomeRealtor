@@ -22,7 +22,7 @@ namespace HomeRealtorApi.Entities
         public string Image { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
         public virtual ICollection<Advertising> Advertisings { get; set; }
-
         public virtual ICollection<RealEstate> RealEstates { get; set; }
+        public virtual ForgotPassword PasswordOff { get; set; }
     }
 }

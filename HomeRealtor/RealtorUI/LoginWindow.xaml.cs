@@ -65,9 +65,6 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-          
-            
-
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -111,8 +108,10 @@ namespace RealtorUI
           
         }
 
-        
-
-        
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ForgotPasswordWindow window = new ForgotPasswordWindow();
+            window.ShowDialog();
+        }
     }
 }

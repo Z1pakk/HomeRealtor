@@ -101,6 +101,8 @@
     <Compile Include="ForgotPasswordWindow.xaml.cs">
       <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckCodeModel.cs" />
+    <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />

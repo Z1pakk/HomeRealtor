@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RealtorUI.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -28,28 +31,39 @@ namespace RealtorUI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string email = emailBox.Text;
-            Random rnd = new Random();
-            int code = rnd.Next(1000, 9999);
-            try
-            {
-                MailAddress to = new MailAddress(email);
-                MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
-                MailMessage m = new MailMessage(from, to);
-                m.Subject = "Input this code :";
-                m.IsBodyHtml = true;
-                m.Body = "Code : " + code + " .";
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/sendcode");
+            request.Method = "POST";
+            request.ContentType = "application/json";
 
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-                smtp.EnableSsl = true;
-                smtp.Send(m);
-            }
-
-            catch(Exception ex)
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-                MessageBox.Show(ex.Message);
+                SendCodeModel model = new SendCodeModel();
+                writer.Write(JsonConvert.SerializeObject(new SendCodeModel()
+                {
+                    Email = emailBox.Text
+                }));
             }
+            WebResponse response = request.GetResponse();
+
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/checkcode");
+            request.Method = "GET";
+            request.ContentType = "application/json";
+
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+            {
+                CheckCodeModel model = new CheckCodeModel();
+                writer.Write(JsonConvert.SerializeObject(new CheckCodeModel()
+                {
+                    Code = codeBox.Text,
+                    NewPassword = newPasswordBox.Password
+                }));
+            }
+            WebResponse response = request.GetResponse();
         }
     }
 }
