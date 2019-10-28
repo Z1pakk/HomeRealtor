@@ -17,10 +17,12 @@ namespace HomeRealtorApi.Entities
         public string LastName { get; set; }
         [Required]
         public int Age { get; set; }
-        [StringLength(100)]
+        public int CountOfLogins { get; set; }
         public string AboutMe { get; set; }
         public string Image { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
+
+        public virtual ICollection<UserUnlockCodes> UserUnlockCodes { get; set; }
         public virtual ICollection<Advertising> Advertisings { get; set; }
 
         public virtual ICollection<RealEstate> RealEstates { get; set; }

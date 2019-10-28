@@ -169,7 +169,8 @@ namespace APIConnectService.Service
                     responceFromServer = reader.ReadToEnd();
                 }
                 wr.Close();
-                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = JsonConvert.DeserializeObject<UserModel>(responceFromServer) };
+                UserInfoModel m = JsonConvert.DeserializeObject<UserInfoModel>(responceFromServer);
+                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = m};
             }
             catch (Exception ex)
             {
