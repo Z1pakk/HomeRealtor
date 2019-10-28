@@ -104,7 +104,7 @@ namespace RealtorUI.Pages
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            EditRealEstatePage page = new EditRealEstatePage(UserM, );
+            EditRealEstatePage page = new EditRealEstatePage(UserM, 1);
             NavigationService.Navigate(page);
         }
 
