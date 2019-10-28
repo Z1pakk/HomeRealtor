@@ -38,7 +38,11 @@
             <TabItem Header="My real estates" Width="250">
                 <Grid>
                     <Button x:Name="btnUpdate" Content="Update" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30 40 0 0" Height="50" Click="btnUpdate_Click"/>
-                    <Button x:Name="btnCancel" Content="Cancel" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,125,0,0" Height="50" Click="btnCancel_Click"/>
+                    <Button x:Name="btnAdd" Content="Add" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,125,0,0" Height="50" Click="btnAdd_Click"/>
+                    <Button x:Name="btnEdit" Content="Edit" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,210,0,0" Height="50" Click="btnEdit_Click"/>
+                    <Button x:Name="btnCancel" Content="Cancel" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,295,0,0" Height="50" Click="btnCancel_Click"/>
+                    <Button x:Name="btnAdvertise" Content="Advertise" FontSize="15" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,370,0,0" Height="50" Click="btnAdvertise_Click"/>
+
                     <DataGrid Margin="200 30 30 30" Grid.ColumnSpan="2" Name="dgEstates">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding StateName}" Header="Name" Width="100"/>

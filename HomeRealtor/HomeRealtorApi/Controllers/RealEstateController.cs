@@ -8,6 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -29,6 +30,7 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/{type}")]
         public ContentResult GetRealEstate(string type)
         {
+
             var list = _context.RealEstates.
                 Where(t=>t.SellOf.SellTypeName==type).
                 Select(t =>
@@ -45,27 +47,34 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json);
         }
-        /*[HttpGet("getlast")]
-        public ContentResult GetLastRealEstate()
-        {
 
-            RealEstate estate = _context.RealEstates.Last();
-            string estateJson = JsonConvert.SerializeObject(estate);
-            return Content(estateJson);
+        [HttpGet("get/types")]
+        public ContentResult GetRealEstateTypes()
+        {
+            var list = _context.RealEstateTypes.
+                Select(t => new TypeViewModel() {Name = t.TypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
         }
-        [HttpGet("getlastid")]
-        public ContentResult GetLastRealEstateId()
-        {
 
-            RealEstate estate = _context.RealEstates.Last();
-            string idJson = JsonConvert.SerializeObject(estate.Id);
-            return Content(idJson);
-        }*/
+        [HttpGet("get/selltypes")]
+        public ContentResult GetRealEstateSellTypes()
+        {
+            var list = _context.RealEstateSellTypes.
+                Select(t => new TypeViewModel() { Name = t.SellTypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
 
         // GET api/values/get/realEstate/5
         [HttpGet("get/byid/{id}")]
         public ContentResult GetRealEstate(int id)
         {
+           
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
