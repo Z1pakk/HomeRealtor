@@ -24,7 +24,7 @@ namespace HomeRealtorApi.Entities
 
         public virtual ICollection<UserUnlockCodes> UserUnlockCodes { get; set; }
         public virtual ICollection<Advertising> Advertisings { get; set; }
-
         public virtual ICollection<RealEstate> RealEstates { get; set; }
+        public virtual ForgotPassword PasswordOff { get; set; }
     }
 }

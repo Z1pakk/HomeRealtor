@@ -72,6 +72,8 @@ namespace RealtorUI
         }
         private async Task<string> LoginAsync()
         {
+          
+            
 
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
@@ -142,8 +144,10 @@ namespace RealtorUI
           
         }
 
-        
-
-        
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ForgotPasswordWindow window = new ForgotPasswordWindow();
+            window.ShowDialog();
+        }
     }
 }

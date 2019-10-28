@@ -90,6 +90,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ForgotPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,12 +101,20 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ForgotPasswordWindow.xaml.cs">
+      <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckCodeModel.cs" />
+    <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditRealEstatePage.xaml.cs">
+      <DependentUpon>EditRealEstatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ChangePasswordPage.xaml.cs">
       <DependentUpon>ChangePasswordPage.xaml</DependentUpon>
@@ -119,8 +131,8 @@
     <Compile Include="Pages\RealEstateAboutPage.xaml.cs">
       <DependentUpon>RealEstateAboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RealtorPage.xaml.cs">
-      <DependentUpon>RealtorPage.xaml</DependentUpon>
+    <Compile Include="Pages\AddRealEstatePage.xaml.cs">
+      <DependentUpon>AddRealEstatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
@@ -141,6 +153,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AboutUs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\EditRealEstatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -168,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RealtorPage.xaml">
+    <Page Include="Pages\AddRealEstatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
