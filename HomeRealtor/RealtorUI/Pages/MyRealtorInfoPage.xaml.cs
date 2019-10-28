@@ -98,13 +98,14 @@ namespace RealtorUI.Pages
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            RealtorPage page = new RealtorPage();
+            AddRealEstatePage page = new AddRealEstatePage(UserM);
             NavigationService.Navigate(page);
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-
+            EditRealEstatePage page = new EditRealEstatePage(UserM, 1);
+            NavigationService.Navigate(page);
         }
 
         private void btnAdvertise_Click(object sender, RoutedEventArgs e)
