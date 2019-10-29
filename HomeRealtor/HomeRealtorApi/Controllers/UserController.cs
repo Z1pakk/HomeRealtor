@@ -67,7 +67,7 @@ namespace HomeRealtorApi.Controllers
             return BadRequest();
         }
         [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserModel User)
+        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
         {
             try
             {

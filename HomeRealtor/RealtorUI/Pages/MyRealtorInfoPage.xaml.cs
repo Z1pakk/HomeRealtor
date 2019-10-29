@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -145,6 +146,25 @@ namespace RealtorUI.Pages
         private void btnAdvertise_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void Button_Click_Image(object sender, RoutedEventArgs e)
+        {
+            UserInfoModel sser = UserM;
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter= "Image files (*.jpg) | *.jpg";
+            openFile.ShowDialog();
+            if (openFile.FileName != null)
+            {
+                sser.Image = openFile.FileName;
+                BaseServices services = new BaseServices();
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+                if (res.Result == false)
+                    MessageBox.Show(res.ExceptionMessage);
+                else MessageBox.Show(res.Result);
+            }
+            else MessageBox.Show("You didn`t choose an image");
+            
         }
     }
 }
