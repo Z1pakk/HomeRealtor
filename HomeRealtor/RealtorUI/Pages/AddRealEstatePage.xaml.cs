@@ -27,13 +27,13 @@ namespace RealtorUI.Pages
     /// 
     public partial class AddRealEstatePage : Page
     {
-        public UserModel UserM { get; set; }
+        public UserInfoModel UserM { get; set; }
         List<ImageEstateModel> images = new List<ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
         private string imagePath;
 
-        public AddRealEstatePage(UserModel u)
+        public AddRealEstatePage(UserInfoModel u)
         {
             InitializeComponent();
             UserM = u;
