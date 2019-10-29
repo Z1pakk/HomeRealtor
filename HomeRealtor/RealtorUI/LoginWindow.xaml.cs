@@ -124,11 +124,23 @@ namespace RealtorUI
             }
             if (token != "Error")
             {
-                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
-                MainWindow mainWindow = new MainWindow(token);
-                this.Visibility = Visibility.Hidden;
-                this.Close();
-                mainWindow.ShowDialog();
+
+                if (rbtnUser.IsChecked == true)
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                    MainWindow mainWindow = new MainWindow(token);
+                    this.Visibility = Visibility.Hidden;
+                    this.Close();
+                    mainWindow.ShowDialog();
+                }
+                else if (rbtnRealtor.IsChecked == true)
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                    MainWindowRealtor mainWindow = new MainWindowRealtor(token);
+                    this.Visibility = Visibility.Hidden;
+                    this.Close();
+                    mainWindow.ShowDialog();
+                }
             }
             else
             {
