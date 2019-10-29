@@ -45,6 +45,26 @@ namespace HomeRealtorApi.Migrations
                     b.ToTable("tbl_Advertisings");
                 });
 
+            modelBuilder.Entity("HomeRealtorApi.Entities.ForgotPassword", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("tbl_ForgotPassword");
+                });
+
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>
                 {
                     b.Property<int>("Id")
@@ -401,6 +421,13 @@ namespace HomeRealtorApi.Migrations
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("Advertisings")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.ForgotPassword", b =>
+                {
+                    b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
+                        .WithOne("PasswordOff")
+                        .HasForeignKey("HomeRealtorApi.Entities.ForgotPassword", "UserId");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>

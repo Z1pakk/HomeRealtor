@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -72,6 +71,8 @@ namespace RealtorUI
         }
         private async Task<string> LoginAsync()
         {
+          
+            
 
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
@@ -100,9 +101,9 @@ namespace RealtorUI
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            sP.Visibility = Visibility.Hidden;
+            //sP.Visibility = Visibility.Hidden;
             sP2.Visibility = Visibility.Hidden;
-            lB.Visibility = Visibility.Hidden;
+            //lB.Visibility = Visibility.Hidden;
             mE.Visibility = Visibility.Visible;
 
             string token=await LoginAsync();
@@ -113,9 +114,9 @@ namespace RealtorUI
             //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
             if (token == "Locked")
             {
-                sP.Visibility = Visibility.Visible;
+               // sP.Visibility = Visibility.Visible;
                 sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
+               // lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;
                 MessageBox.Show("Your account is banned ! Please unlock your account in your email");
                 return;
@@ -131,9 +132,9 @@ namespace RealtorUI
             }
             else
             {
-                sP.Visibility = Visibility.Visible;
+                //sP.Visibility = Visibility.Visible;
                 sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
+                //lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;
                 passwdBox.BorderBrush = Brushes.Red;
                 passwdBox.Password = "";
@@ -142,8 +143,10 @@ namespace RealtorUI
           
         }
 
-        
-
-        
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ForgotPasswordWindow window = new ForgotPasswordWindow();
+            window.ShowDialog();
+        }
     }
 }

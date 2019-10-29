@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
@@ -9,10 +10,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -36,50 +40,97 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
-
             User user = new User()
             {
-               
+                UserName = User.UserName,
                 Email = User.Email,
                 Age = User.Age,
-                UserName = User.UserName,
-                PhoneNumber =User.PhoneNumber,
+                PhoneNumber = User.PhoneNumber,
                 FirstName = User.FirstName,
-                AboutMe=User.AboutMe,
+                AboutMe = User.AboutMe,
                 LastName = User.LastName
             };
 
             var result = await _userManager.CreateAsync(user, User.Password);
+            await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
                 return Ok();
             }
-            return  BadRequest();
+            return BadRequest();
         }
-        [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id,[FromBody]UserModel User)
+        //[HttpPut("edit/{id}")]
+        //public ContentResult Edit(string id, [FromBody]UserModel User)
+        //{
+        //    try
+        //    {
+        //        var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+        //        edit.Image = User.Image;
+        //        edit.LastName = User.LastName;
+        //        edit.PhoneNumber = User.PhoneNumber;
+        //        edit.UserName = User.UserName;
+        //        edit.FirstName = User.FirstName;
+        //        edit.AboutMe = User.AboutMe;
+        //        edit.Age = User.Age;
+        //        edit.Email = User.Email;
+        //        _context.SaveChanges();
+        //        return Content("OK");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return Content("Еррор:" + ex.Message);
+
+        //    }
+
+        //}
+        [HttpPut("change")]
+        [Authorize]
+        public async Task<ContentResult> ChangePasswordAsync([FromBody]string []Passwords)
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                edit.Image=User.Image;
-                edit.LastName = User.LastName;  
-                edit.PhoneNumber = User.PhoneNumber;
-                edit.UserName = User.UserName;
-                edit.FirstName = User.FirstName;
-                edit.AboutMe = User.AboutMe;
-                edit.Age = User.Age;
-                edit.Email = User.Email;
-                _context.SaveChanges();
+                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                IdentityResult res=await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
                 return Content("OK");
             }
             catch (Exception ex)
             {
-
-                return Content( "Еррор:"+ex.Message);
+                return Content("Еррор:" + ex.Message);
 
             }
-            
+
+        }
+        [HttpGet("current")]
+        [Authorize]
+        public async Task<ContentResult> CurrentUser()
+        {
+            try
+            {
+                
+                //_userManager.FindByNameAsync(this.User.Identity.Name);
+                User us  =_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                string json = JsonConvert.SerializeObject(new UserInfoModel()
+                {
+                    FirstName = us.FirstName,
+                    LastName = us.LastName,
+                    AboutMe = us.AboutMe,
+                    Age = us.Age,
+                    Email = us.Email,
+                    Image = us.Image,
+                    PhoneNumber = us.PhoneNumber,
+                    Id = us.Id,
+                    UserName = us.UserName,
+                });
+
+                return Content(json);
+            }
+            catch (Exception ec)
+            {
+                return Content("Error: " + ec.Message);
+            }
+
+
         }
         [HttpGet("unlock/{code}")]
         public async Task<ActionResult<string>> UnlockUser(string code)
@@ -95,7 +146,7 @@ namespace HomeRealtorApi.Controllers
 
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]UserLoginModel loginModel)
+        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
             // User User = _context.Users.FirstOrDefault(t => t.Email == loginModel.Email);
@@ -183,11 +234,57 @@ namespace HomeRealtorApi.Controllers
 
         }
 
+        [HttpPost("sendcode")]
+        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        {
+            string email = model.Email;
+            Random rnd = new Random();
+            User user = await _userManager.FindByEmailAsync(email);
+           // string code = (rnd.Next(1000, 9999)).ToString();
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            ForgotPassword password = new ForgotPassword()
+            {
+                Code = code,
+                UserId = user.Id
+            };
+            _context.ForgotPasswords.Add(password);
+            _context.SaveChanges();
+
+            MailAddress to = new MailAddress(email);
+            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+            MailMessage m = new MailMessage(from, to);
+        
+            m.Subject = "Input this code :";
+            m.IsBodyHtml = true;
+            m.Body = "Code : " + code + " .";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Content("OK");
+        }
+
+        [HttpGet("checkcode")]
+        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        {
+           var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+           if(res!=null)
+            {
+                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+            }
+           
+
+            return Content("OK");
+        }
+
         private string CreateTokenAsync(User user/*,string role*/)
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id",user.Id),
+                new Claim(ClaimTypes.Name,user.UserName),
                // new Claim("role",role)
             };
             var now = DateTime.UtcNow;

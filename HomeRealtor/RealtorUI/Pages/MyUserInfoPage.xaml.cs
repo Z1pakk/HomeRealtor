@@ -93,7 +93,8 @@ namespace RealtorUI.Pages
                 {
                     foreach (var item in resOrder.Result)
                     {
-                        if (((OrderModel)(item)).ApartId == ((RealEstateViewModel)dgRent.SelectedItem).Id)
+                        //if (((OrderModel)(item)).ApartId == ((RealViewEstateModel)dgRent.SelectedItem).Id)
+                        if (((OrderModel)(item)).ApartId == ((RealEstateModel)dgRent.SelectedItem).Id)
                         {
                             ServiceResult res = await services.OrderMethod("https://localhost:44325/api/order/delete/" + ((OrderModel)(item)).Id, string.Empty, "GET");
                             if (res.Success == false)
