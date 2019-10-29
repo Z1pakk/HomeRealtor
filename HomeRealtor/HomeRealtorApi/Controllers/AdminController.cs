@@ -96,8 +96,8 @@ namespace HomeRealtorApi.Controllers
             return "User Baned";
         }
 
-        [HttpPost("sendcode")]
-        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        [HttpPost("code")]
+        public async Task<ContentResult> CreateCode([FromBody]SendCodeModel model)
         {
             string email = model.Email;
             Random rnd = new Random();
@@ -111,21 +111,6 @@ namespace HomeRealtorApi.Controllers
             };
             _context.ForgotPasswords.Add(password);
             _context.SaveChanges();
-
-            MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
-            MailMessage m = new MailMessage(from, to);
-            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            password.Code.Replace(code, _code);
-            _context.SaveChanges();
-            m.Subject = "Input this code :";
-            m.IsBodyHtml = true;
-            m.Body = "Code : " + _code + " .";
-
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
 
             return Content("OK");
         }
