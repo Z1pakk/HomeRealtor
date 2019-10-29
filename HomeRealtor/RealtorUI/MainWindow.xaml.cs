@@ -62,10 +62,5 @@ namespace RealtorUI
                     frame.Navigate(new MyUserInfoPage(user));
             }
         }
-
-        private void btnAbout_Click(object sender, RoutedEventArgs e)
-        {
-            frame.Navigate(new AboutUs());
-        }
     }
 }
