@@ -268,7 +268,7 @@ namespace HomeRealtorApi.Controllers
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id",user.Id),
+                new Claim(ClaimTypes.Name,user.UserName),
                // new Claim("role",role)
             };
             var now = DateTime.UtcNow;
