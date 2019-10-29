@@ -55,7 +55,7 @@
         <Label Grid.Column="1" Grid.Row="8"  FontSize="20" HorizontalAlignment="Left" Content="About: " Width="76" VerticalAlignment="Bottom" Height="37" />
         <RichTextBox x:Name="rtbAbout" Grid.Column="1" Grid.Row="9" Grid.RowSpan="2" FontSize="18" Margin="10" />
 
-        <Button x:Name="btnAddPhoto" Grid.Column="2" Content="Add Photo" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,10,0,6" Click="BtnAddPhoto_Click"/>
+        <Button x:Name="btnAddPhoto" Grid.Column="2" Content="Add Photo" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,10,0,8" Click="BtnAddPhoto_Click"/>
 
         <ListView x:Name="lvPhotos" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="9" Margin="10,10,0,10">
 
