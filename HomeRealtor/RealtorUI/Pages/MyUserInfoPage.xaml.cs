@@ -26,8 +26,8 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class MyUserInfoPage : Page
     {
-        public UserModel UserM { get; set; }
-        public MyUserInfoPage(UserModel user)
+        public UserInfoModel UserM { get; set; }
+        public MyUserInfoPage(UserInfoModel user)
         {
             InitializeComponent();
             UserM = user;
@@ -46,7 +46,7 @@ namespace RealtorUI.Pages
             ServiceResult resEstate2 = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sublease", string.Empty, "GET",tok);
             ServiceResult resOrder = await services.OrderMethod("https://localhost:44325/api/order/orders", string.Empty, "GET");
 
-            if (resEstate.Success == true&& resEstate2.Success == true)
+            if (resEstate.Success == true || resEstate2.Success == true)
             {
                 if (resOrder.Success == true)
                 {
@@ -59,14 +59,18 @@ namespace RealtorUI.Pages
                             {
                                 if (((RealEstateModel)(it)).Id == ((OrderModel)(item)).ApartId)
                                 {
-                                    dgRent.Items.Add(it);
+                                    RealEstateModel model = it;
+                                    model.Image = "https://localhost:44325/Content/" + model.Image;
+                                    dgRent.Items.Add(model);
                                 }
                             }
                             foreach (var it in resEstate2.Result)
                             {
                                 if (((RealEstateModel)(it)).Id == ((OrderModel)(item)).ApartId)
                                 {
-                                    dgRent.Items.Add(it);
+                                    RealEstateModel model = it;
+                                    model.Image = "https://localhost:44325/Content/" + model.Image;
+                                    dgRent.Items.Add(model);
                                 }
                             }
                         }
@@ -89,7 +93,8 @@ namespace RealtorUI.Pages
                 {
                     foreach (var item in resOrder.Result)
                     {
-                        if (((OrderModel)(item)).ApartId == ((RealEstateViewModel)dgRent.SelectedItem).Id)
+                        //if (((OrderModel)(item)).ApartId == ((RealViewEstateModel)dgRent.SelectedItem).Id)
+                        if (((OrderModel)(item)).ApartId == ((RealEstateModel)dgRent.SelectedItem).Id)
                         {
                             ServiceResult res = await services.OrderMethod("https://localhost:44325/api/order/delete/" + ((OrderModel)(item)).Id, string.Empty, "GET");
                             if (res.Success == false)
@@ -111,7 +116,7 @@ namespace RealtorUI.Pages
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
         {
-            UserModel sser = UserM;
+            UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
             ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
