@@ -45,14 +45,14 @@ namespace HomeRealtorApi.Controllers
             return Content("OK");
         }
 
-        [HttpPost("add/{id}")]
+        [HttpPost("add")]
         [Authorize]
-        public async Task<ContentResult> AddOrderAsync([FromBody]AddOrderModel model,int id)
+        public async Task<ContentResult> AddOrderAsync([FromBody]AddOrderModel model)
         {
             try
             {
                 User user = await _userManager.FindByNameAsync(this.User.Identity.Name);
-                RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
+                RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == model.ApartId);
                 Order order = new Order()
                 {
                     ApartId = estate.Id,
