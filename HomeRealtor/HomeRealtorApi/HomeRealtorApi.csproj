@@ -30,7 +30,7 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
-   <ItemGroup>
+  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
 

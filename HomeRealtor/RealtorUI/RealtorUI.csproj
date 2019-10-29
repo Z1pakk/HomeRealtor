@@ -106,7 +106,7 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ForgotPasswordWindow.xaml.cs">
+	 <Compile Include="ForgotPasswordWindow.xaml.cs">
       <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowRealtor.xaml.cs">
@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Models\CheckCodeModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
+	<Compile Include="Models\AdvertisingModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\NewsModels.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />
@@ -173,7 +174,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\AddRealEstatePage.xaml">
+    <Page Include="MainWindowRealtor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AboutUs.xaml">
+	<Page Include="Pages\AboutUs.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -257,7 +263,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="HRLogo.png" />
+    <Resource Include="HRLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="login.gif" />
