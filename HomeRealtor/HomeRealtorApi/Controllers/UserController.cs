@@ -217,39 +217,39 @@ namespace HomeRealtorApi.Controllers
 
         }
 
-        [HttpPost("sendcode")]
-        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
-        {
-            string email = model.Email;
-            Random rnd = new Random();
-            string code = (rnd.Next(1000, 9999)).ToString();
-            User user = await _userManager.FindByEmailAsync(email);
+        //[HttpPost("sendcode")]
+        //public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        //{
+        //    string email = model.Email;
+        //    Random rnd = new Random();
+        //    string code = (rnd.Next(1000, 9999)).ToString();
+        //    User user = await _userManager.FindByEmailAsync(email);
 
-            ForgotPassword password = new ForgotPassword()
-            {
-                Code = code,
-                UserId = user.Id
-            };
-            _context.ForgotPasswords.Add(password);
-            _context.SaveChanges();
+        //    ForgotPassword password = new ForgotPassword()
+        //    {
+        //        Code = code,
+        //        UserId = user.Id
+        //    };
+        //    _context.ForgotPasswords.Add(password);
+        //    _context.SaveChanges();
 
-            MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
-            MailMessage m = new MailMessage(from, to);
-            string _code =await _userManager.GeneratePasswordResetTokenAsync(user);
-            password.Code.Replace(code, _code);
-            _context.SaveChanges();
-            m.Subject = "Input this code :";
-            m.IsBodyHtml = true;
-            m.Body = "Code : " + _code + " .";
+        //    MailAddress to = new MailAddress(email);
+        //    MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+        //    MailMessage m = new MailMessage(from, to);
+        //    string _code =await _userManager.GeneratePasswordResetTokenAsync(user);
+        //    password.Code.Replace(code, _code);
+        //    _context.SaveChanges();
+        //    m.Subject = "Input this code :";
+        //    m.IsBodyHtml = true;
+        //    m.Body = "Code : " + _code + " .";
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        //    smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
+        //    smtp.EnableSsl = true;
+        //    smtp.Send(m);
 
-            return Content("OK");
-        }
+        //    return Content("OK");
+        //}
 
         [HttpGet("checkcode")]
         public ContentResult CheckCode([FromBody]CheckCodeModel model)
@@ -264,12 +264,12 @@ namespace HomeRealtorApi.Controllers
             return Content("OK");
         }
 
-        private string CreateTokenAsync(User user/*,string role*/)
+        private string CreateTokenAsync(User user, string role)
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id",user.Id),
-               // new Claim("role",role)
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Role,role)
             };
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
