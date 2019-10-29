@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +78,11 @@ namespace HomeRealtorApi
 
             // Seed the database
             await EFContextSeed.SeedAsync(app, env, Configuration);
+
+            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content", "Advertising")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "Advertising"));
+            }
         }
 
 
