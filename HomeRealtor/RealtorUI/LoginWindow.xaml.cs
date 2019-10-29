@@ -124,7 +124,6 @@ namespace RealtorUI
             }
             if (token != "Error")
             {
-
                 if (rbtnUser.IsChecked == true)
                 {
                     File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
@@ -132,15 +131,15 @@ namespace RealtorUI
                     this.Visibility = Visibility.Hidden;
                     this.Close();
                     mainWindow.ShowDialog();
-                }
-                else if (rbtnRealtor.IsChecked == true)
+                }else if (rbtnRealtor.IsChecked == true)
                 {
                     File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
                     MainWindowRealtor mainWindow = new MainWindowRealtor(token);
                     this.Visibility = Visibility.Hidden;
                     this.Close();
-                    mainWindow.ShowDialog();
+                       mainWindow.ShowDialog();
                 }
+
             }
             else
             {
