@@ -51,3 +51,4 @@
         <Button Content="Forgot Password"  FontSize="10"  Grid.Row="4" Click="Button_Click_2" Margin="10,10,79,10" Grid.Column="1"  />
     </Grid>
 </Controls:MetroWindow>
+  
