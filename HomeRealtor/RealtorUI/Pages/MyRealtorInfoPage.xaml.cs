@@ -25,8 +25,8 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class MyRealtorInfoPage : Page
     {
-        public UserModel UserM { get; set; }
-        public MyRealtorInfoPage(UserModel user)
+        public UserInfoModel UserM { get; set; }
+        public MyRealtorInfoPage(UserInfoModel user)
         {
             InitializeComponent();
             UserM = user;
@@ -87,13 +87,30 @@ namespace RealtorUI.Pages
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
         {
-            UserModel sser = UserM;
+            UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
             ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
             if (res.Result == false)
                 MessageBox.Show(res.ExceptionMessage);
             else MessageBox.Show(res.Result);
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //AddRealEstatePage page = new AddRealEstatePage(UserM);
+            //NavigationService.Navigate(page);
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            //EditRealEstatePage page = new EditRealEstatePage(UserM, 1);
+            //NavigationService.Navigate(page);
+        }
+
+        private void btnAdvertise_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

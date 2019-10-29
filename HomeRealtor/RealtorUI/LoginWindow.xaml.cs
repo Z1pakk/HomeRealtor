@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
@@ -28,26 +27,34 @@ namespace RealtorUI
     {
         public LoginWindow()
         {
+            try
+            {
             if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
             {
 
-
+                
                 var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
                 if (stream != "")
                 {
 
-                    //var handler = new JwtSecurityTokenHandler();
-                    //var jsonToken = handler.ReadToken(stream);
-                    //if (jsonToken.ValidTo >= DateTime.Now)
-                    //{
-                        //MainWindow mainWindow = new MainWindow(stream);
-                        //this.Visibility = Visibility.Hidden;
-                        //this.Close();
-                        //mainWindow.ShowDialog();
-                        //return;
-                    //}
+                    var handler = new JwtSecurityTokenHandler();
+                    var jsonToken = handler.ReadToken(stream);
+                    if (jsonToken.ValidTo >= DateTime.Now)
+                    {
+                        MainWindow mainWindow = new MainWindow(stream);
+                        this.Visibility = Visibility.Hidden;
+                        this.Close();
+                        mainWindow.ShowDialog();
+                        return;
+                    }
                 }
             }
+            }
+            catch
+            {
+
+            }
+            
             InitializeComponent();
         }
 
@@ -65,6 +72,8 @@ namespace RealtorUI
         }
         private async Task<string> LoginAsync()
         {
+          
+            
 
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
@@ -99,9 +108,20 @@ namespace RealtorUI
             mE.Visibility = Visibility.Visible;
 
             string token=await LoginAsync();
+            
+            
 
-           
+
             //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
+            if (token == "Locked")
+            {
+                sP.Visibility = Visibility.Visible;
+                sP2.Visibility = Visibility.Visible;
+                lB.Visibility = Visibility.Visible;
+                mE.Visibility = Visibility.Hidden;
+                MessageBox.Show("Your account is banned ! Please unlock your account in your email");
+                return;
+            }
             if (token != "Error")
             {
 
@@ -124,8 +144,10 @@ namespace RealtorUI
           
         }
 
-        
-
-        
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ForgotPasswordWindow window = new ForgotPasswordWindow();
+            window.ShowDialog();
+        }
     }
 }

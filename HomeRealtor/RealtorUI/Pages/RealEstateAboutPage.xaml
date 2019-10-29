@@ -14,7 +14,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Image Name="img_Estate" Grid.Column="0" VerticalAlignment="Top" Margin="10,10"/>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" VerticalAlignment="Top">
             <TextBlock HorizontalAlignment="Center" Name="txt_Name" Text="Real Estate Title: " Height="40" FontSize="25" FontWeight="Bold"/>
             <TextBlock Name="txt_Price" Height="30" Text="Prcie: " FontSize="18"/>
             <TextBlock Name="txt_Location" Height="30" Text="Location: " FontSize="18"/>
@@ -24,6 +24,7 @@
             <TextBlock Name="txt_Active" Height="30" Text="Is Active: " FontSize="18"/>
             <TextBlock Name="txt_Type" Height="30" Text="Type of Estate: " FontSize="18"/>
             <TextBlock Name="txt_Owner" Height="30" Text="Owner/Seller: " FontSize="18"/>
+            <Button Grid.Column="1" Content="Send Request" Background="LightBlue" FontSize="16" FontStyle="Italic" Click="Button_Click" Margin="150,15"/>
         </StackPanel>
     </Grid>
 </Page>
