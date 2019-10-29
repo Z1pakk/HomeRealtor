@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -75,7 +74,7 @@ namespace RealtorUI
           
             
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/login");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
 

@@ -9,12 +9,12 @@
       Title="AboutUs">
 
     <Grid>
-        <!--SelectionChanged="lstAddIns_SelectionChanged"-->
-        <ListBox Name="lstAddIns" Margin="3" >
+
+        <ListBox Name="lstAddIns" Margin="3" SelectionChanged="lstAddIns_SelectionChanged" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="3,3,0,8" HorizontalAlignment="Stretch">
-                        <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" ></TextBlock>
+                    <StackPanel Margin="3,3,0,8" HorizontalAlignment="Stretch" >
+                        <TextBlock Text="{Binding Path=Headline}" FontWeight="Bold" ></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

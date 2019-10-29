@@ -51,7 +51,8 @@ namespace HomeRealtorApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Code");
+                    b.Property<string>("Code")
+                        .IsRequired();
 
                     b.Property<string>("UserId");
 
