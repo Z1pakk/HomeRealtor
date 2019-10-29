@@ -97,6 +97,9 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowRealtor.xaml.cs">
+      <DependentUpon>MainWindowRealtor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\RealEstateViewModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
@@ -140,6 +143,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MainWindowRealtor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AboutUs.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

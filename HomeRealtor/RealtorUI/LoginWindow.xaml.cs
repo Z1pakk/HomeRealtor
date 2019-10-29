@@ -122,7 +122,7 @@ namespace RealtorUI
             }
             if (token != "Error")
             {
-
+                if()
                 File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
                 MainWindow mainWindow = new MainWindow(token);
                 this.Visibility = Visibility.Hidden;
