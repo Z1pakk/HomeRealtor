@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
@@ -94,6 +96,39 @@ namespace HomeRealtorApi.Controllers
             return "User Baned";
         }
 
+        [HttpPost("sendcode")]
+        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        {
+            string email = model.Email;
+            Random rnd = new Random();
+            string code = (rnd.Next(1000, 9999)).ToString();
+            User user = await _userManager.FindByEmailAsync(email);
+
+            ForgotPassword password = new ForgotPassword()
+            {
+                Code = code,
+                UserId = user.Id
+            };
+            _context.ForgotPasswords.Add(password);
+            _context.SaveChanges();
+
+            MailAddress to = new MailAddress(email);
+            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+            MailMessage m = new MailMessage(from, to);
+            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            password.Code.Replace(code, _code);
+            _context.SaveChanges();
+            m.Subject = "Input this code :";
+            m.IsBodyHtml = true;
+            m.Body = "Code : " + _code + " .";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Content("OK");
+        }
 
 
 
