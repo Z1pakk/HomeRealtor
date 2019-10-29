@@ -40,22 +40,29 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
-            User user = new User()
+            try
             {
-                UserName = User.UserName,
-                Email = User.Email,
-                Age = User.Age,
-                PhoneNumber = User.PhoneNumber,
-                FirstName = User.FirstName,
-                AboutMe = User.AboutMe,
-                LastName = User.LastName
-            };
+                User user = new User()
+                {
+                    UserName = User.UserName,
+                    Email = User.Email,
+                    Age = User.Age,
+                    PhoneNumber = User.PhoneNumber,
+                    FirstName = User.FirstName,
+                    AboutMe = User.AboutMe,
+                    LastName = User.LastName
+                };
 
-            var result = await _userManager.CreateAsync(user, User.Password);
-            await _userManager.AddToRoleAsync(user, User.Role);
+                var result = await _userManager.CreateAsync(user, User.Password);
+                await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
                 return Ok();
+            }
+
+            }
+            catch (Exception ex)
+            {
             }
             return BadRequest();
         }
