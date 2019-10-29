@@ -104,6 +104,9 @@
     <Compile Include="ForgotPasswordWindow.xaml.cs">
       <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowRealtor.xaml.cs">
+      <DependentUpon>MainWindowRealtor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\CheckCodeModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
@@ -152,6 +155,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MainWindowRealtor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AboutUs.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
