@@ -102,9 +102,9 @@ namespace RealtorUI
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            sP.Visibility = Visibility.Hidden;
+            //sP.Visibility = Visibility.Hidden;
             sP2.Visibility = Visibility.Hidden;
-            lB.Visibility = Visibility.Hidden;
+            //lB.Visibility = Visibility.Hidden;
             mE.Visibility = Visibility.Visible;
 
             string token=await LoginAsync();
@@ -115,16 +115,16 @@ namespace RealtorUI
             //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
             if (token == "Locked")
             {
-                sP.Visibility = Visibility.Visible;
+               // sP.Visibility = Visibility.Visible;
                 sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
+               // lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;
                 MessageBox.Show("Your account is banned ! Please unlock your account in your email");
                 return;
             }
             if (token != "Error")
             {
-
+                if()
                 File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
                 MainWindow mainWindow = new MainWindow(token);
                 this.Visibility = Visibility.Hidden;
@@ -133,9 +133,9 @@ namespace RealtorUI
             }
             else
             {
-                sP.Visibility = Visibility.Visible;
+                //sP.Visibility = Visibility.Visible;
                 sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
+                //lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;
                 passwdBox.BorderBrush = Brushes.Red;
                 passwdBox.Password = "";
