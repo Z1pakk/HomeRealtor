@@ -75,6 +75,7 @@ namespace HomeRealtorApi
             app.UseHttpsRedirection();
             app.UseMvc();
 
+            app.UseStaticFiles();
             // Seed the database
             await EFContextSeed.SeedAsync(app, env, Configuration);
         }
