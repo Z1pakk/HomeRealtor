@@ -81,6 +81,7 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception ex)
             {
+
             }
             return BadRequest();
         }
@@ -90,9 +91,10 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                System.IO.File.Delete(Directory.GetCurrentDirectory()+"\\wwwroot\\Content\\"+edit.Image);
+                if(edit.Image != string.Empty)
+                System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
-                if (User.Image != null)
+                if (User.Image != string.Empty)
                 {
                     byte[] imageBytes = Convert.FromBase64String(User.Image);
                     using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
