@@ -84,7 +84,6 @@ namespace RealtorUI
                 UserLoginModel model = new UserLoginModel();
                 writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
                 {
-
                     Password = passwdBox.Password,
                     Email = loginBox.Text
                 }));
