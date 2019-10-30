@@ -78,7 +78,7 @@ namespace RealtorUI
             };
             service.AddUser("https://localhost:44325/api/user/add/", user);
 
-            this.Visibility = Visibility.Hidden;
+            this.Close();
             LoginWindow window = new LoginWindow();
             window.ShowDialog();
 

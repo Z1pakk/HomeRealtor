@@ -25,16 +25,19 @@ namespace RealtorUI.Pages
     /// Interaction logic for RealtorWindow.xaml
     /// </summary>
     /// 
-    public partial class RealtorPage : Page
+    public partial class EditRealEstatePage : Page
     {
+        public UserInfoModel UserM { get; set; }
+        public RealEstateViewModel realEstate {get;set;}
         List<ImageEstateModel> images = new List<ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
         private string imagePath;
 
-        public RealtorPage()
+        public EditRealEstatePage(UserInfoModel u, int reId)
         {
             InitializeComponent();
+            UserM = u;
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44389/api/realEstate/get/types");
             httpWebRequest.Method = "GET";
             httpWebRequest.ContentType = "application/json";
@@ -50,7 +53,21 @@ namespace RealtorUI.Pages
                 sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
             }
             cbType.ItemsSource = types.ToString();
-            cbSellType.ItemsSource = sellTypes.ToString();
+            cbSellType.ItemsSource = sellTypes.ToString(); 
+
+            httpWebRequest = WebRequest.CreateHttp($"https://localhost:44389/api/realEstate/get/byid/{reId}");
+
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                realEstate = JsonConvert.DeserializeObject<RealEstateViewModel>(reader.ReadToEnd());
+            }
+            tbStreet.Text = realEstate.Location;
+            tbPrice.Text = realEstate.Price.ToString();
+            tbState.Text = realEstate.StateName;
+            tbArea.Text = realEstate.TerritorySize.ToString();
+            tbRoomCount.Text = realEstate.RoomCount.ToString();
+            cbType.SelectedIndex = realEstate.TypeId;
+            cbSellType.SelectedIndex = realEstate.SellType;
         }
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -67,7 +84,7 @@ namespace RealtorUI.Pages
 
         }
 
-        private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
+        private void BtnEditRealEstate_Click(object sender, RoutedEventArgs e)
         {
             imagePath = images.First().Name;
             RealEstateViewModel realEstate = new RealEstateViewModel()
@@ -85,8 +102,8 @@ namespace RealtorUI.Pages
                 images = images
             };
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/add");
-            request.Method = "POST";
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/edit/{reId}");
+            request.Method = "PUT";
             request.ContentType = "application/json";
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
@@ -95,27 +112,7 @@ namespace RealtorUI.Pages
             }
 
             NavigationService.GoBack();
-            
-           /* request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/getlastid");
-            request.Method = "GET";
-            request.ContentType = "application/json";
-
-            using (StreamReader reader = new StreamReader(request.GetRequestStream()))
-            {
-                var RealEstateId = JsonConvert.DeserializeObject<int>(reader.ReadToEnd());
-                foreach (var img in images)
-                    img.EstateId = RealEstateId;
-            }
-
-            request = WebRequest.CreateHttp("http://localhost:55603/api/values/imageEstate/add");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                foreach (var imgEst in images)
-                    writer.Write(JsonConvert.SerializeObject(imgEst));
-            }*/
+           
         }
     }
 }

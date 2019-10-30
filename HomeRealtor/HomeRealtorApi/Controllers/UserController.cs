@@ -5,6 +5,8 @@ using System.Drawing.Imaging;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
@@ -17,6 +19,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -50,38 +53,25 @@ namespace HomeRealtorApi.Controllers
                 PhoneNumber = User.PhoneNumber,
                 FirstName = User.FirstName,
                 AboutMe = User.AboutMe,
-                LastName = User.LastName,
-                Image = User.Image
+                LastName = User.LastName
             };
 
-            string path = string.Empty;
-            byte[] imageBytes = Convert.FromBase64String(User.Image);
-            using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-            {
-                //Назва фотки із розширення
-                path = Guid.NewGuid().ToString() + ".jpg";
-                Image userContentImage = Image.FromStream(stream);
-                userContentImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                var result = await _userManager.CreateAsync(user, User.Password);
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+
             }
-
-            ImageUser userImage = new ImageUser()
+            catch (Exception ex)
             {
-                Name = path,
-                UserId = user.Id
-            };
-            _context.ImageUsers.Add(userImage);
-
-
-            var result = await _userManager.CreateAsync(user, User.Password);
-            await _userManager.AddToRoleAsync(user, User.Role);
-            if (result.Succeeded)
-            {
-                return Ok();
             }
             return BadRequest();
         }
         [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserModel User)
+        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
         {
             try
             {
@@ -136,49 +126,105 @@ namespace HomeRealtorApi.Controllers
 
 
         }
+        [HttpGet("unlock/{code}")]
+        public async Task<ActionResult<string>> UnlockUser(string code)
+        {
+            UserUnlockCodes uuc = _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
+            User user = await _userManager.FindByIdAsync(uuc.UserId);
+            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins = 0;
+            await _context.SaveChangesAsync();
+            await _userManager.SetLockoutEnabledAsync(user, false);
+            return "All done !";
+        }
+
+
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]UserLoginModel loginModel)
+        public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
-            try
+            User user = await _userManager.FindByEmailAsync(loginModel.Email);
+            Thread.Sleep(5000);
+            //TODO: FindByPhoneAsync
+            //if(user==null)
+            //{
+            //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
+            //}
+            if (user == null)
             {
-                User user = await _userManager.FindByEmailAsync(loginModel.Email);
-                List<string> role = (List<string>)await _userManager.GetRolesAsync(user);
-                Thread.Sleep(5000);
-                //TODO: FindByPhoneAsync
-                //if(user==null)
-                //{
-                //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
-                //}
-                if (user == null)
-                {
-                    return BadRequest();
-                }
-                var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-                if (!result.Succeeded)
-                {
-                    return BadRequest();
-                }
-
-                return Ok(CreateTokenAsync(user, role[0]));
-
+                return "Error";
             }
-            catch (Exception)
+            var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            if (!result.Succeeded)
             {
-                return BadRequest();
+                return "Error";
             }
+
+            return await CreateTokenAsync(user);
 
 
         }
 
-        private string CreateTokenAsync(User user, string role)
+        [HttpPost("sendcode")]
+        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        {
+            string email = model.Email;
+            Random rnd = new Random();
+            string code = (rnd.Next(1000, 9999)).ToString();
+            User user = await _userManager.FindByEmailAsync(email);
+
+            ForgotPassword password = new ForgotPassword()
+            {
+                Code = code,
+                UserOf = user,
+                UserId = user.Id
+            };
+            _context.ForgotPasswords.Add(password);
+            _context.SaveChanges();
+
+            MailAddress to = new MailAddress(email);
+            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+            MailMessage m = new MailMessage(from, to);
+            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            password.Code.Replace(code, _code);
+            _context.SaveChanges();
+            m.Subject = "Input this code :";
+            m.IsBodyHtml = true;
+            m.Body = "Code : " + _code + " .";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
+
+            return Content("OK");
+        }
+
+        [HttpGet("checkcode")]
+        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        {
+            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+            if (res != null)
+            {
+                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+            }
+
+
+            return Content("OK");
+        }
+
+        private async Task<string> CreateTokenAsync(User user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim("role",role)
             };
+
+            foreach (var item in await _userManager.GetRolesAsync(user))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, item));
+            }
+
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
