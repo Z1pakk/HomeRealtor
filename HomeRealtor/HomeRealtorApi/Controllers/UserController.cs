@@ -68,7 +68,7 @@ namespace HomeRealtorApi.Controllers
             return BadRequest();
         }
         [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserModel User)
+        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
         {
             try
             {
@@ -140,80 +140,19 @@ namespace HomeRealtorApi.Controllers
         public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
 
-            // User User = _context.Users.FirstOrDefault(t => t.Email == loginModel.Email);
-
-
-            try
+            User user = await _userManager.FindByEmailAsync(loginModel.Email);
+            Thread.Sleep(5000);
+            //TODO: FindByPhoneAsync
+            //if(user==null)
+            //{
+            //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
+            //}
+            if (user == null)
             {
-
-                User user = await _userManager.FindByEmailAsync(loginModel.Email);
-                if (user == null)
-                {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
-                    return "Error";
-                }
-                var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-                if (user.CountOfLogins >= 10)
-                {
-
-                    MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-                    string code = Guid.NewGuid().ToString();
-                    _context.UserUnlockCodes.Add(new UserUnlockCodes()
-                    {
-                        Code = code,
-                        UserId = user.Id
-                    });
-                    mail.From = new MailAddress("home.realtor.suport@gmail.com");
-                    mail.To.Add(user.Email);
-                    mail.Subject = "Unlock account";
-                    mail.IsBodyHtml = true;
-                    mail.Body = "" +
-                    "<head>" +
-                    "Your account is locked press button to unlock :" +
-                    "</head>" +
-                    $" <a href=\" https://localhost:44325/api/user/unlock/{code}/ \">" +
-                    "<button>" +
-                    "Unlock" +
-                    "</button>" +
-                    " </a>  ";
-
-
-
-                    SmtpServer.Port = 587;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential("home.realtor.suport@gmail.com", "00752682");
-                    SmtpServer.EnableSsl = true;
-                    SmtpServer.Send(mail);
-
-                    await _userManager.SetLockoutEnabledAsync(user, true);
-                    return "Locked";
-                }
-
-
-                // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
-                if (await _userManager.IsLockedOutAsync(user))
-                {
-
-                    return "Locked";
-                }
-                //TODO: FindByPhoneAsync
-                //if(user==null)
-                //{
-                //    user= await _userManager.FindByPhoneAsync(loginModel.Email);
-                //}
-
-
-                if (!result.Succeeded)
-                {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
-                    return "Error";
-                }
-                _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins = 0;
-                return CreateTokenAsync(user/*,role[0]*/);
+                return "Error";
             }
-            catch (Exception ex)
+            var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            if (!result.Succeeded)
             {
                 return "Error";
             }
@@ -282,6 +221,7 @@ namespace HomeRealtorApi.Controllers
             {
                 claims.Add(new Claim(ClaimTypes.Role, item));
             }
+
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
