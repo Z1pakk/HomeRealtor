@@ -200,7 +200,11 @@ namespace HomeRealtorApi.Controllers
                 }
 
 
-                // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                if(!role.Contains(loginModel.Role))
+                {
+                    return "Error";
+                }
                 if (await _userManager.IsLockedOutAsync(user))
                 {
 

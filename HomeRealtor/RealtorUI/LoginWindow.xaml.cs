@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -123,7 +124,7 @@ namespace RealtorUI
             }
             if (token != "Error")
             {
-                if()
+              
                 File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
                 MainWindow mainWindow = new MainWindow(token);
                 this.Visibility = Visibility.Hidden;
