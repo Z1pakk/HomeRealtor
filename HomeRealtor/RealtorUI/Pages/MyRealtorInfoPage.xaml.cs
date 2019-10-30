@@ -96,16 +96,50 @@ namespace RealtorUI.Pages
             else MessageBox.Show(res.Result);
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            //AddRealEstatePage page = new AddRealEstatePage(UserM);
-            //NavigationService.Navigate(page);
+            AddRealEstatePage page = new AddRealEstatePage(UserM);
+            NavigationService.Navigate(page);
+
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
+
         }
 
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            //EditRealEstatePage page = new EditRealEstatePage(UserM, 1);
-            //NavigationService.Navigate(page);
+            var id = ((RealEstateModel)dgEstates.SelectedItem).Id;
+            EditRealEstatePage page = new EditRealEstatePage(UserM, id);
+            NavigationService.Navigate(page);
+
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
         }
 
         private void btnAdvertise_Click(object sender, RoutedEventArgs e)
