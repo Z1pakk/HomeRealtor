@@ -67,8 +67,11 @@ namespace RealtorUI
         {
             RegisterWindow window = new RegisterWindow();
             this.Visibility = Visibility.Hidden;
-            this.Close();
-            window.ShowDialog();
+            var result = window.ShowDialog();
+
+            if (result.HasValue && result.Value == true) {
+                this.Visibility = Visibility.Visible;
+            };
         }
         private async Task<string> LoginAsync()
         {
