@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -63,11 +64,6 @@ namespace HomeRealtorApi.Controllers
                 {
                     return Ok();
                 }
-
-            }
-            catch (Exception ex)
-            {
-            }
             return BadRequest();
         }
         [HttpPut("edit/{id}")]
@@ -98,7 +94,7 @@ namespace HomeRealtorApi.Controllers
 
         [HttpGet("current")]
         [Authorize]
-        public async Task<ContentResult> CurrentUser()
+        public ContentResult CurrentUser()
         {
             try
             {
@@ -123,7 +119,6 @@ namespace HomeRealtorApi.Controllers
             {
                 return Content("Error: " + ec.Message);
             }
-
 
         }
         [HttpGet("unlock/{code}")]

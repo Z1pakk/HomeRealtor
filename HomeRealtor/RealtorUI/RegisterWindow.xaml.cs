@@ -48,21 +48,6 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            lbReg.Visibility = Visibility.Hidden;
-            sp1.Visibility = Visibility.Hidden;
-            sp2.Visibility = Visibility.Hidden;
-            sp3.Visibility = Visibility.Hidden;
-            sp4.Visibility = Visibility.Hidden;
-            sp5.Visibility = Visibility.Hidden;
-            sp6.Visibility = Visibility.Hidden;
-            sp7.Visibility = Visibility.Hidden;
-            sp8.Visibility = Visibility.Hidden;
-            pbImage.Visibility = Visibility.Hidden;
-            btnCreate.Visibility = Visibility.Hidden;
-            btnLoad.Visibility = Visibility.Hidden;
-
-            loading.Visibility = Visibility.Visible;
-
             UserModel user = new UserModel()
             {
                 UserName = tbUsrName.Text,
