@@ -54,11 +54,12 @@ namespace HomeRealtorApi.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, User.Password);
-                await _userManager.AddToRoleAsync(user, User.Role);
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
 
             }
             catch (Exception ex)
@@ -125,11 +126,11 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("unlock/{code}")]
         public async Task<ActionResult<string>> UnlockUser(string code)
         {
-            UserUnlockCodes uuc= _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
+            UserUnlockCodes uuc = _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
             User user = await _userManager.FindByIdAsync(uuc.UserId);
-            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins=0;
+            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins = 0;
             await _context.SaveChangesAsync();
-            await _userManager.SetLockoutEnabledAsync( user,false);
+            await _userManager.SetLockoutEnabledAsync(user, false);
             return "All done !";
         }
 
@@ -140,7 +141,6 @@ namespace HomeRealtorApi.Controllers
         {
 
             User user = await _userManager.FindByEmailAsync(loginModel.Email);
-            List<string> role=(List<string>)await _userManager.GetRolesAsync(user);
             Thread.Sleep(5000);
             //TODO: FindByPhoneAsync
             //if(user==null)
@@ -157,9 +157,9 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            return CreateTokenAsync(user,role[0]);
-                
-             
+            return await CreateTokenAsync(user);
+
+
         }
 
         [HttpPost("sendcode")]
@@ -182,7 +182,7 @@ namespace HomeRealtorApi.Controllers
             MailAddress to = new MailAddress(email);
             MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
             MailMessage m = new MailMessage(from, to);
-            string _code =await _userManager.GeneratePasswordResetTokenAsync(user);
+            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
             password.Code.Replace(code, _code);
             _context.SaveChanges();
             m.Subject = "Input this code :";
@@ -200,23 +200,27 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("checkcode")]
         public ContentResult CheckCode([FromBody]CheckCodeModel model)
         {
-           var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
-           if(res!=null)
+            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+            if (res != null)
             {
                 _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
             }
-           
+
 
             return Content("OK");
         }
 
-        private string CreateTokenAsync(User user,string role)
+        private async Task<string> CreateTokenAsync(User user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Role,role)
             };
+
+            foreach (var item in await _userManager.GetRolesAsync(user))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, item));
+            }
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
