@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -11,6 +14,7 @@ using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,16 +29,17 @@ namespace HomeRealtorApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-
+        private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
 
-        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
         {
             _userManager = userManager;
             _sigInManager = sigInManager;
             _context = context;
+            hosting = environment;
         }
 
         [HttpPost("add")]
@@ -42,6 +47,17 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
+                string path = "";
+                if (User.Image != null)
+                {
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image product = Image.FromStream(stream);
+                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
+                }
                 User user = new User()
                 {
                     UserName = User.UserName,
@@ -50,7 +66,8 @@ namespace HomeRealtorApi.Controllers
                     PhoneNumber = User.PhoneNumber,
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
-                    LastName = User.LastName
+                    LastName = User.LastName,
+                    Image=path
                 };
 
                 var result = await _userManager.CreateAsync(user, User.Password);
@@ -73,7 +90,20 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                System.IO.File.Delete(Directory.GetCurrentDirectory()+"\\wwwroot\\Content\\"+edit.Image);
+                string path="";
+                if (User.Image != null)
+                {
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image product = Image.FromStream(stream);
+                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
+                }
                 edit.Image = User.Image;
+                edit.Image = path;
                 edit.LastName = User.LastName;
                 edit.PhoneNumber = User.PhoneNumber;
                 edit.UserName = User.UserName;
