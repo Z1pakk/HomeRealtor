@@ -30,9 +30,8 @@
      <Folder Include="Migrations\" />
    </ItemGroup
 
-   <ItemGroup>
+  <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="wwwroot\Content\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
