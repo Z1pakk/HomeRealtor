@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,8 +60,8 @@ namespace HomeRealtorApi.Controllers
             {
                 //Назва фотки із розширення
                 path = Guid.NewGuid().ToString() + ".jpg";
-                Image realEstateImage = Image.FromStream(stream);
-                realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                Image userContentImage = Image.FromStream(stream);
+                userContentImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
             }
 
             ImageUser userImage = new ImageUser()
