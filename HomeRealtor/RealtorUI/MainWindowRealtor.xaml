@@ -1,12 +1,12 @@
-﻿<Controls:MetroWindow x:Class="RealtorUI.MainWindow"
+﻿<Controls:MetroWindow x:Class="RealtorUI.MainWindowRealtor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:RealtorUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="465" Width="800">
+        Title="MainWindowRealtor" Height="465" Width="800">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
@@ -15,10 +15,12 @@
     </Controls:MetroWindow.LeftWindowCommands>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <!--<ToggleButton Content="Menu" 
+        IsChecked="{Binding ElementName=checkOutFlayout, Path=IsOpen}" Cursor="Hand"/>-->
             <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    
+
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="yourMahAppFlyout" Position="Left" Width="200">
@@ -30,19 +32,15 @@
                     <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
+            <!--<Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
                 <StackPanel>
                     
                 </StackPanel>
-            </Controls:Flyout>
+            </Controls:Flyout--> >
         </Controls:FlyoutsControl>
-        
+
     </Controls:MetroWindow.Flyouts>
-    
-    
-    
     <Grid>
         <Frame NavigationUIVisibility="Hidden" x:Name="frame"/>
     </Grid>
 </Controls:MetroWindow>
-    
