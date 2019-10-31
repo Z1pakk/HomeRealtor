@@ -55,7 +55,7 @@ namespace HomeRealtorApi.Controllers
             await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok();  
             }
             return BadRequest();
         }
