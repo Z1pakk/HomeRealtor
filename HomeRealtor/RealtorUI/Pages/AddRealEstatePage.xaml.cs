@@ -93,20 +93,21 @@ namespace RealtorUI.Pages
                 TypeId = types.FirstOrDefault(t=>t.Name== (string)cbType.SelectedItem).Id,
                 TimeOfPost = DateTime.Now,
                 RoomCount = Int32.Parse(tbRoomCount.Text),
-                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
+                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
                 UserId = UserM.Id,
                 images = images
             };
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:44325/api/values/realEstate/add");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
             request.Method = "POST";
             request.ContentType = "application/json";
-
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
                 writer.Write(JsonConvert.SerializeObject(realEstate));
             }
-            
+
+            WebResponse webResponse = request.GetResponse();
+         
             NavigationService.GoBack();
 
         }
