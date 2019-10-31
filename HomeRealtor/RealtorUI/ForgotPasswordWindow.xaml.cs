@@ -31,7 +31,7 @@ namespace RealtorUI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/sendcode");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/sendcode");
             request.Method = "POST";
             request.ContentType = "application/json";
 
@@ -49,7 +49,7 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:54365/api/user/checkcode");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/checkcode");
             request.Method = "GET";
             request.ContentType = "application/json";
 
