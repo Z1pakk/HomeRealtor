@@ -112,6 +112,7 @@
     <Compile Include="MainWindowRealtor.xaml.cs">
       <DependentUpon>MainWindowRealtor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdvertisingModel.cs" />
     <Compile Include="Models\CheckCodeModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
@@ -120,46 +121,6 @@
     <Compile Include="Models\UserImageModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="obj\Debug\AdminPagination.g.cs" />
-    <Compile Include="obj\Debug\AdminPagination.g.i.cs" />
-    <Compile Include="obj\Debug\App.g.cs" />
-    <Compile Include="obj\Debug\App.g.i.cs" />
-    <Compile Include="obj\Debug\ConfirmEmailWindow.g.cs" />
-    <Compile Include="obj\Debug\ConfirmEmailWindow.g.i.cs" />
-    <Compile Include="obj\Debug\ForgotPasswordWindow.g.cs" />
-    <Compile Include="obj\Debug\ForgotPasswordWindow.g.i.cs" />
-    <Compile Include="obj\Debug\LoginRoles.g.i.cs" />
-    <Compile Include="obj\Debug\LoginWindow.g.cs" />
-    <Compile Include="obj\Debug\LoginWindow.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindow - Копировать.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindow.g.cs" />
-    <Compile Include="obj\Debug\MainWindow.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindowRealtor.g.cs" />
-    <Compile Include="obj\Debug\MainWindowRealtor.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\AboutUs.g.cs" />
-    <Compile Include="obj\Debug\Pages\AboutUs.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\ChangePasswordPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\ChangePasswordPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\EditRealEstatePage.g.cs" />
-    <Compile Include="obj\Debug\Pages\EditRealEstatePage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\EstateShowPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\EstateShowPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\HomePage.g.cs" />
-    <Compile Include="obj\Debug\Pages\HomePage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\MyRealtorInfoPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\MyRealtorInfoPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\MyUserInfoPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\MyUserInfoPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\NewsPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\NewsPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\OrderPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\OrderPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\RealEstateAboutPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\RealEstateAboutPage.g.i.cs" />
-    <Compile Include="obj\Debug\RealtorUI_Content.g.cs" />
-    <Compile Include="obj\Debug\RealtorUI_Content.g.i.cs" />
-    <Compile Include="obj\Debug\RegisterWindow.g.cs" />
-    <Compile Include="obj\Debug\RegisterWindow.g.i.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
@@ -213,6 +174,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AddRealEstatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\EditRealEstatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -274,29 +239,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="obj\Debug\RealtorUI.g.resources" />
-    <EmbeddedResource Include="obj\Debug\RealtorUI.Properties.Resources.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="bin\Debug\RealtorUI.exe.config" />
     <None Include="fonts\fontawesome-webfont.eot" />
     <Resource Include="fonts\fontawesome-webfont.ttf" />
     <None Include="fonts\fontawesome-webfont.woff" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <Resource Include="fonts\FontAwesome.otf" />
-    <None Include="obj\Debug\build.force" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="obj\Debug\RealtorUI.csproj.CopyComplete" />
-    <None Include="obj\Debug\RealtorUI.csproj.CoreCompileInputs.cache" />
-    <None Include="obj\Debug\RealtorUI.csproj.GenerateResource.cache" />
-    <None Include="obj\Debug\RealtorUI.csprojAssemblyReference.cache" />
-    <None Include="obj\Debug\RealtorUI.exe.config" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.cache" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.i.cache" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.i.lref" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.lref" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -313,129 +264,6 @@
     <Resource Include="login.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\APIConnectService.dll" />
-    <Content Include="bin\Debug\APIConnectService.pdb" />
-    <Content Include="bin\Debug\ControlzEx.dll" />
-    <Content Include="bin\Debug\ControlzEx.pdb" />
-    <Content Include="bin\Debug\MahApps.Metro.dll" />
-    <Content Include="bin\Debug\MahApps.Metro.pdb" />
-    <Resource Include="obj\Debug\RealtorUI.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\RealtorUI.exe" />
-    <Content Include="obj\Debug\RealtorUI.pdb" />
-    <Resource Include="bin\Debug\MahApps.Metro.xml" />
-    <Content Include="bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll" />
-    <Resource Include="bin\Debug\Microsoft.AspNetCore.Mvc.Core.xml" />
-    <Content Include="bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll" />
-    <Resource Include="bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml" />
-    <Content Include="bin\Debug\Microsoft.IdentityModel.Logging.dll" />
-    <Resource Include="bin\Debug\Microsoft.IdentityModel.Logging.xml" />
-    <Content Include="bin\Debug\Microsoft.IdentityModel.Tokens.dll" />
-    <Resource Include="bin\Debug\Microsoft.IdentityModel.Tokens.xml" />
-    <Content Include="bin\Debug\Microsoft.Win32.Primitives.dll" />
-    <Content Include="bin\Debug\netstandard.dll" />
-    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\Debug\RealtorUI.exe" />
-    <Content Include="bin\Debug\RealtorUI.pdb" />
-    <Content Include="bin\Debug\System.AppContext.dll" />
-    <Content Include="bin\Debug\System.Collections.Concurrent.dll" />
-    <Content Include="bin\Debug\System.Collections.dll" />
-    <Content Include="bin\Debug\System.Collections.NonGeneric.dll" />
-    <Content Include="bin\Debug\System.Collections.Specialized.dll" />
-    <Content Include="bin\Debug\System.ComponentModel.dll" />
-    <Content Include="bin\Debug\System.ComponentModel.EventBasedAsync.dll" />
-    <Content Include="bin\Debug\System.ComponentModel.Primitives.dll" />
-    <Content Include="bin\Debug\System.ComponentModel.TypeConverter.dll" />
-    <Content Include="bin\Debug\System.Console.dll" />
-    <Content Include="bin\Debug\System.Data.Common.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.Contracts.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.Debug.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.FileVersionInfo.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.Process.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.StackTrace.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.TextWriterTraceListener.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.Tools.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.TraceSource.dll" />
-    <Content Include="bin\Debug\System.Diagnostics.Tracing.dll" />
-    <Content Include="bin\Debug\System.Drawing.Common.dll" />
-    <Content Include="bin\Debug\System.Drawing.Primitives.dll" />
-    <Content Include="bin\Debug\System.Dynamic.Runtime.dll" />
-    <Content Include="bin\Debug\System.Globalization.Calendars.dll" />
-    <Content Include="bin\Debug\System.Globalization.dll" />
-    <Content Include="bin\Debug\System.Globalization.Extensions.dll" />
-    <Content Include="bin\Debug\System.IdentityModel.Tokens.Jwt.dll" />
-    <Resource Include="bin\Debug\System.IdentityModel.Tokens.Jwt.xml" />
-    <Content Include="bin\Debug\System.IO.Compression.dll" />
-    <Content Include="bin\Debug\System.IO.Compression.ZipFile.dll" />
-    <Content Include="bin\Debug\System.IO.dll" />
-    <Content Include="bin\Debug\System.IO.FileSystem.dll" />
-    <Content Include="bin\Debug\System.IO.FileSystem.DriveInfo.dll" />
-    <Content Include="bin\Debug\System.IO.FileSystem.Primitives.dll" />
-    <Content Include="bin\Debug\System.IO.FileSystem.Watcher.dll" />
-    <Content Include="bin\Debug\System.IO.IsolatedStorage.dll" />
-    <Content Include="bin\Debug\System.IO.MemoryMappedFiles.dll" />
-    <Content Include="bin\Debug\System.IO.Pipes.dll" />
-    <Content Include="bin\Debug\System.IO.UnmanagedMemoryStream.dll" />
-    <Content Include="bin\Debug\System.Linq.dll" />
-    <Content Include="bin\Debug\System.Linq.Expressions.dll" />
-    <Content Include="bin\Debug\System.Linq.Parallel.dll" />
-    <Content Include="bin\Debug\System.Linq.Queryable.dll" />
-    <Content Include="bin\Debug\System.Net.Http.dll" />
-    <Content Include="bin\Debug\System.Net.NameResolution.dll" />
-    <Content Include="bin\Debug\System.Net.NetworkInformation.dll" />
-    <Content Include="bin\Debug\System.Net.Ping.dll" />
-    <Content Include="bin\Debug\System.Net.Primitives.dll" />
-    <Content Include="bin\Debug\System.Net.Requests.dll" />
-    <Content Include="bin\Debug\System.Net.Security.dll" />
-    <Content Include="bin\Debug\System.Net.Sockets.dll" />
-    <Content Include="bin\Debug\System.Net.WebHeaderCollection.dll" />
-    <Content Include="bin\Debug\System.Net.WebSockets.Client.dll" />
-    <Content Include="bin\Debug\System.Net.WebSockets.dll" />
-    <Content Include="bin\Debug\System.ObjectModel.dll" />
-    <Content Include="bin\Debug\System.Reflection.dll" />
-    <Content Include="bin\Debug\System.Reflection.Extensions.dll" />
-    <Content Include="bin\Debug\System.Reflection.Primitives.dll" />
-    <Content Include="bin\Debug\System.Resources.Reader.dll" />
-    <Content Include="bin\Debug\System.Resources.ResourceManager.dll" />
-    <Content Include="bin\Debug\System.Resources.Writer.dll" />
-    <Content Include="bin\Debug\System.Runtime.CompilerServices.VisualC.dll" />
-    <Content Include="bin\Debug\System.Runtime.dll" />
-    <Content Include="bin\Debug\System.Runtime.Extensions.dll" />
-    <Content Include="bin\Debug\System.Runtime.Handles.dll" />
-    <Content Include="bin\Debug\System.Runtime.InteropServices.dll" />
-    <Content Include="bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll" />
-    <Content Include="bin\Debug\System.Runtime.Numerics.dll" />
-    <Content Include="bin\Debug\System.Runtime.Serialization.Formatters.dll" />
-    <Content Include="bin\Debug\System.Runtime.Serialization.Json.dll" />
-    <Content Include="bin\Debug\System.Runtime.Serialization.Primitives.dll" />
-    <Content Include="bin\Debug\System.Runtime.Serialization.Xml.dll" />
-    <Content Include="bin\Debug\System.Security.Claims.dll" />
-    <Content Include="bin\Debug\System.Security.Cryptography.Algorithms.dll" />
-    <Content Include="bin\Debug\System.Security.Cryptography.Csp.dll" />
-    <Content Include="bin\Debug\System.Security.Cryptography.Encoding.dll" />
-    <Content Include="bin\Debug\System.Security.Cryptography.Primitives.dll" />
-    <Content Include="bin\Debug\System.Security.Cryptography.X509Certificates.dll" />
-    <Content Include="bin\Debug\System.Security.Principal.dll" />
-    <Content Include="bin\Debug\System.Security.SecureString.dll" />
-    <Content Include="bin\Debug\System.Text.Encoding.dll" />
-    <Content Include="bin\Debug\System.Text.Encoding.Extensions.dll" />
-    <Content Include="bin\Debug\System.Text.RegularExpressions.dll" />
-    <Content Include="bin\Debug\System.Threading.dll" />
-    <Content Include="bin\Debug\System.Threading.Overlapped.dll" />
-    <Content Include="bin\Debug\System.Threading.Tasks.dll" />
-    <Content Include="bin\Debug\System.Threading.Tasks.Parallel.dll" />
-    <Content Include="bin\Debug\System.Threading.Thread.dll" />
-    <Content Include="bin\Debug\System.Threading.ThreadPool.dll" />
-    <Content Include="bin\Debug\System.Threading.Timer.dll" />
-    <Content Include="bin\Debug\System.ValueTuple.dll" />
-    <Content Include="bin\Debug\System.Windows.Interactivity.dll" />
-    <Content Include="bin\Debug\System.Xml.ReaderWriter.dll" />
-    <Content Include="bin\Debug\System.Xml.XDocument.dll" />
-    <Content Include="bin\Debug\System.Xml.XmlDocument.dll" />
-    <Content Include="bin\Debug\System.Xml.XmlSerializer.dll" />
-    <Content Include="bin\Debug\System.Xml.XPath.dll" />
-    <Content Include="bin\Debug\System.Xml.XPath.XDocument.dll" />
-    <Resource Include="bin\Debug\token.txt" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -446,9 +274,6 @@
       <Name>APIConnectService</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Release\" />
-    <Folder Include="obj\Debug\TempPE\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
