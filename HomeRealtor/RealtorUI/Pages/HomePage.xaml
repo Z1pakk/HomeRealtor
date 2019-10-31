@@ -31,7 +31,7 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Controls:Tile Title="{Binding StateName}" Style="{StaticResource ResourceKey=LargeTileStyle}" Margin="0 0 0 0">
+                    <Controls:Tile Title="{Binding StateName}" Click="Tile_Click" Style="{StaticResource ResourceKey=LargeTileStyle}" Margin="0 0 0 0">
                         <Controls:Tile.Background>
                             <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
                         </Controls:Tile.Background>

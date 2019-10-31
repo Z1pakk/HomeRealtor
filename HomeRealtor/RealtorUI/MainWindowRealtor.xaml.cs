@@ -66,5 +66,11 @@ namespace RealtorUI
                     frame.Navigate(new MyRealtorInfoPage(user));
             }
         }
+
+        private void BtnHome_Click(object sender, RoutedEventArgs e)
+        {
+            HomePage home = new HomePage();
+            frame.Content = home;
+        }
     }
 }

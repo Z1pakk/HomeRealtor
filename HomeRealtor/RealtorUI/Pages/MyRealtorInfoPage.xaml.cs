@@ -3,10 +3,12 @@ using APIConnectService.Models;
 using APIConnectService.Service;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -145,6 +147,34 @@ namespace RealtorUI.Pages
 
         private void btnAdvertise_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var _id = ((RealEstateModel)dgEstates.SelectedItems[0]).Id;
+                BaseServices service = new BaseServices();
+                string url = $"http://localhost:58446/api/RealEstate/get/byid/{_id}";
+                GetRealEstateViewModel model = service.GetEstate(url, "GET");
+                AdvertisingModel advModel = new AdvertisingModel()
+                {
+                    Image = model.Image,
+                    StateName = model.StateName,
+                    Contacts = model.FullName,
+                    Price = model.Price
+                };
+
+                HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(JsonConvert.SerializeObject(advModel));
+                }
+
+                WebResponse response = request.GetResponse();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Select item");
+            }
 
         }
 

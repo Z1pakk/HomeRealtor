@@ -48,7 +48,8 @@ namespace RealtorUI.Pages
 
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
-
+            //AdvertisingPage home = new AdvertisingPage();
+            //this.Content = home;
         }
     }
 }
