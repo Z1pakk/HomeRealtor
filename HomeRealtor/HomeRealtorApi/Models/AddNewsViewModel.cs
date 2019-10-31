@@ -9,5 +9,6 @@ namespace HomeRealtorApi.Models
     {
          public string Headline { get; set; }
          public string Text { get; set; }
+        public string Image { get; internal set; }
     }
 }
