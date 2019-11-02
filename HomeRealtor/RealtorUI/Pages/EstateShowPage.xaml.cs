@@ -27,6 +27,7 @@ namespace RealtorUI.Pages
         List<GetListEstateViewModel> _estates = new List<GetListEstateViewModel>();
         List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
         string _token;
+        int _currentTownId;
         public EstateShowPage(string token)
         {
             InitializeComponent();
