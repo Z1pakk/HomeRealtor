@@ -41,7 +41,6 @@
 
     </Controls:MetroWindow.Flyouts>
     <Grid>
-        
         <Frame NavigationUIVisibility="Hidden" x:Name="frame"/>
     </Grid>
 </Controls:MetroWindow>
