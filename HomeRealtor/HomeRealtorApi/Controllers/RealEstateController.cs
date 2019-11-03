@@ -113,6 +113,7 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
+                _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
                     string path = string.Empty;
@@ -132,7 +133,6 @@ namespace HomeRealtorApi.Controllers
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
-                _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
