@@ -1,0 +1,34 @@
+﻿<Page x:Class="AdminUI.Pages.RealEstatePageAbout"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AdminUI.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450"
+      Title="RealEstatePageAbout" Width="352">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="47*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Name="img_Estate" VerticalAlignment="Top" Margin="10,10,10,0"/>
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" Grid.RowSpan="2">
+            <TextBlock HorizontalAlignment="Center" Name="txt_Name" Text="Real Estate Title: " TextWrapping="Wrap" Height="40" FontSize="25" FontWeight="Bold"/>
+            <TextBlock Name="txt_Price" Height="30" Text="Prcie: " FontSize="18"/>
+            <TextBlock Name="txt_Location" Height="30" Text="Location: " FontSize="18"/>
+            <TextBlock Name="txt_RoomCount" Height="30" Text="Rooms Count: " FontSize="18"/>
+            <TextBlock Name="txt_TerritorySize" Height="30" Text="Size: " FontSize="18"/>
+            <TextBlock Name="txt_TimeOfPost" Height="30" Text="Posted: " FontSize="18"/>
+            <TextBlock Name="txt_Active" Height="30" Text="Is Active: " FontSize="18"/>
+            <TextBlock Name="txt_Type" Height="30" Text="Type of Estate: " FontSize="18"/>
+            <TextBlock Name="txt_Owner" Height="30" Text="Owner/Seller: " FontSize="18"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
