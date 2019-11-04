@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -200,14 +199,14 @@ namespace HomeRealtorApi.Controllers
                 return Content("OK");
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return BadRequest();
             }
         }
 
-        [HttpGet("checkcode")]
+        [HttpPost("checkcode")]
         public async Task<IActionResult> CheckCode([FromBody]CheckCodeModel model)
         {
             try
@@ -215,14 +214,22 @@ namespace HomeRealtorApi.Controllers
                 var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
                 if (res != null)
                 {
-                    await _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                    var result = await _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ForgotPasswords.Remove(res);
+                    await _context.SaveChangesAsync();
+
                 }
-                return Content("OK");
+                return BadRequest();
+
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-               return BadRequest();
+                return BadRequest();
             }
 
         }
