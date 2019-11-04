@@ -117,10 +117,11 @@ namespace RealtorUI.Pages
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
         {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+            ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
             if (res.Result == false) 
                 MessageBox.Show(res.ExceptionMessage); 
             else MessageBox.Show(res.Result);
@@ -128,6 +129,7 @@ namespace RealtorUI.Pages
 
         private async void Button_Click_Image(object sender, RoutedEventArgs e)
         {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             UserInfoModel sser = UserM;
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "Image files (*.jpg) | *.jpg";
@@ -136,12 +138,11 @@ namespace RealtorUI.Pages
             {
                 sser.Image = ImageHelper.ImageToBase64( openFile.FileName);
                 BaseServices services = new BaseServices();
-                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
                 if (res.Success == false)
                     MessageBox.Show(res.ExceptionMessage);
                 else 
                 {
-                    string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
                     res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
                     if (res.Success == true)
                     {
