@@ -7,14 +7,28 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="NewsPage">
+    <ScrollViewer >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="73*"></RowDefinition>
+            <RowDefinition Height="351*"></RowDefinition>
+            <RowDefinition Height="26*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!-- Устанавливаем три столбца -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
 
-    <Grid Background="AliceBlue">
-        <TextBlock x:Name="txtText" HorizontalAlignment="Left" Margin="61,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="338" Width="418">
+        </Grid.ColumnDefinitions>
+        
+            <TextBlock x:Name="txtText" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" >
 
-        </TextBlock>
-        <Label Content="" x:Name="txtHeadline" FontSize="35" HorizontalAlignment="Left" Margin="242,19,0,0" VerticalAlignment="Top" Width="317"/>
-        <Image HorizontalAlignment="Left" Height="156" Margin="500,82,0,0" VerticalAlignment="Top" Width="262"/>
-        <Image HorizontalAlignment="Left" Height="156" Margin="500,264,0,0" VerticalAlignment="Top" Width="262"/>
+            </TextBlock>
+      
 
-    </Grid>
+        <Label Content="" x:Name="txtHeadline" FontSize="35" HorizontalAlignment="Center"  VerticalAlignment="Top" Grid.ColumnSpan="2"    />
+        <Image HorizontalAlignment="Left" Height="156" Margin="100,0,0,0" VerticalAlignment="Top" Width="262" Grid.Column="1" Grid.Row="1"/>
+
+    </Grid> 
+    </ScrollViewer>
 </Page>
