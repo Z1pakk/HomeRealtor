@@ -62,6 +62,16 @@ namespace RealtorUI.Pages
                 });
             }
             lv_Rent.ItemsSource = estates_;
+            ///////////////////////////////////////////////////////////////////////////////////
+            service = new BaseServices();
+            url = "https://localhost:44325/api/RealEstate/get/types";
+            List<TypeViewModel> res = service.GetEstateTypes(url, "GET",_token);
+            cbType.ItemsSource = res.Select(t => t.Name);
+            service = new BaseServices();
+            url = "https://localhost:44325/api/RealEstate/get/hmpl";
+            List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
+            cbTown.ItemsSource = hm.Select(t => t.Town);
+
         }
 
         private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -76,6 +86,34 @@ namespace RealtorUI.Pages
             int selectedId = ((GetListEstateViewModel)lv_Rent.SelectedItem).Id;
             RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
             NavigationService.Navigate(page);
+        }
+
+        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbType.IsEditable = false;
+        }
+
+        private void cbTown_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbTown.IsEditable = false;
+            BaseServices service = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/get/hmpl";
+            List<HomePlaceModel> hm = service.GetHomePlaces(url, "GET", _token).Result.Result;
+            cbTown.ItemsSource = hm.Select(t => t.Town);
+            service = new BaseServices();
+            url = "https://localhost:44325/api/RealEstate/get/hmpl/types";
+            List<HomePlaceTypeModel> hmTypes = service.GetHomePlaceTypes(url, "GET", _token).Result.Result;
+            List<string> districts = new List<string>();
+            for (int i = 0; i < hmTypes.Count - 1; i++)
+            {
+                districts.AddRange(hm.Where(t => t.HomePlaceId == hmTypes[i].Id&&t.Town==cbTown.Text).Select(t => t.NameOfDistrict));
+            }
+            cbDistrict.ItemsSource = districts;
+        }
+
+        private void cbDistrict_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbDistrict.IsEditable = false;
         }
     }
 }

@@ -73,14 +73,19 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<int>("HomePlaceId");
 
-                    b.Property<int>("NameOfDistrict")
+                    b.Property<string>("NameOfDistrict")
+                        .IsRequired()
+                        .HasMaxLength(40);
+
+                    b.Property<string>("Town")
+                        .IsRequired()
                         .HasMaxLength(40);
 
                     b.HasKey("Id");
 
                     b.HasIndex("HomePlaceId");
 
-                    b.ToTable("HomePlace");
+                    b.ToTable("HomePlaces");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.HomePlaceType", b =>
@@ -93,7 +98,7 @@ namespace HomeRealtorApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HomePlaceType");
+                    b.ToTable("HomePlaceTypes");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>

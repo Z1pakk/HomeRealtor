@@ -24,9 +24,9 @@
                             <ColumnDefinition Width="122*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <ComboBox x:Name="cbType" IsEditable="True" FontSize="15" Text="Type of real estate" Margin="10" Height="30"/>
-                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30"/>
-                            <ComboBox x:Name="cbDistrict" IsEditable="True" FontSize="15" Text="District" Margin="10" Height="30"/>
+                            <ComboBox x:Name="cbType" IsEditable="True" FontSize="15" Text="Type of real estate" Margin="10" Height="30" SelectionChanged="cbType_SelectionChanged"/>
+                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChanged"/>
+                            <ComboBox x:Name="cbDistrict" IsEditable="True" FontSize="15" Text="District" Margin="10" Height="30" SelectionChanged="cbDistrict_SelectionChanged"/>
                         </StackPanel>
                         <Grid Margin="10 0" Grid.Column="1">
                             <Grid.RowDefinitions>

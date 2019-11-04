@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
+    [Table("tbl_HomePlaces")]
     public class HomePlace
     {
         [Key]
