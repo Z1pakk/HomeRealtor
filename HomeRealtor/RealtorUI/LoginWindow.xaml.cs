@@ -137,7 +137,7 @@ namespace RealtorUI
 
                 sP.Visibility = Visibility.Hidden;
                 sP2.Visibility = Visibility.Hidden;
-                btn.Visibility = Visibility.Hidden;
+                //btn.Visibility = Visibility.Hidden;
                 //lB.Visibility = Visibility.Hidden;
                 mE.Visibility = Visibility.Visible;
 
@@ -151,7 +151,7 @@ namespace RealtorUI
                 {
                     sP.Visibility = Visibility.Visible;
                     sP2.Visibility = Visibility.Visible;
-                    btn.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
                     MessageBox.Show("Your account is banned ! Please unlock your account in your email");
@@ -161,7 +161,7 @@ namespace RealtorUI
                 {
                     sP.Visibility = Visibility.Visible;
                     sP2.Visibility = Visibility.Visible;
-                    btn.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
                     MessageBox.Show("You haven`t got this role");
