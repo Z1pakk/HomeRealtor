@@ -146,6 +146,8 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("Headline")
                         .IsRequired();
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("Text")
                         .IsRequired();
 
