@@ -112,6 +112,7 @@
     <Compile Include="MainWindowRealtor.xaml.cs">
       <DependentUpon>MainWindowRealtor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdvertisingModel.cs" />
     <Compile Include="Models\CheckCodeModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
@@ -120,46 +121,6 @@
     <Compile Include="Models\UserImageModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
-    <Compile Include="obj\Debug\AdminPagination.g.cs" />
-    <Compile Include="obj\Debug\AdminPagination.g.i.cs" />
-    <Compile Include="obj\Debug\App.g.cs" />
-    <Compile Include="obj\Debug\App.g.i.cs" />
-    <Compile Include="obj\Debug\ConfirmEmailWindow.g.cs" />
-    <Compile Include="obj\Debug\ConfirmEmailWindow.g.i.cs" />
-    <Compile Include="obj\Debug\ForgotPasswordWindow.g.cs" />
-    <Compile Include="obj\Debug\ForgotPasswordWindow.g.i.cs" />
-    <Compile Include="obj\Debug\LoginRoles.g.i.cs" />
-    <Compile Include="obj\Debug\LoginWindow.g.cs" />
-    <Compile Include="obj\Debug\LoginWindow.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindow - Копировать.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindow.g.cs" />
-    <Compile Include="obj\Debug\MainWindow.g.i.cs" />
-    <Compile Include="obj\Debug\MainWindowRealtor.g.cs" />
-    <Compile Include="obj\Debug\MainWindowRealtor.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\AboutUs.g.cs" />
-    <Compile Include="obj\Debug\Pages\AboutUs.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\ChangePasswordPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\ChangePasswordPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\EditRealEstatePage.g.cs" />
-    <Compile Include="obj\Debug\Pages\EditRealEstatePage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\EstateShowPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\EstateShowPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\HomePage.g.cs" />
-    <Compile Include="obj\Debug\Pages\HomePage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\MyRealtorInfoPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\MyRealtorInfoPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\MyUserInfoPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\MyUserInfoPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\NewsPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\NewsPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\OrderPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\OrderPage.g.i.cs" />
-    <Compile Include="obj\Debug\Pages\RealEstateAboutPage.g.cs" />
-    <Compile Include="obj\Debug\Pages\RealEstateAboutPage.g.i.cs" />
-    <Compile Include="obj\Debug\RealtorUI_Content.g.cs" />
-    <Compile Include="obj\Debug\RealtorUI_Content.g.i.cs" />
-    <Compile Include="obj\Debug\RegisterWindow.g.cs" />
-    <Compile Include="obj\Debug\RegisterWindow.g.i.cs" />
     <Compile Include="Pages\AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
@@ -282,29 +243,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="obj\Debug\RealtorUI.g.resources" />
-    <EmbeddedResource Include="obj\Debug\RealtorUI.Properties.Resources.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="bin\Debug\RealtorUI.exe.config" />
     <None Include="fonts\fontawesome-webfont.eot" />
     <Resource Include="fonts\fontawesome-webfont.ttf" />
     <None Include="fonts\fontawesome-webfont.woff" />
     <None Include="fonts\fontawesome-webfont.woff2" />
     <Resource Include="fonts\FontAwesome.otf" />
-    <None Include="obj\Debug\build.force" />
-    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="obj\Debug\RealtorUI.csproj.CopyComplete" />
-    <None Include="obj\Debug\RealtorUI.csproj.CoreCompileInputs.cache" />
-    <None Include="obj\Debug\RealtorUI.csproj.GenerateResource.cache" />
-    <None Include="obj\Debug\RealtorUI.csprojAssemblyReference.cache" />
-    <None Include="obj\Debug\RealtorUI.exe.config" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.cache" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.i.cache" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.i.lref" />
-    <None Include="obj\Debug\RealtorUI_MarkupCompile.lref" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
