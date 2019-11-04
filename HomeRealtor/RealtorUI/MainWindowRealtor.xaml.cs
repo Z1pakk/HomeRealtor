@@ -3,54 +3,58 @@ using APIConnectService.Models;
 using APIConnectService.Service;
 using MahApps.Metro.Controls;
 using RealtorUI.Pages;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace RealtorUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для MainWindowRealtor.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindowRealtor : MetroWindow
     {
-        public MainWindow()
+        public MainWindowRealtor()
         {
-           
+            InitializeComponent();
         }
         string Id;
-        public MainWindow(string id)
+        public MainWindowRealtor(string id)
         {
             InitializeComponent();
             Id = id;
         }
-        private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            AboutUs aboutUs = new AboutUs();
-            frame.Content = aboutUs;
-        }
 
-        private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
+        private void btn_BuyClick(object sender, RoutedEventArgs e)
         {
             frame.Navigate(new EstateShowPage(Id));
-            
         }
 
-        private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnNews_Click(object sender, RoutedEventArgs e)
         {
-            HomePage home = new HomePage();
-            frame.Content = home;
+
         }
 
-        private void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", "");
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
-        private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+        private async void ToggleButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
@@ -59,7 +63,7 @@ namespace RealtorUI
             {
                 UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
-                    frame.Navigate(new MyUserInfoPage(user));
+                    frame.Navigate(new MyRealtorInfoPage(user));
             }
         }
     }

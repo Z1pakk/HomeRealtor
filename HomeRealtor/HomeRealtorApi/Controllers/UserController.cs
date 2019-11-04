@@ -55,7 +55,7 @@ namespace HomeRealtorApi.Controllers
             await _userManager.AddToRoleAsync(user, User.Role);
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok();  
             }
             return BadRequest();
         }
@@ -200,7 +200,11 @@ namespace HomeRealtorApi.Controllers
                 }
 
 
-                // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                if(!role.Contains(loginModel.Role))
+                {
+                    return "Error";
+                }
                 if (await _userManager.IsLockedOutAsync(user))
                 {
 
@@ -239,8 +243,9 @@ namespace HomeRealtorApi.Controllers
         {
             string email = model.Email;
             Random rnd = new Random();
-            string code = (rnd.Next(1000, 9999)).ToString();
             User user = await _userManager.FindByEmailAsync(email);
+           // string code = (rnd.Next(1000, 9999)).ToString();
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             ForgotPassword password = new ForgotPassword()
             {
@@ -253,12 +258,10 @@ namespace HomeRealtorApi.Controllers
             MailAddress to = new MailAddress(email);
             MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
             MailMessage m = new MailMessage(from, to);
-            string _code =await _userManager.GeneratePasswordResetTokenAsync(user);
-            password.Code.Replace(code, _code);
-            _context.SaveChanges();
+        
             m.Subject = "Input this code :";
             m.IsBodyHtml = true;
-            m.Body = "Code : " + _code + " .";
+            m.Body = "Code : " + code + " .";
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");

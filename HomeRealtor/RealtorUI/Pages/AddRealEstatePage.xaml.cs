@@ -27,17 +27,20 @@ namespace RealtorUI.Pages
     /// 
     public partial class AddRealEstatePage : Page
     {
-        public UserModel UserM { get; set; }
+        public UserInfoModel UserM { get; set; }
         List<ImageEstateModel> images = new List<ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
+
+        List<string> typesId = new List<string>();
+        List<string> sellTypesId = new List<string>();
         private string imagePath;
 
-        public AddRealEstatePage(UserModel u)
+        public AddRealEstatePage(UserInfoModel u)
         {
             InitializeComponent();
             UserM = u;
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44389/api/realEstate/get/types");
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/types");
             httpWebRequest.Method = "GET";
             httpWebRequest.ContentType = "application/json";
             WebResponse webResponse = httpWebRequest.GetResponse();
@@ -45,14 +48,20 @@ namespace RealtorUI.Pages
             {
                 types = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
             }
-            httpWebRequest = WebRequest.CreateHttp("https://localhost:44389/api/realEstate/get/selltypes");
 
+            httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/selltypes");
+            webResponse = httpWebRequest.GetResponse();
             using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
             {
                 sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
             }
-            cbType.ItemsSource = types.ToString();
-            cbSellType.ItemsSource = sellTypes.ToString();
+            foreach (var type in types)
+                typesId.Add(type.Name);
+            foreach (var sell in sellTypes)
+                sellTypesId.Add(sell.Name);
+
+            cbType.ItemsSource = typesId;
+            cbSellType.ItemsSource = sellTypesId;
 
         }
 
@@ -89,7 +98,7 @@ namespace RealtorUI.Pages
                 images = images
             };
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/add");
+            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:44325/api/values/realEstate/add");
             request.Method = "POST";
             request.ContentType = "application/json";
 
