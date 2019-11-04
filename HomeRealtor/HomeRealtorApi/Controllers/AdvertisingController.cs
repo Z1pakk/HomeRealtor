@@ -30,7 +30,9 @@ namespace HomeRealtorApi.Controllers
                     StateName = Advertising.StateName,
                     Price = Advertising.Price,
                     Image = Advertising.Image,
-                    Contacts = Advertising.Contacts
+                    Contacts = Advertising.Contacts,
+                    UserId = Advertising.UserId,
+                    RealEstsateId = Advertising.RealEstateId
                 };
 
                 var result = _context.Advertisings.Add(advertising);
@@ -54,7 +56,9 @@ namespace HomeRealtorApi.Controllers
                     StateName = item.StateName,
                     Image = item.Image,
                     Contacts = item.Contacts,
-                    Price = item.Price
+                    Price = item.Price,
+                    UserId = item.UserId,
+                    RealEstateId = item.RealEstsateId
                 };
                 models.Add(model);
             }

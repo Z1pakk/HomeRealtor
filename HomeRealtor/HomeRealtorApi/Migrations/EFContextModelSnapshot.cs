@@ -28,10 +28,11 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("Contacts")
                         .IsRequired();
 
-                    b.Property<string>("Image")
-                        .IsRequired();
+                    b.Property<string>("Image");
 
                     b.Property<double>("Price");
+
+                    b.Property<int>("RealEstsateId");
 
                     b.Property<string>("StateName")
                         .IsRequired();
@@ -39,6 +40,8 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RealEstsateId");
 
                     b.HasIndex("UserId");
 
@@ -418,6 +421,11 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.Advertising", b =>
                 {
+                    b.HasOne("HomeRealtorApi.Entities.RealEstate", "RealEstateOf")
+                        .WithMany("Advertisings")
+                        .HasForeignKey("RealEstsateId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("Advertisings")
                         .HasForeignKey("UserId");

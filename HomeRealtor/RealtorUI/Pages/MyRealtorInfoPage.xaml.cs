@@ -158,7 +158,8 @@ namespace RealtorUI.Pages
                     Image = model.Image,
                     StateName = model.StateName,
                     Contacts = model.FullName,
-                    Price = model.Price
+                    Price = model.Price,
+                    RealEstateId = model.Id
                 };
 
                 HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
@@ -173,7 +174,7 @@ namespace RealtorUI.Pages
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Select item");
+                MessageBox.Show($"Select item , {ex}");
             }
 
         }

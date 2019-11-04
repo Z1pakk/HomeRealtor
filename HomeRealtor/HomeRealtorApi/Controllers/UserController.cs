@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -40,22 +42,47 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
-            User user = new User()
+            try
             {
-                UserName = User.UserName,
-                Email = User.Email,
-                Age = User.Age,
-                PhoneNumber = User.PhoneNumber,
-                FirstName = User.FirstName,
-                AboutMe = User.AboutMe,
-                LastName = User.LastName
-            };
+                string path = "";
+                if (User.Image != null)
+                {
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image product = Image.FromStream(stream);
+                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
+                }
+                User user = new User()
+                {
+                    UserName = User.UserName,
+                    Email = User.Email,
+                    Age = User.Age,
+                    PhoneNumber = User.PhoneNumber,
+                    FirstName = User.FirstName,
+                    AboutMe = User.AboutMe,
+                    LastName = User.LastName,
+                    Image = path
+                };
 
-            var result = await _userManager.CreateAsync(user, User.Password);
-            await _userManager.AddToRoleAsync(user, User.Role);
-            if (result.Succeeded)
+
+
+                var result = await _userManager.CreateAsync(user, User.Password);
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+
+
+
+            }
+            catch (Exception ex)
             {
-                return Ok();  
+                return BadRequest(ex.Message);
             }
             return BadRequest();
         }

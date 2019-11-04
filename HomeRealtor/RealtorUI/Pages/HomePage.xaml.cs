@@ -24,6 +24,7 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        int _id;
 
         public HomePage()
         {
@@ -48,8 +49,9 @@ namespace RealtorUI.Pages
 
         private void Tile_Click(object sender, RoutedEventArgs e)
         {
-            //AdvertisingPage home = new AdvertisingPage();
-            //this.Content = home;
+            _id =((AdvertisingModel) lbAdvertising.SelectedItems[0]).RealEstateId;
+            RealEstateAboutPage page = new RealEstateAboutPage(_id);
+            NavigationService.Navigate(page);
         }
     }
 }
