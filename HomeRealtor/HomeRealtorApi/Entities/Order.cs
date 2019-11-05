@@ -25,6 +25,10 @@ namespace HomeRealtorApi.Entities
         [ForeignKey("RealtorOf")]
         public string RealtorId { get; set; }
 
+        [Required]
+        [MaxLength(5000)]
+        public string Message { get; set; }
+
 
         public virtual RealEstate EstateOf { get; set; }
         public virtual User UserOf { get; set; }

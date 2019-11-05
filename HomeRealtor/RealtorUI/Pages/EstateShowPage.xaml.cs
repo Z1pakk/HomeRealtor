@@ -26,11 +26,13 @@ namespace RealtorUI.Pages
     {
         List<GetListEstateViewModel> _estates = new List<GetListEstateViewModel>();
         List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
-        public EstateShowPage()
+        string _token;
+        public EstateShowPage(string token)
         {
             InitializeComponent();
+            _token = token;
             BaseServices service = new BaseServices();
-            string url = "http://localhost:58446/api/RealEstate/get/Buy";
+            string url = "https://localhost:44325/api/RealEstate/get/Sell";
             var result = service.GetEstates(url, "GET");
             for (int i = 0; i < result.Count; i++)
             {
@@ -45,7 +47,7 @@ namespace RealtorUI.Pages
             }
             lv_Buy.ItemsSource = _estates;
             BaseServices service1 = new BaseServices();
-            string url1 = "http://localhost:58446/api/RealEstate/get/Rent";
+            string url1 = "https://localhost:44325/api/RealEstate/get/Rent";
             var result1 = service1.GetEstates(url1, "GET");
             for (int i = 0; i < result1.Count; i++)
             {
@@ -64,14 +66,14 @@ namespace RealtorUI.Pages
         private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             int selectedId=((GetListEstateViewModel)lv_Buy.SelectedItem).Id;
-            RealEstateAboutPage page = new RealEstateAboutPage(selectedId);
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
             NavigationService.Navigate(page);
         }
 
         private void lv_Rent_PreviewMouseDoubleClick_1(object sender, MouseButtonEventArgs e)
         {
             int selectedId = ((GetListEstateViewModel)lv_Rent.SelectedItem).Id;
-            RealEstateAboutPage page = new RealEstateAboutPage(selectedId);
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
             NavigationService.Navigate(page);
         }
     }

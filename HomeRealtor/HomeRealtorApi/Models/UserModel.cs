@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Models
 {
-    
-        public class UserModel
-        {
+
+    public class UserModel
+    {
+        public string Id { get; set; }
         public string UserName { get; set; }
+
+        public string Role { get; set; }
         public string FirstName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -17,7 +20,6 @@ namespace HomeRealtorApi.Models
         public string AboutMe { get; set; }
         public string Image { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
     }
-    
+
 }
