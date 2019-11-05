@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MahApps.Metro.Controls;
+using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,16 @@ namespace RealtorUI
     /// <summary>
     /// Interaction logic for ForgotPasswordWindow.xaml
     /// </summary>
-    public partial class ForgotPasswordWindow : Window
+    public partial class ForgotPasswordWindow : MetroWindow
     {
         public ForgotPasswordWindow()
         {
             InitializeComponent();
+            codeBox.IsEnabled = false;
+            newPasswordBox.IsEnabled = false;
+            btnSave.IsEnabled = false;
         }
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -44,14 +49,16 @@ namespace RealtorUI
                 }));
             }
             WebResponse response = request.GetResponse();
-
-
+            btnSend.IsEnabled = false;
+            codeBox.IsEnabled = true;
+            newPasswordBox.IsEnabled = true;
+            btnSave.IsEnabled = true;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/checkcode");
-            request.Method = "GET";
+            request.Method = "POST";
             request.ContentType = "application/json";
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
