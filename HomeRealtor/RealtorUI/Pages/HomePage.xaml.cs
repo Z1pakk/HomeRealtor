@@ -47,9 +47,9 @@ namespace RealtorUI.Pages
 
         }
 
-        private void Tile_Click(object sender, RoutedEventArgs e)
+        private void LbAdvertising_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _id =((AdvertisingModel) lbAdvertising.SelectedItems[0]).RealEstateId;
+            _id = ((AdvertisingModel)lbAdvertising.SelectedItems[0]).RealEstateId;
             RealEstateAboutPage page = new RealEstateAboutPage(_id);
             NavigationService.Navigate(page);
         }
