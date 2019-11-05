@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +32,7 @@ namespace HomeRealtorApi.Controllers
         private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
+        private readonly IHostingEnvironment hosting;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
         {
