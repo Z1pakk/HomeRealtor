@@ -48,17 +48,6 @@ namespace HomeRealtorApi.Controllers
             return Content(json);
         }
 
-        [HttpGet("get/types")]
-        [Authorize]
-        public ContentResult GetRealEstateTypes()
-        {
-            var list = _context.RealEstateTypes.
-                Select(t => new TypeViewModel() {Name = t.TypeName, Id = t.Id }).ToList();
-
-            string json = JsonConvert.SerializeObject(list);
-
-            return Content(json);
-        }
         [HttpGet("get/hmpl")]
         [Authorize]
         public ContentResult GetRealEstateHomePlaces()
@@ -71,11 +60,21 @@ namespace HomeRealtorApi.Controllers
             return Content(json);
         }
         [HttpGet("get/hmpl/types")]
-        [Authorize]
         public ContentResult GetRealEstateHomePlaceTypes()
         {
             var list = _context.HomePlaces.
                 Select(t => new HomePlaceTypeModel() { Id = t.Id, NameOfType=t.NameOfDistrict }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
+        [HttpGet("get/types")]
+        public ContentResult GetRealEstateTypes()
+        {
+            var list = _context.RealEstateTypes.
+                Select(t => new TypeViewModel() { Name = t.TypeName, Id = t.Id }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
@@ -132,7 +131,8 @@ namespace HomeRealtorApi.Controllers
                     UserId = model.UserId,
                     TimeOfPost = model.TimeOfPost,
                     RoomCount = model.RoomCount,
-                    SellType = model.SellType
+                    SellType = model.SellType,
+                    HomePlaceId = model.HomePlaceId
                 };
                 _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
