@@ -31,7 +31,7 @@ namespace AdminUI
         {
             InitializeComponent();
             
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/RealEstate/get/Sell");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/RealEstate/get");
             request.Method = "GET";
             request.ContentType = "application/json";
             WebResponse wr = request.GetResponse();
@@ -46,30 +46,37 @@ namespace AdminUI
             request.ContentType = "application/json";
             for (int i = 0; i < result.Count; i++)
             {
-                estates.Add(new GetListEstateViewModel()
+                if(result[i].Active==true)
                 {
-                    Id = result[i].Id,
-                    Image = result[i].Image,
-                    StateName = result[i].StateName,
-                    RoomCount = result[i].RoomCount,
-                    TerritorySize = result[i].TerritorySize,
-                });
-            }
-            //BaseServices service1 = new BaseServices();
-            //string url1 = "https://localhost:44325/api/RealEstate/get/Rent";
-            //var result1 = service1.GetEstates(url1, "GET");
-            //for (int i = 0; i < result1.Count; i++)
-            //{
-            //    estates.Add(new GetListEstateViewModel()
-            //    {
-            //        Id = result1[i].Id,
-            //        Image = result1[i].Image,
-            //        StateName = result1[i].StateName,
-            //        RoomCount = result1[i].RoomCount,
-            //        TerritorySize = result1[i].TerritorySize,
+                    estates.Add(new GetListEstateViewModel()
+                    {
+                        Id = result[i].Id,
+                        Image = result[i].Image,
+                        StateName = result[i].StateName,
+                        RoomCount = result[i].RoomCount,
+                        TerritorySize = result[i].TerritorySize,
+                        Active=result[i].Active,
+                        btnBackground= "#FF10CF07",
+                        btnContext="Active"
+                    });
                     
-            //    });
-            //}
+                }
+                else
+                {
+                    estates.Add(new GetListEstateViewModel()
+                    {
+                        Id = result[i].Id,
+                        Image = result[i].Image,
+                        StateName = result[i].StateName,
+                        RoomCount = result[i].RoomCount,
+                        TerritorySize = result[i].TerritorySize,
+                        Active = result[i].Active,
+                        btnBackground = "#FFFBAD07",
+                        btnContext = "Disabled"
+                    });
+                }
+            }
+            
             lv.ItemsSource = estates;
         }
 
@@ -78,6 +85,22 @@ namespace AdminUI
             int selectedId = ((GetListEstateViewModel)lv.SelectedItem).Id;
             RealEstatePageAbout page = new RealEstatePageAbout(selectedId);
             frame.Navigate(page);
+        }
+
+        private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           
+            lv.ItemsSource = estates.Where(t=>t.Active==false);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            lv.ItemsSource = estates.Where(t => t.Active == true);
         }
     }
 }

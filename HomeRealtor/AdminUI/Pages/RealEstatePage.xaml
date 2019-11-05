@@ -20,10 +20,10 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
             <Button Content="Deleted" Background="#FFDE0A0A" FontSize="21" Width="100" Margin="15"/>
-            <Button Content="Active" Background="#FF10CF07" FontSize="21" Width="100" Margin="15"/>
-            <Button Content="Disabled"  FontSize="18" Width="100" Margin="15" Background="#FFFBAD07"/>
+            <Button Content="Active" Background="#FF10CF07" FontSize="21" Width="100" Margin="15" Click="Button_Click_1"/>
+            <Button Content="Disabled"  FontSize="18" Width="100" Margin="15" Background="#FFFBAD07" Click="Button_Click"/>
         </StackPanel>
-        <ListView PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1" x:Name="lv" Grid.Row="1" Margin="30">
+        <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1" x:Name="lv" Grid.Row="1" Margin="30" SelectionChanged="Lv_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Width="{Binding ElementName=lv, Path=ActualWidth}" BorderThickness="0 0 0 1" BorderBrush="Black">
@@ -34,8 +34,8 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.ColumnSpan="2">
                                 <StackPanel Orientation="Horizontal">
-                                    <Image x:Name="img_EstView" Width="200" Height="100" Grid.Column="0" Margin="2,2,10,10" Source="{Binding Image}"/>
-                                    <Button Content="Active" Background="#FF10CF07" FontSize="15" Width="80"  Margin="5,10,10,10" Height="40"/>
+                                    <Image x:Name="img_EstView" Width="140" Height="80" Grid.Column="0" Margin="2,2,10,10" Source="{Binding Image}"/>
+                                    <Button Content="{Binding btnContext}" x:Name="btn" Background="{Binding btnBackground}" FontSize="13" Width="80"  Margin="20,10,10,10" Height="40"/>
                                 </StackPanel>
                                 <StackPanel Grid.ColumnSpan="2">
                                     <StackPanel Orientation="Horizontal">
@@ -60,11 +60,13 @@
             </ListView.ItemTemplate>
         </ListView>
         <TextBlock Text="Detal info :" FontSize="25" Margin="20,25,0,0" Grid.Column="1"/>
-        <ScrollViewer Grid.Row="1" Grid.Column="1"  Margin="30">
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1"  Margin="0,30,0,30">
             
         <Frame NavigationUIVisibility="Hidden"   x:Name="frame" Grid.Row="1" Grid.Column="1"  Margin="30">
             
         </Frame>
         </ScrollViewer>
+        
     </Grid>
 </Page>
