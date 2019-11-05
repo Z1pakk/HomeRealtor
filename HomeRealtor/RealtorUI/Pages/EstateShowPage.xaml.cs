@@ -27,7 +27,6 @@ namespace RealtorUI.Pages
         List<GetListEstateViewModel> _estates = new List<GetListEstateViewModel>();
         List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
         string _token;
-        int _currentTownId;
         public EstateShowPage(string token)
         {
             InitializeComponent();
@@ -71,7 +70,7 @@ namespace RealtorUI.Pages
             url = "https://localhost:44325/api/RealEstate/get/hmpl";
             List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
             cbTown.ItemsSource = hm.Select(t => t.Town);
-
+            cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
         }
 
         private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -114,6 +113,17 @@ namespace RealtorUI.Pages
         private void cbDistrict_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cbDistrict.IsEditable = false;
+        }
+
+        private void cbRCount_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbRCount.IsEditable = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        
         }
     }
 }
