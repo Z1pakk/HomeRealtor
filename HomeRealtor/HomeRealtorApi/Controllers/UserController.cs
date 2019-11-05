@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -55,7 +54,8 @@ namespace HomeRealtorApi.Controllers
                     PhoneNumber = User.PhoneNumber,
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
-                    LastName = User.LastName
+                    LastName = User.LastName,
+                    Image=path
                 };
 
                 var result = await _userManager.CreateAsync(user, User.Password);
@@ -65,17 +65,24 @@ namespace HomeRealtorApi.Controllers
                 {
                     return Ok();
                 }
+
+            }
+            catch (Exception ex)
+            {
+            }
             return BadRequest();
         }
-        [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
+        [HttpPut("edit")]
+        [Authorize]
+        public ContentResult Edit([FromBody]UserInfoModel User)
         {
             try
             {
                 var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                System.IO.File.Delete(Directory.GetCurrentDirectory()+"\\wwwroot\\Content\\"+edit.Image);
+                if(edit.Image != string.Empty)
+                    System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
-                if (User.Image != null)
+                if (User.Image != string.Empty)
                 {
                     byte[] imageBytes = Convert.FromBase64String(User.Image);
                     using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
@@ -100,11 +107,39 @@ namespace HomeRealtorApi.Controllers
             catch (Exception ex)
             {
 
+
+
                 return Content("Еррор:" + ex.Message);
+
+
+
+            }
+        }
+
+
+        [HttpPut("change")]
+        [Authorize]
+        public async Task<ContentResult> ChangePasswordAsync([FromBody]string[] Passwords)
+        {
+            try
+            {
+                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                IdentityResult res = await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
+                return Content("Еррор:" + ex.Message);
+
 
             }
 
+
         }
+
+
+
+
 
         [HttpGet("current")]
         [Authorize]
@@ -112,8 +147,9 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
+                
                 //_userManager.FindByNameAsync(this.User.Identity.Name);
-                User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                User us  =_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 string json = JsonConvert.SerializeObject(new UserInfoModel()
                 {
                     FirstName = us.FirstName,
@@ -138,11 +174,11 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("unlock/{code}")]
         public async Task<ActionResult<string>> UnlockUser(string code)
         {
-            UserUnlockCodes uuc = _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
+            UserUnlockCodes uuc= _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
             User user = await _userManager.FindByIdAsync(uuc.UserId);
-            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins = 0;
+            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins=0;
             await _context.SaveChangesAsync();
-            await _userManager.SetLockoutEnabledAsync(user, false);
+            await _userManager.SetLockoutEnabledAsync( user,false);
             return "All done !";
         }
 
@@ -233,51 +269,83 @@ namespace HomeRealtorApi.Controllers
         }
 
         [HttpPost("sendcode")]
-        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        public async Task<IActionResult> SendCode([FromBody]SendCodeModel model)
         {
-            string email = model.Email;
-            Random rnd = new Random();
-            string code = (rnd.Next(1000, 9999)).ToString();
-            User user = await _userManager.FindByEmailAsync(email);
-
-            ForgotPassword password = new ForgotPassword()
+            try
             {
-                Code = code,
-                UserOf = user,
-                UserId = user.Id
-            };
-            _context.ForgotPasswords.Add(password);
-            _context.SaveChanges();
+                string email = model.Email;
+                
+                User user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                string code = string.Empty;
+                var forgotpassword = _context.ForgotPasswords.FirstOrDefault(t => t.UserId == user.Id);
+                if (forgotpassword == null)
+                {
+                    code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    ForgotPassword password = new ForgotPassword()
+                    {
+                        Code = code,
+                        UserId = user.Id
+                    };
+                    _context.ForgotPasswords.Add(password);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    code = forgotpassword.Code;
+                }
 
-            MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
-            MailMessage m = new MailMessage(from, to);
-            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            password.Code.Replace(code, _code);
-            _context.SaveChanges();
-            m.Subject = "Input this code :";
-            m.IsBodyHtml = true;
-            m.Body = "Code : " + _code + " .";
+                MailAddress to = new MailAddress(email);
+                MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                MailMessage m = new MailMessage(from, to);
+                m.Subject = "Input this code :";
+                m.IsBodyHtml = true;
+                m.Body = "Code : " + code + " .";
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                smtp.EnableSsl = true;
+                smtp.Send(m);
 
-            return Content("OK");
+                return Content("OK");
+
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
         }
 
-        [HttpGet("checkcode")]
-        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        [HttpPost("checkcode")]
+        public async Task<IActionResult> CheckCode([FromBody]CheckCodeModel model)
         {
-            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
-            if (res != null)
+            try
             {
-                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+                if (res != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ForgotPasswords.Remove(res);
+                    await _context.SaveChangesAsync();
+
+                }
+                return BadRequest();
+
             }
 
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
-            return Content("OK");
         }
 
         private async Task<string> CreateTokenAsync(User user)

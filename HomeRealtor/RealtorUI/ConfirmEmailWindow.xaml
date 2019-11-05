@@ -13,7 +13,7 @@
             <RowDefinition Height="89*"/>
             <RowDefinition Height="68*"/>
         </Grid.RowDefinitions>
-        <Image  Source="C:\Users\redfreshka\Desktop\HomeRealtor\HomeRealtor\RealtorUI\bin\Debug\email-icon.png" Margin="5" />
+        <Image  Margin="5" />
         <StackPanel Grid.Row="1">
             <Label FontSize="14"  HorizontalAlignment="Left" Margin="10,0,0,0" Content="A CODE HAS BEEN SENT TO YOUR EMAIL"/>
             <Label  HorizontalAlignment="Left" Margin="10,0,0,0"  Content="Your code:"/>
