@@ -264,12 +264,12 @@ namespace HomeRealtorApi.Controllers
             return Content("OK");
         }
 
-        private string CreateTokenAsync(User user, string role)
+        private string CreateTokenAsync(User user/*, string role*/)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Role,role)
+               // new Claim("role",role)
             };
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
