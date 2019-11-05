@@ -30,6 +30,7 @@ namespace RealtorUI
     {
         private string ImagePath;
         AddUserService service = new AddUserService();
+        private int Code;
 
         public RegisterWindow()
         {
@@ -67,6 +68,37 @@ namespace RealtorUI
             LoginWindow window = new LoginWindow();
             window.ShowDialog();
 
+        }
+
+        private void EmailMessage()
+        {
+            try
+            {
+                Random rand = new Random();
+                Code = rand.Next(10000, 99999);
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+
+
+                mail.From = new MailAddress("home.realtor.suport@gmail.com");
+                mail.To.Add(tbEmail.Text);
+                mail.Subject = "HomeRealtor Support";
+                mail.Body = "You need to accept your Email " +
+                    "Your code is : " + Code.ToString();
+
+
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Bad email !");
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
