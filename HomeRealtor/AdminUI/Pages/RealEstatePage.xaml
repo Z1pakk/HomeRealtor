@@ -23,7 +23,9 @@
             <Button Content="Active" Background="#FF10CF07" FontSize="21" Width="100" Margin="15" Click="Button_Click_1"/>
             <Button Content="Disabled"  FontSize="18" Width="100" Margin="15" Background="#FFFBAD07" Click="Button_Click"/>
         </StackPanel>
-        <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1" x:Name="lv" Grid.Row="1" Margin="30" SelectionChanged="Lv_SelectionChanged">
+        
+            
+        <ListView BorderThickness="2" BorderBrush="#FF17A5FD" ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1" x:Name="lv" Grid.Row="1"  SelectionChanged="Lv_SelectionChanged" Margin="15,30,30,30">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Width="{Binding ElementName=lv, Path=ActualWidth}" BorderThickness="0 0 0 1" BorderBrush="Black">
@@ -59,6 +61,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <TextBlock Text="Detal info :" FontSize="25" Margin="20,25,0,0" Grid.Column="1"/>
 
         <ScrollViewer Grid.Row="1" Grid.Column="1"  Margin="0,30,0,30">
