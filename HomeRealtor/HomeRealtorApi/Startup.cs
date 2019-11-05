@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,24 @@ namespace HomeRealtorApi
             services.AddIdentity<User, IdentityRole>()
                       .AddEntityFrameworkStores<EFContext>()
                       .AddDefaultTokenProviders();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = true;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example")),
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,8 +76,14 @@ namespace HomeRealtorApi
             app.UseHttpsRedirection();
             app.UseMvc();
 
+            app.UseStaticFiles();
             // Seed the database
             await EFContextSeed.SeedAsync(app, env, Configuration);
+
+            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content", "Advertising")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "Advertising"));
+            }
         }
 
 

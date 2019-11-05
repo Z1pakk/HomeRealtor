@@ -11,7 +11,7 @@ namespace HomeRealtorApi.Entities
     public class Advertising
     {
         [Key] public int Id { get; set; }
-        [Required] public string Image { get; set; }
+        public string Image { get; set; }
         [Required] public string StateName { get; set; }
         [Required] public double Price { get; set; }
         [Required] public string Contacts { get; set; }
@@ -19,5 +19,9 @@ namespace HomeRealtorApi.Entities
         [ForeignKey("UserOf")]
         public string UserId { get; set; }
         public virtual User UserOf { get; set; }
+
+        [ForeignKey("RealEstateOf")]
+        public int RealEstsateId { get; set; }
+        public virtual RealEstate RealEstateOf { get; set; }
     }
 }

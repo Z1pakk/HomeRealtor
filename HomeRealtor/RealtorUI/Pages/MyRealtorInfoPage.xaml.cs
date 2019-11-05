@@ -1,11 +1,14 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using Microsoft.Win32;
 using Newtonsoft.Json;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -96,20 +99,103 @@ namespace RealtorUI.Pages
             else MessageBox.Show(res.Result);
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            RealtorPage page = new RealtorPage();
+            AddRealEstatePage page = new AddRealEstatePage(UserM);
             NavigationService.Navigate(page);
+
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
+
         }
 
-        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
         {
+            var id = ((RealEstateModel)dgEstates.SelectedItem).Id;
+            EditRealEstatePage page = new EditRealEstatePage(UserM, id);
+            NavigationService.Navigate(page);
 
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
         }
 
         private void btnAdvertise_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var _id = ((RealEstateModel)dgEstates.SelectedItems[0]).Id;
+                BaseServices service = new BaseServices();
+                string url = $"http://localhost:58446/api/RealEstate/get/byid/{_id}";
+                GetRealEstateViewModel model = service.GetEstate(url, "GET");
+                AdvertisingModel advModel = new AdvertisingModel()
+                {
+                    Image = model.Image,
+                    StateName = model.StateName,
+                    Contacts = model.FullName,
+                    Price = model.Price,
+                    RealEstateId = model.Id
+                };
 
+                HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(JsonConvert.SerializeObject(advModel));
+                }
+
+                WebResponse response = request.GetResponse();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Select item , {ex}");
+            }
+
+        }
+
+        private async void Button_Click_Image(object sender, RoutedEventArgs e)
+        {
+            UserInfoModel sser = UserM;
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter= "Image files (*.jpg) | *.jpg";
+            openFile.ShowDialog();
+            if (openFile.FileName != null)
+            {
+                sser.Image = openFile.FileName;
+                BaseServices services = new BaseServices();
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+                if (res.Result == false)
+                    MessageBox.Show(res.ExceptionMessage);
+                else MessageBox.Show(res.Result);
+            }
+            else MessageBox.Show("You didn`t choose an image");
+            
         }
     }
 }

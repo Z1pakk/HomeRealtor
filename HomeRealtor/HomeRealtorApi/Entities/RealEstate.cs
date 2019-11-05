@@ -48,6 +48,7 @@ namespace HomeRealtorApi.Entities
         public virtual User UserOf { get; set; }
         public virtual RealEstateSellType SellOf { get; set; }
         public virtual ICollection<ImageEstate> ImageEstates { get; set; }
+        public virtual ICollection<Advertising> Advertisings { get; set; }
 
     }
 }

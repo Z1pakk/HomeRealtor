@@ -41,12 +41,25 @@ namespace RealtorUI
                     var jsonToken = handler.ReadToken(stream);
                     if (jsonToken.ValidTo >= DateTime.Now)
                     {
-                        MainWindow mainWindow = new MainWindow(stream);
-                        this.Visibility = Visibility.Hidden;
-                        this.Close();
-                        mainWindow.ShowDialog();
-                        return;
-                    }
+                            if(File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt")=="User")
+                            {
+                                MainWindow mainWindow = new MainWindow(stream);
+                                  this.Visibility = Visibility.Hidden;
+                                 this.Close();
+                                mainWindow.ShowDialog();
+                                  return;
+                            }
+                            else if (File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt") == "Realtor")
+                            {
+                                MainWindowRealtor mainWindow = new MainWindowRealtor(stream);
+                                this.Visibility = Visibility.Hidden;
+                                this.Close();
+                                mainWindow.ShowDialog();
+                                return;
+                            }
+                            //LoginRoles loginRoles = new LoginRoles(stream);
+
+                        }
                 }
             }
             }
@@ -67,8 +80,11 @@ namespace RealtorUI
         {
             RegisterWindow window = new RegisterWindow();
             this.Visibility = Visibility.Hidden;
-            this.Close();
-            window.ShowDialog();
+            var result = window.ShowDialog();
+
+            if (result.HasValue && result.Value == true) {
+                this.Visibility = Visibility.Visible;
+            };
         }
         private async Task<string> LoginAsync()
         {
@@ -123,16 +139,28 @@ namespace RealtorUI
             }
             if (token != "Error")
             {
+                if (rbtnUser.IsChecked == true)
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\role.txt", "User");
+                    MainWindow mainWindow = new MainWindow(token);
+                    this.Visibility = Visibility.Hidden;
+                    this.Close();
+                    mainWindow.ShowDialog();
+                }else if (rbtnRealtor.IsChecked == true)
+                {
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                    File.WriteAllText(Directory.GetCurrentDirectory() + @"\role.txt", "Realtor");
+                    MainWindowRealtor mainWindow = new MainWindowRealtor(token);
+                    this.Visibility = Visibility.Hidden;
+                    this.Close();
+                       mainWindow.ShowDialog();
+                }
 
-                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
-                MainWindow mainWindow = new MainWindow(token);
-                this.Visibility = Visibility.Hidden;
-                this.Close();
-                mainWindow.ShowDialog();
             }
             else
             {
-               // sP.Visibility = Visibility.Visible;
+                //sP.Visibility = Visibility.Visible;
                 sP2.Visibility = Visibility.Visible;
                 //lB.Visibility = Visibility.Visible;
                 mE.Visibility = Visibility.Hidden;

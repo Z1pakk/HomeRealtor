@@ -31,7 +31,8 @@ namespace HomeRealtorApi.Controllers
                     Price = Advertising.Price,
                     Image = Advertising.Image,
                     Contacts = Advertising.Contacts,
-                    UserId = Advertising.UserId
+                    UserId = Advertising.UserId,
+                    RealEstsateId = Advertising.RealEstateId
                 };
 
                 var result = _context.Advertisings.Add(advertising);
@@ -43,11 +44,26 @@ namespace HomeRealtorApi.Controllers
             }
         }
 
-        [HttpGet("advertising_")]
+        [HttpGet("advertising")]
         public ContentResult GetProducts()
         {
             List<Advertising> advertisings = _context.Advertisings.ToList();
-            string json = JsonConvert.SerializeObject(advertisings);
+            List<AdvertisingModel> models = new List<AdvertisingModel>();
+            foreach(var item in advertisings)
+            {
+                AdvertisingModel model = new AdvertisingModel()
+                {
+                    StateName = item.StateName,
+                    Image = item.Image,
+                    Contacts = item.Contacts,
+                    Price = item.Price,
+                    UserId = item.UserId,
+                    RealEstateId = item.RealEstsateId
+                };
+                models.Add(model);
+            }
+
+            string json = JsonConvert.SerializeObject(models);
             return Content(json, "application/json");
         }
     }

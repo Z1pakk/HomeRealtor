@@ -32,7 +32,7 @@ namespace RealtorUI.Pages
             InitializeComponent();
             _token = token;
             BaseServices service = new BaseServices();
-            string url = "https://localhost:44325/api/RealEstate/get/buy";
+            string url = "https://localhost:44325/api/RealEstate/get/Sell";
             var result = service.GetEstates(url, "GET");
             for (int i = 0; i < result.Count; i++)
             {

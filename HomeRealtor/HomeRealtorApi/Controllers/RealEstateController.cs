@@ -70,12 +70,11 @@ namespace HomeRealtorApi.Controllers
             return Content(json);
         }
 
-        // GET api/values/get/realEstate/5
-        [HttpGet("get/byid/{id}")]
-        public ContentResult GetRealEstate(int id)
+        [HttpGet("get/byid/{_id}")]
+        public ContentResult GetRealEstate(int _id)
         {
            
-            RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
+            RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
                 Id = estate.Id,
