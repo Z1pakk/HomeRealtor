@@ -35,6 +35,7 @@ namespace HomeRealtorApi.Controllers
                 getNews.Headline = item.Headline;
                 getNews.Text = item.Text;
                 getNews.Id = item.Id;
+                getNews.Image = item.Image;
                getnews.Add(getNews);
             }
            
@@ -55,7 +56,7 @@ namespace HomeRealtorApi.Controllers
                     getNews.Id = item.Id;
                     getNews.Headline = item.Headline;
                     getNews.Text = item.Text;
-                  
+                    getNews.Image = item.Image;
                 }
             }
             string json = JsonConvert.SerializeObject(getNews);
@@ -69,8 +70,8 @@ namespace HomeRealtorApi.Controllers
                 News news = new News()
                 {
                     Headline = model.Headline,
-                    Text = model.Text
-                    
+                    Text = model.Text,
+                    Image=model.Image
                 };
                 _context.News.Add(news);
                 _context.SaveChanges();
