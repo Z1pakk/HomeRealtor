@@ -28,11 +28,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\Content\Users\" />
   </ItemGroup>
 
    <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="wwwroot\Content\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

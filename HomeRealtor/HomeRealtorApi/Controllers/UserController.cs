@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using HomeRealtorApi.Entities;
+using HomeRealtorApi.Helpers;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,7 @@ namespace HomeRealtorApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-
+        private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
@@ -44,6 +45,7 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
+
             try
             {
                 User user = new User()
@@ -54,11 +56,29 @@ namespace HomeRealtorApi.Controllers
                     PhoneNumber = User.PhoneNumber,
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
-                    LastName = User.LastName,
-                    Image=path
+                    LastName = User.LastName
                 };
+                if (!string.IsNullOrEmpty(User.Image))
+                {
+                    if (!Directory.Exists(Path.Combine(hosting.WebRootPath, "Content", "Users")))
+                    {
+                        Directory.CreateDirectory(Path.Combine(hosting.WebRootPath, "Content", "Users"));
+                    }
+
+                    string path = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        //Назва фотки із розширення
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image realEstateImage = Image.FromStream(stream);
+                        realEstateImage.Save(hosting.WebRootPath + @"/Content/Users/" + path, ImageFormat.Jpeg);
+                    }
+                    user.Image = path;
+                }
 
                 var result = await _userManager.CreateAsync(user, User.Password);
+
                 await _userManager.AddToRoleAsync(user, "Admin");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
@@ -78,7 +98,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";

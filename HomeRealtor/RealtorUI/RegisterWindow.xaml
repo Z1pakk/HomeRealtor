@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:RealtorUI"
         xmlns:System="clr-namespace:System;assembly=mscorlib" 
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Register" Height="701.716" Width="334.324">
     <Grid>
         <Grid.ColumnDefinitions>

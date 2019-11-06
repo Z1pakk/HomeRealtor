@@ -58,13 +58,20 @@ namespace RealtorUI
                 PhoneNumber = tbPhNum.Text,
                 Password = tbPass.Password,
                 Age = int.Parse(tbAge.Text),
-                Image = ImagePath,
                 AboutMe = null,
                 Role = cbRole.Text
             };
+            if (!string.IsNullOrEmpty(ImagePath))
+            {
+                string image = ImageHelper.ImageToBase64(ImagePath);
+                user.Image = image;
+            }
+
+
+           
             service.AddUser("https://localhost:44325/api/user/add/", user);
             
-            this.Close();
+            this.Visibility = Visibility.Hidden;
             LoginWindow window = new LoginWindow();
             window.ShowDialog();
 
