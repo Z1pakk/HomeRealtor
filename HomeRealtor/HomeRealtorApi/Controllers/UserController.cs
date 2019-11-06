@@ -84,16 +84,16 @@ namespace HomeRealtorApi.Controllers
             }
             return BadRequest();
         }
-
-        [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
+        [HttpPut("edit")]
+        [Authorize]
+        public ContentResult Edit([FromBody]UserInfoModel User)
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                var edit = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 if (edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath + @"\Content\" + edit.Image);
-                string path = "";
+                string path="";
                 if (User.Image != string.Empty)
                 {
                     byte[] imageBytes = Convert.FromBase64String(User.Image);
@@ -207,8 +207,6 @@ namespace HomeRealtorApi.Controllers
                 User user = await _userManager.FindByEmailAsync(loginModel.Email);
                 if (user == null)
                 {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
                     return "Error";
                 }
                 var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
