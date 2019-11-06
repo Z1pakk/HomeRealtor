@@ -34,6 +34,8 @@ namespace HomeRealtorApi.Entities
         public virtual DbSet<Advertising> Advertisings { get; set; }
         public virtual DbSet<RealEstateSellType> RealEstateSellTypes { get; set; }
         public virtual DbSet<ForgotPassword> ForgotPasswords { get; set; }
+        public virtual DbSet<HomePlace> HomePlaces { get; set; }
+        public virtual DbSet<HomePlaceType> HomePlaceTypes { get; set; }
 
     }
 }

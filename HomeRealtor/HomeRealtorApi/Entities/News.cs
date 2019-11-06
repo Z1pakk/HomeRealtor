@@ -13,5 +13,6 @@ namespace HomeRealtorApi.Entities
         [Key]public int Id { get; set; }
         [Required] public string Headline { get; set; }
         [Required] public string Text { get; set; }
+        public string Image { get; set; }
     }
 }

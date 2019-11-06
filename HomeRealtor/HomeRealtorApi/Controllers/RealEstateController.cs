@@ -49,6 +49,7 @@ namespace HomeRealtorApi.Controllers
         }
 
         [HttpGet("get/types")]
+        [Authorize]
         public ContentResult GetRealEstateTypes()
         {
             var list = _context.RealEstateTypes.
@@ -58,7 +59,28 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json);
         }
+        [HttpGet("get/hmpl")]
+        [Authorize]
+        public ContentResult GetRealEstateHomePlaces()
+        {
+            var list = _context.HomePlaces.
+                Select(t => new HomePlaceModel() { Town=t.Town,NameOfDistrict=t.NameOfDistrict, Id = t.Id }).ToList();
 
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("get/hmpl/types")]
+        [Authorize]
+        public ContentResult GetRealEstateHomePlaceTypes()
+        {
+            var list = _context.HomePlaces.
+                Select(t => new HomePlaceTypeModel() { Id = t.Id, NameOfType=t.NameOfDistrict }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
         [HttpGet("get/selltypes")]
         public ContentResult GetRealEstateSellTypes()
         {
@@ -72,8 +94,7 @@ namespace HomeRealtorApi.Controllers
 
         [HttpGet("get/byid/{_id}")]
         public ContentResult GetRealEstate(int _id)
-        {
-           
+        {           
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
@@ -113,6 +134,7 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
+                _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
                     string path = string.Empty;
@@ -132,7 +154,6 @@ namespace HomeRealtorApi.Controllers
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
-                _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
@@ -165,6 +186,26 @@ namespace HomeRealtorApi.Controllers
             {
                 return Content("Error" + ex.Message);
             }
+        }
+        [HttpGet("get")]
+        public ContentResult GetRealEstates()
+        {
+
+            var list = _context.RealEstates.
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active=t.Active
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
         }
 
         // DELETE api/values/5
