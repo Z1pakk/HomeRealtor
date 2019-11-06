@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191022132129_init.cs" />
-    <Compile Remove="Migrations\20191022132129_init.Designer.cs" />
-    <Compile Remove="Migrations\20191022132202_init.cs" />
-    <Compile Remove="Migrations\20191022132202_init.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
@@ -27,7 +20,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\Content\Users\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
    <ItemGroup>

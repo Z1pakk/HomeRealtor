@@ -31,9 +31,11 @@ namespace RealtorUI.Pages
         List<ImageEstateModel> images = new List<ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
+        List<TypeViewModel> homePlace = new List<TypeViewModel>();
 
         List<string> typesId = new List<string>();
         List<string> sellTypesId = new List<string>();
+        List<string> homePlaceId = new List<string>();
         private string imagePath;
 
         public AddRealEstatePage(UserInfoModel u)
@@ -55,13 +57,24 @@ namespace RealtorUI.Pages
             {
                 sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
             }
+
+            httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/hmpl/types");
+            webResponse = httpWebRequest.GetResponse();
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                homePlace = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
+            }
+
             foreach (var type in types)
                 typesId.Add(type.Name);
             foreach (var sell in sellTypes)
                 sellTypesId.Add(sell.Name);
+            foreach (var place in homePlace)
+                homePlaceId.Add(place.Name);
 
             cbType.ItemsSource = typesId;
             cbSellType.ItemsSource = sellTypesId;
+            cbHomePlace.ItemsSource = homePlaceId;
 
         }
 
@@ -94,6 +107,7 @@ namespace RealtorUI.Pages
                 TimeOfPost = DateTime.Now,
                 RoomCount = Int32.Parse(tbRoomCount.Text),
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
+                HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
                 UserId = UserM.Id,
                 images = images
             };

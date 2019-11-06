@@ -99,7 +99,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
+                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
@@ -215,8 +215,6 @@ namespace HomeRealtorApi.Controllers
                 User user = await _userManager.FindByEmailAsync(loginModel.Email);
                 if (user == null)
                 {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
                     return "Error";
                 }
                 var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
