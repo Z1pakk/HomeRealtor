@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace HomeRealtorApi.Entities
 {
@@ -31,6 +32,12 @@ namespace HomeRealtorApi.Entities
         public DateTime TimeOfPost { get; set; }
 
         public double TerritorySize { get; set; }
+
+        [Required]
+        [MaxLength(5000)]
+        public string Description { get; set; }
+
+        public string Coordinates { get; set; }
 
         [Required]
         public bool Active { get; set; }

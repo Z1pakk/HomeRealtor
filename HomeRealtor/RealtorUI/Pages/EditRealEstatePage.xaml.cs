@@ -29,7 +29,7 @@ namespace RealtorUI.Pages
     {
         public UserInfoModel UserM { get; set; }
         public RealEstateViewModel realEstate {get;set;}
-        List<ImageEstateModel> images = new List<ImageEstateModel>();
+        //List<ImageEstateModel> images = new List<ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
         private string imagePath;
@@ -79,14 +79,14 @@ namespace RealtorUI.Pages
             {
                 imagePath = openFile.FileName;
                 lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
-                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
+                //images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
             }
 
         }
 
         private void BtnEditRealEstate_Click(object sender, RoutedEventArgs e)
         {
-            imagePath = images.First().Name;
+            //imagePath = images.First().Name;
             RealEstateViewModel realEstate = new RealEstateViewModel()
             {
                 Active = true,
@@ -99,7 +99,7 @@ namespace RealtorUI.Pages
                 TimeOfPost = DateTime.Now,
                 RoomCount = Int32.Parse(tbRoomCount.Text),
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
-                images = images
+                //images = images
             };
 
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/edit/{reId}");

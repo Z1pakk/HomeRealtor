@@ -76,7 +76,13 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<int>("EstateId");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LargeImage")
+                        .IsRequired();
+
+                    b.Property<string>("MediumImage")
+                        .IsRequired();
+
+                    b.Property<string>("SmallImage")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -157,6 +163,12 @@ namespace HomeRealtorApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active");
+
+                    b.Property<string>("Coordinates");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000);
 
                     b.Property<string>("Image")
                         .IsRequired();

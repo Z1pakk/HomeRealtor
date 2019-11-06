@@ -75,6 +75,7 @@ namespace HomeRealtorApi.Controllers
         {
            
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
+
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
                 Id = estate.Id,
@@ -87,7 +88,17 @@ namespace HomeRealtorApi.Controllers
                 TerritorySize = estate.TerritorySize,
                 TimeOfPost = estate.TimeOfPost,
                 TypeName = estate.TypeOf?.TypeName,
-                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}"
+                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}",
+                Description = estate.Description,
+                Coordinates = estate.Coordinates,
+                PhoneNumber = estate.UserOf.PhoneNumber,
+                Images = estate.ImageEstates?.Select(x => new ImageEstateModel
+                {
+                    EstateId = x.EstateId,
+                    LargeImage = x.LargeImage,
+                    MediumImage = x.LargeImage,
+                    SmallImage = x.SmallImage
+                }).ToList()
             };
             string estateJson = JsonConvert.SerializeObject(model);
             return Content(estateJson);
@@ -113,25 +124,25 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
-                foreach (var imgEst in model.images)
-                {
-                    string path = string.Empty;
-                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
-                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                    {
-                        //Назва фотки із розширення
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image realEstateImage = Image.FromStream(stream);
-                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
-                    }
+                //foreach (var imgEst in model.images)
+                //{
+                //    string path = string.Empty;
+                //    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                //    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                //    {
+                //        //Назва фотки із розширення
+                //        path = Guid.NewGuid().ToString() + ".jpg";
+                //        Image realEstateImage = Image.FromStream(stream);
+                //        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                //    }
 
-                    ImageEstate estateImage = new ImageEstate()
-                    {
-                        Name = path,
-                        EstateId = estate.Id
-                    };
-                    _context.ImageEstates.Add(estateImage);
-                }
+                //    ImageEstate estateImage = new ImageEstate()
+                //    {
+                //        //Name = path,
+                //        EstateId = estate.Id
+                //    };
+                //    _context.ImageEstates.Add(estateImage);
+                //}
                 _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");

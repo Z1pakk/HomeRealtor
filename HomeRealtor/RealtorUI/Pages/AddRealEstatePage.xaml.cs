@@ -74,14 +74,14 @@ namespace RealtorUI.Pages
             {
                 imagePath = openFile.FileName;
                 lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
-                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
+                //images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
             }
 
         }
 
         private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
         {
-            imagePath = images.First().Name;
+            //imagePath = images.First().Name;
             RealEstateViewModel realEstate = new RealEstateViewModel()
             {
                 Active = true,
@@ -95,7 +95,7 @@ namespace RealtorUI.Pages
                 RoomCount = Int32.Parse(tbRoomCount.Text),
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
                 UserId = UserM.Id,
-                images = images
+                //images = images
             };
 
             HttpWebRequest request = WebRequest.CreateHttp("http://localhost:44325/api/values/realEstate/add");

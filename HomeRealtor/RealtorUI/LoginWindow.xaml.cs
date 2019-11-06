@@ -65,7 +65,7 @@ namespace RealtorUI
             }
             catch
             {
-
+                MessageBox.Show(ex.Message);
             }
 
             InitializeComponent();

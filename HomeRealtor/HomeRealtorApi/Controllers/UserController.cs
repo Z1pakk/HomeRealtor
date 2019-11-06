@@ -278,13 +278,13 @@ namespace HomeRealtorApi.Controllers
            // string code = (rnd.Next(1000, 9999)).ToString();
             string code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            ForgotPassword password = new ForgotPassword()
-            {
-                Code = code,
-                UserId = user.Id
-            };
-            _context.ForgotPasswords.Add(password);
-            _context.SaveChanges();
+        //    ForgotPassword password = new ForgotPassword()
+        //    {
+        //        Code = code,
+        //        UserId = user.Id
+        //    };
+        //    _context.ForgotPasswords.Add(password);
+        //    _context.SaveChanges();
 
             MailAddress to = new MailAddress(email);
             MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
@@ -294,13 +294,13 @@ namespace HomeRealtorApi.Controllers
             m.IsBodyHtml = true;
             m.Body = "Code : " + code + " .";
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
+        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        //    smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
+        //    smtp.EnableSsl = true;
+        //    smtp.Send(m);
 
-            return Content("OK");
-        }
+        //    return Content("OK");
+        //}
 
         [HttpGet("checkcode")]
         public ContentResult CheckCode([FromBody]CheckCodeModel model)
@@ -315,7 +315,7 @@ namespace HomeRealtorApi.Controllers
             return Content("OK");
         }
 
-        private string CreateTokenAsync(User user/*,string role*/)
+        private string CreateTokenAsync(User user/*, string role*/)
         {
             List<Claim> claims = new List<Claim>()
             {
