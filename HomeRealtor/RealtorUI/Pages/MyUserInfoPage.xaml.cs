@@ -122,7 +122,7 @@ namespace RealtorUI.Pages
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
             ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
-            if (res.Result == false) 
+            if (res.Success == false) 
                 MessageBox.Show(res.ExceptionMessage); 
             else MessageBox.Show(res.Result);
         }
