@@ -29,30 +29,30 @@ namespace RealtorUI
         {
             try
             {
-            if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
-            {
-
-                
-                var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-                if (stream != "")
+                if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
                 {
 
-                    var handler = new JwtSecurityTokenHandler();
-                    var jsonToken = handler.ReadToken(stream);
-                    if (jsonToken.ValidTo >= DateTime.Now)
+                
+                    var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+                    if (stream != "")
                     {
-                        MainWindow mainWindow = new MainWindow(stream);
-                        this.Visibility = Visibility.Hidden;
-                        this.Close();
-                        mainWindow.ShowDialog();
-                        return;
+
+                        var handler = new JwtSecurityTokenHandler();
+                        var jsonToken = handler.ReadToken(stream);
+                        if (jsonToken.ValidTo >= DateTime.Now)
+                        {
+                            MainWindow mainWindow = new MainWindow(stream);
+                            this.Visibility = Visibility.Hidden;
+                            this.Close();
+                            mainWindow.ShowDialog();
+                            return;
+                        }
                     }
                 }
             }
-            }
-            catch
+            catch(Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
             
             InitializeComponent();
