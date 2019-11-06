@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,8 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class MyRealtorInfoPage : Page
     {
-        public UserModel UserM { get; set; }
-        public MyRealtorInfoPage(UserModel user)
+        public UserInfoModel UserM { get; set; }
+        public MyRealtorInfoPage(UserInfoModel user)
         {
             InitializeComponent();
             UserM = user;
@@ -87,13 +88,83 @@ namespace RealtorUI.Pages
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
         {
-            UserModel sser = UserM;
+            UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
             ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
             if (res.Result == false)
                 MessageBox.Show(res.ExceptionMessage);
             else MessageBox.Show(res.Result);
+        }
+
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AddRealEstatePage page = new AddRealEstatePage(UserM);
+            NavigationService.Navigate(page);
+
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
+
+        }
+
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var id = ((RealEstateModel)dgEstates.SelectedItem).Id;
+            EditRealEstatePage page = new EditRealEstatePage(UserM, id);
+            NavigationService.Navigate(page);
+
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    {
+                        dgEstates.Items.Add(item);
+                    }
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
+        }
+
+        private void btnAdvertise_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void Button_Click_Image(object sender, RoutedEventArgs e)
+        {
+            UserInfoModel sser = UserM;
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter= "Image files (*.jpg) | *.jpg";
+            openFile.ShowDialog();
+            if (openFile.FileName != null)
+            {
+                sser.Image = openFile.FileName;
+                BaseServices services = new BaseServices();
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
+                if (res.Result == false)
+                    MessageBox.Show(res.ExceptionMessage);
+                else MessageBox.Show(res.Result);
+            }
+            else MessageBox.Show("You didn`t choose an image");
+            
         }
     }
 }

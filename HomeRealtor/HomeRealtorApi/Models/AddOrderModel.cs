@@ -14,5 +14,7 @@ namespace HomeRealtorApi.Models
         public string UserId { get; set; }
 
         public string RealtorId { get; set; }
+
+        public string Message { get; set; }
     }
 }

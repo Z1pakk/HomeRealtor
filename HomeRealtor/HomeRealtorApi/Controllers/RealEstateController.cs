@@ -28,7 +28,6 @@ namespace HomeRealtorApi.Controllers
         }
         // GET api/values
         [HttpGet("get/{type}")]
-        [Authorize]
         public ContentResult GetRealEstate(string type)
         {
 
@@ -49,12 +48,33 @@ namespace HomeRealtorApi.Controllers
             return Content(json);
         }
 
-        // GET api/values/get/realEstate/5
-        [HttpGet("get/byid/{id}")]
-        public ContentResult GetRealEstate(int id)
+        [HttpGet("get/types")]
+        public ContentResult GetRealEstateTypes()
+        {
+            var list = _context.RealEstateTypes.
+                Select(t => new TypeViewModel() {Name = t.TypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
+        [HttpGet("get/selltypes")]
+        public ContentResult GetRealEstateSellTypes()
+        {
+            var list = _context.RealEstateSellTypes.
+                Select(t => new TypeViewModel() { Name = t.SellTypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
+        [HttpGet("get/byid/{_id}")]
+        public ContentResult GetRealEstate(int _id)
         {
            
-            RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
+            RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
                 Id = estate.Id,
@@ -93,6 +113,7 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
+                _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
                     string path = string.Empty;
@@ -112,7 +133,6 @@ namespace HomeRealtorApi.Controllers
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
-                _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }

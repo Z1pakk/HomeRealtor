@@ -70,8 +70,8 @@ namespace HomeRealtorApi.Controllers
                 News news = new News()
                 {
                     Headline = model.Headline,
-                    Text = model.Text,
-                    Image=model.Image
+                    Text = model.Text
+                    
                 };
                 _context.News.Add(news);
                 _context.SaveChanges();

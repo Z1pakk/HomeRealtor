@@ -17,21 +17,52 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RealtorUI.Models;
 using Newtonsoft.Json;
+using APIConnectService.Models;
 
-namespace RealtorUI
+namespace RealtorUI.Pages
 {
     /// <summary>
     /// Interaction logic for RealtorWindow.xaml
     /// </summary>
     /// 
-    public partial class RealtorWindow : Page
+    public partial class AddRealEstatePage : Page
     {
+        public UserInfoModel UserM { get; set; }
         List<ImageEstateModel> images = new List<ImageEstateModel>();
+        List<TypeViewModel> types = new List<TypeViewModel>();
+        List<TypeViewModel> sellTypes = new List<TypeViewModel>();
+
+        List<string> typesId = new List<string>();
+        List<string> sellTypesId = new List<string>();
         private string imagePath;
 
-        public RealtorWindow()
+        public AddRealEstatePage(UserInfoModel u)
         {
             InitializeComponent();
+            UserM = u;
+            HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/types");
+            httpWebRequest.Method = "GET";
+            httpWebRequest.ContentType = "application/json";
+            WebResponse webResponse = httpWebRequest.GetResponse();
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                types = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
+            }
+
+            httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/selltypes");
+            webResponse = httpWebRequest.GetResponse();
+            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
+            }
+            foreach (var type in types)
+                typesId.Add(type.Name);
+            foreach (var sell in sellTypes)
+                sellTypesId.Add(sell.Name);
+
+            cbType.ItemsSource = typesId;
+            cbSellType.ItemsSource = sellTypesId;
+
         }
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -59,40 +90,26 @@ namespace RealtorUI
                 Price = Double.Parse(tbPrice.Text),
                 StateName = tbState.Text,
                 TerritorySize = Double.Parse(tbArea.Text),
-                TypeId = cbType.SelectedIndex,
+                TypeId = types.FirstOrDefault(t=>t.Name== (string)cbType.SelectedItem).Id,
                 TimeOfPost = DateTime.Now,
+                RoomCount = Int32.Parse(tbRoomCount.Text),
+                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
+                UserId = UserM.Id,
                 images = images
             };
 
-            HttpWebRequest request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/add");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
             request.Method = "POST";
             request.ContentType = "application/json";
-
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
                 writer.Write(JsonConvert.SerializeObject(realEstate));
             }
 
-           /* request = WebRequest.CreateHttp("http://localhost:55603/api/values/realEstate/getlastid");
-            request.Method = "GET";
-            request.ContentType = "application/json";
+            WebResponse webResponse = request.GetResponse();
+         
+            NavigationService.GoBack();
 
-            using (StreamReader reader = new StreamReader(request.GetRequestStream()))
-            {
-                var RealEstateId = JsonConvert.DeserializeObject<int>(reader.ReadToEnd());
-                foreach (var img in images)
-                    img.EstateId = RealEstateId;
-            }
-
-            request = WebRequest.CreateHttp("http://localhost:55603/api/values/imageEstate/add");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                foreach (var imgEst in images)
-                    writer.Write(JsonConvert.SerializeObject(imgEst));
-            }*/
         }
     }
 }

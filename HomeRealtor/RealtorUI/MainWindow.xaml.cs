@@ -34,12 +34,14 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage());
+            frame.Navigate(new EstateShowPage(Id));
             
         }
+
         private void BtnHome_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            HomePage home = new HomePage();
+            frame.Content = home;
         }
 
         private void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -48,20 +50,17 @@ namespace RealtorUI
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
-
-
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            string tok=File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current",tok);
+            ServiceResult res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
             if (res.Success == true)
             {
-                UserModel user = (UserModel)res.Result;
+                UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
             }
         }
-        
     }
 }
