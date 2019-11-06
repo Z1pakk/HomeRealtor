@@ -188,6 +188,69 @@ namespace HomeRealtorApi.Controllers
 
             return Content(json);
         }
+        [HttpGet("getDeleted")]
+        public ContentResult GetRealEstatesDeleted()
+        {
+
+            var list = _context.RealEstates.Where(t=>t.IsDeleted==true)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("getActive")]
+        public ContentResult GetRealEstatesActive()
+        {
+
+            var list = _context.RealEstates.Where(t => t.Active == true).Where(t=> t.IsDeleted==false)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("getSold")]
+        public ContentResult GetRealEstatesSold()
+        {
+
+            var list = _context.RealEstates.Where(t => t.Active == false).Where(t => t.IsDeleted == false)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
         [HttpDelete("del/{id}")]
         public ContentResult DelRealEstate(int id)
         {
