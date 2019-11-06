@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using RealtorUI.Models;
 using Newtonsoft.Json;
 using APIConnectService.Models;
+using System.Collections.ObjectModel;
 
 namespace RealtorUI.Pages
 {
@@ -28,7 +29,9 @@ namespace RealtorUI.Pages
     public partial class AddRealEstatePage : Page
     {
         public UserInfoModel UserM { get; set; }
-        List<ImageEstateModel> images = new List<ImageEstateModel>();
+
+        ObservableCollection<ImageEstateModel> images = new ObservableCollection<ImageEstateModel>();
+
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
         List<TypeViewModel> homePlace = new List<TypeViewModel>();
@@ -41,6 +44,8 @@ namespace RealtorUI.Pages
         public AddRealEstatePage(UserInfoModel u)
         {
             InitializeComponent();
+            this.WindowHeight = 750;
+            this.WindowWidth = 800;
             UserM = u;
             HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/types");
             httpWebRequest.Method = "GET";
@@ -75,6 +80,8 @@ namespace RealtorUI.Pages
             cbType.ItemsSource = typesId;
             cbSellType.ItemsSource = sellTypesId;
             cbHomePlace.ItemsSource = homePlaceId;
+            lvPhotos.ItemsSource = images;
+
 
         }
 
@@ -86,8 +93,9 @@ namespace RealtorUI.Pages
             if (res.HasValue && res.Value == true)
             {
                 imagePath = openFile.FileName;
-                lvPhotos.Items.Add(new BitmapImage(new Uri(imagePath)));
-                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath) });
+                
+                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath), Image= new BitmapImage(new Uri(imagePath)) });
+
             }
 
         }
@@ -109,7 +117,12 @@ namespace RealtorUI.Pages
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
                 HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
                 UserId = UserM.Id,
-                images = images
+                images = images.Select(t=>new ImageEstateModel()
+                {
+                    EstateId=t.EstateId,
+                    Name=t.Name
+
+                }).ToList()
             };
 
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
