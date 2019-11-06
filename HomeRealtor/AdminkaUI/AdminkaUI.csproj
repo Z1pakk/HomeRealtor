@@ -87,6 +87,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Advertising.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\RealEstatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,8 +114,12 @@
     </Compile>
     <Compile Include="Model\AdminHelpModel.cs" />
     <Compile Include="Model\AdminLoginModel.cs" />
+    <Compile Include="Model\ShowAdvertisingModel.cs" />
     <Compile Include="Pages\AdminPagination.xaml.cs">
       <DependentUpon>AdminPagination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Advertising.xaml.cs">
+      <DependentUpon>Advertising.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\RealEstatePage.xaml.cs">
       <DependentUpon>RealEstatePage.xaml</DependentUpon>

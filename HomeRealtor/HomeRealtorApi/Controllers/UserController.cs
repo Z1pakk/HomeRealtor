@@ -30,9 +30,7 @@ namespace HomeRealtorApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
-
         private readonly EFContext _context;
-        private readonly IHostingEnvironment hosting;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
         {
@@ -272,7 +270,7 @@ namespace HomeRealtorApi.Controllers
                 _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins = 0;
                 return await CreateTokenAsync(user/*,role[0]*/);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
                 await _context.SaveChangesAsync();

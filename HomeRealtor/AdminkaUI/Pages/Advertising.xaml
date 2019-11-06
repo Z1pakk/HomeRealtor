@@ -1,0 +1,34 @@
+﻿<Page x:Class="AdminkaUI.Pages.Advertising"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AdminkaUI.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Advertising">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="174*"/>
+            <RowDefinition Height="175*"/>
+            <RowDefinition Height="51*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="99*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="AdvertizingDg" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="RealtorName" Header="Realtor Name" FontSize="15" Width="150"/>
+                <DataGridTextColumn x:Name="Advertizing" Header="Advertising" FontSize="15" Width="150"/>
+                <DataGridTextColumn x:Name="DateEnd" Header="Date End" FontSize="15" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="Addbtn" Content="Add" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button x:Name="Banbtn" Content="Ban" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    </Grid>
+</Page>

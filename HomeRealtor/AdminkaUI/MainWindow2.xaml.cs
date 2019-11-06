@@ -1,4 +1,5 @@
-﻿using APIConnectService.Helpers;
+﻿using AdminkaUI.Pages;
+using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
 using MahApps.Metro.Controls;
@@ -46,6 +47,11 @@ namespace AdminUI
         private void BtnBAN_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void BtnAdvertising_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Advertising());
         }
     }
 }
