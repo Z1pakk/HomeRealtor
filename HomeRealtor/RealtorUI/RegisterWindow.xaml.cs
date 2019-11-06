@@ -30,6 +30,7 @@ namespace RealtorUI
     {
         private string ImagePath;
         AddUserService service = new AddUserService();
+        private int Code;
 
         public RegisterWindow()
         {
@@ -48,29 +49,32 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            try
+            UserModel user = new UserModel()
             {
-                UserModel user = new UserModel()
-                {
-                    UserName = tbUsrName.Text,
-                    FirstName = tbFName.Text,
-                    LastName = tbLName.Text,
-                    Email = tbEmail.Text,
-                    PhoneNumber = tbPhNum.Text,
-                    Password = tbPass.Password,
-                    Age = int.Parse(tbAge.Text),
-                    Image = ImagePath,
-                    AboutMe = null,
-                    Role = cbRole.Text
-                };
-                service.AddUser("https://localhost:44325/api/user/add/", user);
-                this.DialogResult = true;
-            }
-            catch (Exception ex)
+                UserName = tbUsrName.Text,
+                FirstName = tbFName.Text,
+                LastName = tbLName.Text,
+                Email = tbEmail.Text,
+                PhoneNumber = tbPhNum.Text,
+                Password = tbPass.Password,
+                Age = int.Parse(tbAge.Text),
+                AboutMe = null,
+                Role = cbRole.Text
+            };
+            if (!string.IsNullOrEmpty(ImagePath))
             {
-                MessageBox.Show(ex.Message);
-                this.DialogResult = false;
+                string image = ImageHelper.ImageToBase64(ImagePath);
+                user.Image = image;
             }
+
+
+           
+            service.AddUser("https://localhost:44325/api/user/add/", user);
+            
+            this.Visibility = Visibility.Hidden;
+            LoginWindow window = new LoginWindow();
+            window.ShowDialog();
+
         }
     }
 }
