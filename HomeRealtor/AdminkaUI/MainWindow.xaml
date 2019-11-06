@@ -1,13 +1,11 @@
-﻿<Window
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+﻿<Window x:Class="AdminkaUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        x:Class="AdminUI.MainWindow"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AdminUI"
+        xmlns:local="clr-namespace:AdminkaUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="420.5">
+        Title="MainWindow" Height="450" Width="348.5">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="17*"/>
@@ -26,8 +24,9 @@
             <Label x:Name="lB" Content="Input password:" FontSize="20" Grid.RowSpan="2" Margin="0,30,0,0"/>
             <PasswordBox  x:Name="passwdBox" Grid.RowSpan="2" Margin="0,20,60,0"/>
         </StackPanel>
+
         <StackPanel x:Name="sP2" Grid.Row="2" Grid.Column="1" Orientation="Horizontal"  >
-            <Button Content="Login" Width="100" FontSize="14" Margin="95,0,0,0" Click="Button_Click_1" Height="41" VerticalAlignment="Top"/>
+            <Button Content="Login" Width="100" FontSize="14" Margin="95,0,0,0" Click="Button_Click_1"/>
         </StackPanel>
     </Grid>
 </Window>
