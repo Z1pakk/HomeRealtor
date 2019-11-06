@@ -24,6 +24,7 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        string _token;
         int _id;
 
         public HomePage()
@@ -40,6 +41,11 @@ namespace RealtorUI.Pages
                 advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
             }
 
+            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            {
+                string temp = reader.ReadToEnd();
+                _token = temp;
+            }
 
             InitializeComponent();
 
@@ -50,7 +56,7 @@ namespace RealtorUI.Pages
         private void LbAdvertising_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _id = ((AdvertisingModel)lbAdvertising.SelectedItems[0]).RealEstateId;
-            RealEstateAboutPage page = new RealEstateAboutPage(_id);
+            RealEstateAboutPage page = new RealEstateAboutPage(_id, _token);
             NavigationService.Navigate(page);
         }
     }
