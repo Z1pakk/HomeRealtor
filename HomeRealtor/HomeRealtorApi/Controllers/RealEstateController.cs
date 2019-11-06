@@ -87,7 +87,8 @@ namespace HomeRealtorApi.Controllers
                 TerritorySize = estate.TerritorySize,
                 TimeOfPost = estate.TimeOfPost,
                 TypeName = estate.TypeOf?.TypeName,
-                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}"
+                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}",
+                IsDeleted=estate.IsDeleted
             };
             string estateJson = JsonConvert.SerializeObject(model);
             return Content(estateJson);
@@ -179,14 +180,42 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
                     TerritorySize = t.TerritorySize,
-                    Active=t.Active
+                    Active=t.Active,
+                    IsDeleted=t.IsDeleted
                 }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
             return Content(json);
         }
-
+        [HttpDelete("del/{id}")]
+        public ContentResult DelRealEstate(int id)
+        {
+            try
+            {
+                 _context.RealEstates.FirstOrDefault(x => x.Id == id).IsDeleted=true;
+                _context.SaveChanges();
+                return Content("Real Estate is deleted");
+            }
+            catch (Exception ex)
+            {
+                return Content("Error" + ex.Message);
+            }
+        }
+        [HttpGet("restore/{id}")]
+        public ContentResult RestoreRealEstate(int id)
+        {
+            try
+            {
+                _context.RealEstates.FirstOrDefault(x => x.Id == id).IsDeleted = false;
+                _context.SaveChanges();
+                return Content("Real Estate is restored");
+            }
+            catch (Exception ex)
+            {
+                return Content("Error" + ex.Message);
+            }
+        }
         // DELETE api/values/5
         [HttpDelete("delete/{id}")]
         public ContentResult DeleteRealEstate(int id)

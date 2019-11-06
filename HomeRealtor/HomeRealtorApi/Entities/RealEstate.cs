@@ -43,7 +43,7 @@ namespace HomeRealtorApi.Entities
 
         [ForeignKey("SellOf")]
         public int SellType { get; set; }
-
+        public bool IsDeleted { get; set; }
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
         public virtual RealEstateSellType SellOf { get; set; }
