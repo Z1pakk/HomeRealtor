@@ -17,8 +17,11 @@ namespace HomeRealtorApi.Entities
         [Required, StringLength(40)]
         public string NameOfDistrict { get; set; }
         [ForeignKey("HomePlaceTypeOf")]
-        public int HomePlaceId { get; set; }
+        public int HomePlaceTypeId { get; set; }
+        [ForeignKey("RegionOf")]
+        public int RegionId { get; set; }
         public virtual ICollection<RealEstate> RealEstates { get; set; }
         public virtual HomePlaceType HomePlaceTypeOf { get; set; }
+        public virtual Region RegionOf { get; set; }
     }
 }
