@@ -57,7 +57,7 @@ namespace RealtorUI
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/checkcode");
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/");
             request.Method = "POST";
             request.ContentType = "application/json";
 
