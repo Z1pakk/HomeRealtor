@@ -1,8 +1,10 @@
 ﻿using APIConnectService.Models;
 using APIConnectService.Service;
+using Newtonsoft.Json;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -122,8 +124,12 @@ namespace RealtorUI.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
-        
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/find/Sell";
+            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, cbType.Text, cbTown.Text, cbDistrict.Text };
+            List<GetListEstateViewModel> estates = services.GetFindedEstates(url,"POST",JsonConvert.SerializeObject(arr),tok);
+            lv_Buy.ItemsSource = estates;
         }
     }
 }

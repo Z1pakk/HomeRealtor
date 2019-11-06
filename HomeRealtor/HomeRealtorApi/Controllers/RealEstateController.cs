@@ -206,83 +206,107 @@ namespace HomeRealtorApi.Controllers
                 return Content("Error" + ex.Message);
             }
         }
-        [HttpPost("find")]
-        public ContentResult FindEstates([FromBody] string[] values)
+        [HttpPost("find/{type}")]
+        [Authorize]
+        public ContentResult FindEstates(string type,[FromBody] string[] values)
         {
-            List<RealEstate> temp = new List<RealEstate>();
-            List<RealEstate> res = new List<RealEstate>();
-            if(values[0]!=string.Empty&& values[1] != string.Empty)
-            foreach (var item in _context.RealEstates)
+            try
             {
-                if (item.TerritorySize >= double.Parse(values[0]) && item.TerritorySize <= double.Parse(values[1]))
+                List<RealEstate> temp = new List<RealEstate>();
+                temp.AddRange(_context.RealEstates);
+                List<RealEstate> res = new List<RealEstate>();
+                if (values[0] != string.Empty && values[1] != string.Empty)
                 {
-                    temp.Add(item);
-                }
-            }
-            res = temp;
-            if (values[2] != string.Empty && values[3] != string.Empty)
-            {
-                temp = null;
-                foreach (var item in res)
-                {
-                    if (item.TerritorySize >= double.Parse(values[2]) && item.TerritorySize <= double.Parse(values[3]))
+                    temp = null;
+                    foreach (var item in _context.RealEstates)
                     {
-                        temp.Add(item);
-                    }
-                }
-            }
-            res = temp;
-            if (values[4] != string.Empty)
-            {
-                temp = null;
-                foreach (var item in res)
-                {
-                    if (values[4] == "4+" && item.RoomCount >= 4)
-                        temp.Add(item);
-                    else if (values[4] != "4+" && item.RoomCount >= int.Parse(values[4]))
-                        temp.Add(item);
-
-                }
-            }
-            res = temp;
-            if (values[5]!=string.Empty)
-            {
-                temp = null;        
-                foreach (var item in res)
-                {
-                    foreach (var i in _context.RealEstateTypes)
-                    {
-                        if (values[5] == i.TypeName && item.TypeId == i.Id)
+                        if (item.TerritorySize >= double.Parse(values[0]) && item.TerritorySize <= double.Parse(values[1]))
+                        {
                             temp.Add(item);
+                        }
                     }
                 }
-            }
-            res = temp;
-            if (values[6] != string.Empty)
-            {
-                temp = null;
-                foreach (var item in res)
+                res = temp;
+                if (values[2] != string.Empty && values[3] != string.Empty)
                 {
-                    if (item.HomePlaceOf.Town ==values[6])
+                    temp = null;
+                    foreach (var item in res)
                     {
-                        temp.Add(item);
+                        if (item.TerritorySize >= double.Parse(values[2]) && item.TerritorySize <= double.Parse(values[3]))
+                        {
+                            temp.Add(item);
+                        }
                     }
                 }
-            }
-            res = temp;
-            if (values[7] != string.Empty)
-            {
-                temp = null;
-                foreach (var item in res)
+                res = temp;
+                if (values[4] != string.Empty)
                 {
-                    if (item.HomePlaceOf.NameOfDistrict==values[7])
+                    temp = null;
+                    foreach (var item in res)
                     {
-                        temp.Add(item);
+                        if (values[4] == "4+" && item.RoomCount >= 4)
+                            temp.Add(item);
+                        else if (values[4] != "4+" && item.RoomCount >= int.Parse(values[4]))
+                            temp.Add(item);
+
                     }
                 }
+                res = temp;
+                if (values[5] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        foreach (var i in _context.RealEstateTypes)
+                        {
+                            if (values[5] == i.TypeName && item.TypeId == i.Id)
+                                temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[6] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (item.HomePlaceOf.Town == values[6])
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[7] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (item.HomePlaceOf.NameOfDistrict == values[7])
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+               
+                var list = temp.
+                Where(t => t.SellOf.SellTypeName == type).
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+
+                }).ToList();
+                return Content(JsonConvert.SerializeObject(list));
             }
-            res = temp;
-            return Content(JsonConvert.SerializeObject(res));
+            catch (Exception rx)
+            {
+                return Content("Eror:" + rx.Message);
+            }
         }
     }
 }
