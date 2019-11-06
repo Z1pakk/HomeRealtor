@@ -33,6 +33,68 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             _token = token;
+
+        }
+
+        private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int selectedId=((GetListEstateViewModel)lv_Buy.SelectedItem).Id;
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
+            NavigationService.Navigate(page);
+        }
+
+        private void lv_Rent_PreviewMouseDoubleClick_1(object sender, MouseButtonEventArgs e)
+        {
+            int selectedId = ((GetListEstateViewModel)lv_Rent.SelectedItem).Id;
+            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
+            NavigationService.Navigate(page);
+        }
+
+        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbType.IsEditable = false;
+        }
+
+        private async void cbTown_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        {
+            cbTown.IsEditable = false;
+            BaseServices service = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/get/hmpl";
+            List<HomePlaceModel> hm = (await service.GetHomePlaces(url, "GET", _token)).Result;
+
+            url = "https://localhost:44325/api/RealEstate/get/hmpl/types";
+            List<HomePlaceTypeModel> hmTypes =(await service.GetHomePlaceTypes(url, "GET", _token)).Result;
+            List<string> districts = new List<string>();
+            for (int i = 0; i < hmTypes.Count - 1; i++)
+            {
+                districts.AddRange(hm.Where(t => t.HomePlaceTypeId == hmTypes[i].Id&&t.Town==cbTown.Text).Select(t => t.NameOfDistrict));
+            }
+            cbDistrict.ItemsSource = districts;
+        }
+
+        private void cbDistrict_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbDistrict.IsEditable = false;
+        }
+
+        private void cbRCount_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbRCount.IsEditable = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/find/Sell";
+            //string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, cbType.Text, cbTown.Text, cbDistrict.Text };
+            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, string.Empty, cbType.Text, string.Empty, string.Empty};
+            List<GetListEstateViewModel> estates = services.GetFindedEstates(url,JsonConvert.SerializeObject(arr), "POST", tok);
+            lv_Buy.ItemsSource = estates;
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
             BaseServices service = new BaseServices();
             string url = "https://localhost:44325/api/RealEstate/get/Sell";
             var result = service.GetEstates(url, "GET");
@@ -64,72 +126,14 @@ namespace RealtorUI.Pages
             }
             lv_Rent.ItemsSource = estates_;
             ///////////////////////////////////////////////////////////////////////////////////
-            service = new BaseServices();
             url = "https://localhost:44325/api/RealEstate/get/types";
-            List<TypeViewModel> res = service.GetEstateTypes(url, "GET",_token);
+            List<TypeViewModel> res = service.GetEstateTypes(url, "GET", _token);
             cbType.ItemsSource = res.Select(t => t.Name);
-            service = new BaseServices();
+
             url = "https://localhost:44325/api/RealEstate/get/hmpl";
-            List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
-            cbTown.ItemsSource = hm.Select(t => t.Town);
+            List<HomePlaceModel> hm = (await service.GetHomePlaces(url, "GET", _token)).Result;
+            cbTown.ItemsSource = hm.Select(t => t.Town).Distinct();
             cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
-        }
-
-        private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            int selectedId=((GetListEstateViewModel)lv_Buy.SelectedItem).Id;
-            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
-            NavigationService.Navigate(page);
-        }
-
-        private void lv_Rent_PreviewMouseDoubleClick_1(object sender, MouseButtonEventArgs e)
-        {
-            int selectedId = ((GetListEstateViewModel)lv_Rent.SelectedItem).Id;
-            RealEstateAboutPage page = new RealEstateAboutPage(selectedId,_token);
-            NavigationService.Navigate(page);
-        }
-
-        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cbType.IsEditable = false;
-        }
-
-        private void cbTown_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cbTown.IsEditable = false;
-            BaseServices service = new BaseServices();
-            string url = "https://localhost:44325/api/RealEstate/get/hmpl";
-            List<HomePlaceModel> hm = service.GetHomePlaces(url, "GET", _token).Result.Result;
-            cbTown.ItemsSource = hm.Select(t => t.Town);
-            service = new BaseServices();
-            url = "https://localhost:44325/api/RealEstate/get/hmpl/types";
-            List<HomePlaceTypeModel> hmTypes = service.GetHomePlaceTypes(url, "GET", _token).Result.Result;
-            List<string> districts = new List<string>();
-            for (int i = 0; i < hmTypes.Count - 1; i++)
-            {
-                districts.AddRange(hm.Where(t => t.HomePlaceId == hmTypes[i].Id&&t.Town==cbTown.Text).Select(t => t.NameOfDistrict));
-            }
-            cbDistrict.ItemsSource = districts;
-        }
-
-        private void cbDistrict_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cbDistrict.IsEditable = false;
-        }
-
-        private void cbRCount_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            cbRCount.IsEditable = false;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-            BaseServices services = new BaseServices();
-            string url = "https://localhost:44325/api/RealEstate/find/Sell";
-            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, cbType.Text, cbTown.Text, cbDistrict.Text };
-            List<GetListEstateViewModel> estates = services.GetFindedEstates(url,"POST",JsonConvert.SerializeObject(arr),tok);
-            lv_Buy.ItemsSource = estates;
         }
     }
 }

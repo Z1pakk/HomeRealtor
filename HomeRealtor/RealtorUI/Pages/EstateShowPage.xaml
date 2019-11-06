@@ -7,8 +7,10 @@
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="EstateShowPage">
-
+      Title="EstateShowPage"
+      Loaded="Page_Loaded"
+      >
+      
     <Grid>
         <Controls:MetroTabControl>
             <TabItem Header="Buy" Width="100">
@@ -25,7 +27,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <ComboBox x:Name="cbType" IsEditable="True" FontSize="15" Text="Type of real estate" Margin="10" Height="30" SelectionChanged="cbType_SelectionChanged"/>
-                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChanged"/>
+                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChangedAsync"/>
                             <ComboBox x:Name="cbDistrict" IsEditable="True" FontSize="15" Text="District" Margin="10" Height="30" SelectionChanged="cbDistrict_SelectionChanged"/>
                         </StackPanel>
                         <Grid Margin="10 0" Grid.Column="1">

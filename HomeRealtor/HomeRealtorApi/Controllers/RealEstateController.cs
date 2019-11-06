@@ -64,12 +64,20 @@ namespace HomeRealtorApi.Controllers
         [Authorize]
         public ContentResult GetRealEstateHomePlaces()
         {
-            var list = _context.HomePlaces.
-                Select(t => new HomePlaceModel() { Town = t.Town, NameOfDistrict = t.NameOfDistrict, Id = t.Id }).ToList();
+            try
+            {
+                var list = _context.HomePlaces.
+                    Select(t => new HomePlaceModel() { Town = t.Town, NameOfDistrict = t.NameOfDistrict, Id = t.Id, HomePlaceTypeId=t.HomePlaceTypeId }).ToList();
 
-            string json = JsonConvert.SerializeObject(list);
+                string json = JsonConvert.SerializeObject(list);
 
-            return Content(json);
+                return Content(json);
+            }
+            catch(Exception ex)
+            {
+
+                return Content("Error: " + ex.Message);   
+            }
         }
         [HttpGet("get/hmpl/types")]
         [Authorize]

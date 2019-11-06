@@ -104,7 +104,6 @@ namespace HomeRealtorApi.Controllers
                         product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
                     }
                 }
-                edit.Image = User.Image;
                 edit.Image = path;
                 edit.LastName = User.LastName;
                 edit.PhoneNumber = User.PhoneNumber;
