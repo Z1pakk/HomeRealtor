@@ -85,7 +85,7 @@ namespace HomeRealtorApi.Migrations
 
                     b.HasIndex("HomePlaceId");
 
-                    b.ToTable("HomePlaces");
+                    b.ToTable("tbl_HomePlaces");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.HomePlaceType", b =>
@@ -94,11 +94,13 @@ namespace HomeRealtorApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("NameOfType");
+                    b.Property<string>("NameOfType")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
-                    b.ToTable("HomePlaceTypes");
+                    b.ToTable("tbl_HomePlaceTypes");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>

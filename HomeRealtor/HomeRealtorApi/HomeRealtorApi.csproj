@@ -27,7 +27,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\Content\Users\" />
   </ItemGroup>
 

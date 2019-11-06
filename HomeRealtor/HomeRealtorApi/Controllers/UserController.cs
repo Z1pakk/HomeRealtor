@@ -56,7 +56,8 @@ namespace HomeRealtorApi.Controllers
                     PhoneNumber = User.PhoneNumber,
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
-                    LastName = User.LastName
+                    LastName = User.LastName,
+                    CountOfLogins=0
                 };
                 if (!string.IsNullOrEmpty(User.Image))
                 {
@@ -79,7 +80,7 @@ namespace HomeRealtorApi.Controllers
 
                 var result = await _userManager.CreateAsync(user, User.Password);
 
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Realtor");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
