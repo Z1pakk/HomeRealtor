@@ -153,6 +153,27 @@ namespace APIConnectService.Service
             return models;
         }
 
+        public List<GetListEstateViewModel> GetFindedEstates(string url,string json, string method,string token)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {token}"); 
+            if (json != string.Empty)
+                using (StreamWriter stream = new StreamWriter(request.GetRequestStream()))
+                {
+                    stream.Write(json);
+                }
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            List<GetListEstateViewModel> models = JsonConvert.DeserializeObject<List<GetListEstateViewModel>>(responceFromServer);
+            return models;
+        }
         public List<TypeViewModel> GetEstateTypes(string url, string method,string token)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
