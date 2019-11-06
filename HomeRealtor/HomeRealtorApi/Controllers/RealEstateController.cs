@@ -76,7 +76,7 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetRealEstateHomePlaceTypes()
         {
             var list = _context.HomePlaces.
-                Select(t => new HomePlaceTypeModel() { Id = t.Id, NameOfType = t.NameOfDistrict }).ToList();
+                Select(t => new HomePlaceTypeModel() { Id = t.Id, Name = t.NameOfDistrict }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 

@@ -113,7 +113,7 @@ namespace HomeRealtorApi.Controllers
                 edit.AboutMe = User.AboutMe;
                 edit.Age = User.Age;
                 edit.Email = User.Email;
-                _context.SaveChanges();*/
+                _context.SaveChanges();
                 return Content("OK");
             }
             catch (Exception ex)
