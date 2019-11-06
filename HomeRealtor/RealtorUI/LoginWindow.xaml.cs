@@ -63,7 +63,7 @@ namespace RealtorUI
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

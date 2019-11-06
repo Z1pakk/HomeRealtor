@@ -28,7 +28,7 @@ namespace RealtorUI.Pages
     public partial class AddRealEstatePage : Page
     {
         public UserInfoModel UserM { get; set; }
-        List<ImageEstateModel> images = new List<ImageEstateModel>();
+        List<APIConnectService.Models.ImageEstateModel> images = new List<APIConnectService.Models.ImageEstateModel>();
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
 
