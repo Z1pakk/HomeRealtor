@@ -23,20 +23,19 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <!--<ScrollViewer Cursor="Hand" HorizontalAlignment="Left">-->
         <ListView Name="lbAdvertising" BorderThickness="0 0 0 0" Panel.ZIndex="1" SelectionChanged="LbAdvertising_SelectionChanged" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
+                    <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth,ElementName=lbAdvertising}"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Cursor="Hand" Height="200" Width="250">
+                    <StackPanel Cursor="Hand" Height="170" Width="220">
                         <StackPanel.Background>
                             <ImageBrush ImageSource="{Binding Image}" />
                         </StackPanel.Background>
-                        <!--<Label Content="{Binding StateName}" Foreground="White" FontSize="18"/>-->
+                        <Label Content="{Binding StateName}" Foreground="White" FontSize="18"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
