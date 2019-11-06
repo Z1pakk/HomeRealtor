@@ -23,7 +23,8 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <ListView Name="lbAdvertising" Panel.ZIndex="1" SelectionChanged="LbAdvertising_SelectionChanged" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
+        <!--<ScrollViewer Cursor="Hand" HorizontalAlignment="Left">-->
+        <ListView Name="lbAdvertising" BorderThickness="0 0 0 0" Panel.ZIndex="1" SelectionChanged="LbAdvertising_SelectionChanged" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"/>
@@ -31,15 +32,16 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Cursor="Hand" Height="200" Width="200">
+                    <StackPanel Cursor="Hand" Height="200" Width="250">
                         <StackPanel.Background>
                             <ImageBrush ImageSource="{Binding Image}" />
                         </StackPanel.Background>
-                      
+                        <!--<Label Content="{Binding StateName}" Foreground="White" FontSize="18"/>-->
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <!--</ScrollViewer>-->
 
         <!--<WrapPanel Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top">
             

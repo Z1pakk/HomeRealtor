@@ -41,7 +41,7 @@ namespace RealtorUI.Pages
                 advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
             }
 
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            using (StreamReader reader = new StreamReader("token.txt"))
             {
                 string temp = reader.ReadToEnd();
                 _token = temp;
