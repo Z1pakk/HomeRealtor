@@ -27,7 +27,7 @@
       
 
         <Label Content="" x:Name="txtHeadline" FontSize="35" HorizontalAlignment="Center"  VerticalAlignment="Top" Grid.ColumnSpan="2"    />
-        <Image HorizontalAlignment="Left" Height="156" Margin="100,0,0,0" VerticalAlignment="Top" Width="262" Grid.Column="1" Grid.Row="1"/>
+        <Image x:Name="imgNews"   HorizontalAlignment="Left" Height="156" Margin="100,0,0,0" VerticalAlignment="Top" Width="262" Grid.Column="1" Grid.Row="1"/>
 
     </Grid> 
     </ScrollViewer>

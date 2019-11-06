@@ -45,7 +45,7 @@ namespace RealtorUI.Pages
 
             txtHeadline.Content = news.Headline;
             txtText.Text = news.Text;
-            
+            imgNews.Source = new BitmapImage(news.Image);
 
 
         }

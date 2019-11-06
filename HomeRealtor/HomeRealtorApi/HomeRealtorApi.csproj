@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\20191106135602_temp.cs" />
-    <Compile Include="Migrations\20191106135602_temp.Designer.cs" />
+    <Compile Include="Migrations\20191106152129_temp.cs" />
+    <Compile Include="Migrations\20191106152129_temp.Designer.cs" />
     <Compile Include="Migrations\EFContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -31,9 +31,6 @@
     <Compile Update="Startup.cs">
       <Generator>w</Generator>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
    <ItemGroup>

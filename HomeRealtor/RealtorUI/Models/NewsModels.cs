@@ -11,6 +11,6 @@ namespace RealtorUI.Models
        public int Id { get; set; }
        public string Headline { get; set; }
        public string Text { get; set; }
-        
+        public Uri Image { get;  set; }
     }
 }
