@@ -188,6 +188,26 @@ namespace HomeRealtorApi.Controllers
                 return Content("Error" + ex.Message);
             }
         }
+        [HttpGet("get")]
+        public ContentResult GetRealEstates()
+        {
+
+            var list = _context.RealEstates.
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active=t.Active
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
 
         // DELETE api/values/5
         [HttpDelete("delete/{id}")]

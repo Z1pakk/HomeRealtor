@@ -1,7 +1,4 @@
-﻿using AdminUI.Model;
-using APIConnectService.Service;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace AdminUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow2.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow2 : Window
     {
-        public MainWindow()
+        public MainWindow2()
         {
             InitializeComponent();
+            frame.Navigate(new AdminPagination());
         }
     }
 }
