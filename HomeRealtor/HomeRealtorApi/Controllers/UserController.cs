@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -29,18 +28,19 @@ namespace HomeRealtorApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-
+        private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
 
         private readonly EFContext _context;
 
         private readonly IHostingEnvironment hosting;
 
-        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager)
+        public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
         {
             _userManager = userManager;
             _sigInManager = sigInManager;
             _context = context;
+            hosting = environment;
         }
 
         [HttpPost("add")]
@@ -90,48 +90,75 @@ namespace HomeRealtorApi.Controllers
             }
             return BadRequest();
         }
-        //[HttpPut("edit/{id}")]
-        //public ContentResult Edit(string id, [FromBody]UserModel User)
-        //{
-        //    try
-        //    {
-        //        var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-        //        edit.Image = User.Image;
-        //        edit.LastName = User.LastName;
-        //        edit.PhoneNumber = User.PhoneNumber;
-        //        edit.UserName = User.UserName;
-        //        edit.FirstName = User.FirstName;
-        //        edit.AboutMe = User.AboutMe;
-        //        edit.Age = User.Age;
-        //        edit.Email = User.Email;
-        //        _context.SaveChanges();
-        //        return Content("OK");
-        //    }
-        //    catch (Exception ex)
-        //    {
+        [HttpPut("edit")]
+        [Authorize]
+        public ContentResult Edit([FromBody]UserInfoModel User)
+        {
+            try
+            {
+                var edit = _context.Users.FirstOrDefault(t => t.Id == this.User.Identity.Name);
+                if(edit.Image != string.Empty)
+                    System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
+                string path="";
+                if (User.Image != string.Empty)
+                {
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image product = Image.FromStream(stream);
+                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                    }
+                }
+                edit.Image = User.Image;
+                edit.Image = path;
+                edit.LastName = User.LastName;
+                edit.PhoneNumber = User.PhoneNumber;
+                edit.UserName = User.UserName;
+                edit.FirstName = User.FirstName;
+                edit.AboutMe = User.AboutMe;
+                edit.Age = User.Age;
+                edit.Email = User.Email;
+                _context.SaveChanges();
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
 
-        //        return Content("Еррор:" + ex.Message);
 
-        //    }
 
-        //}
+                return Content("Еррор:" + ex.Message);
+
+
+
+            }
+        }
+
+
         [HttpPut("change")]
         [Authorize]
-        public async Task<ContentResult> ChangePasswordAsync([FromBody]string []Passwords)
+        public async Task<ContentResult> ChangePasswordAsync([FromBody]string[] Passwords)
         {
             try
             {
                 User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
-                IdentityResult res=await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
+                IdentityResult res = await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
                 return Content("OK");
             }
             catch (Exception ex)
             {
                 return Content("Еррор:" + ex.Message);
 
+
             }
 
+
         }
+
+
+
+
+
         [HttpGet("current")]
         [Authorize]
         public async Task<ContentResult> CurrentUser()
@@ -179,9 +206,6 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
         {
-
-            // User User = _context.Users.FirstOrDefault(t => t.Email == loginModel.Email);
-
 
             try
             {
@@ -255,7 +279,7 @@ namespace HomeRealtorApi.Controllers
                     return "Error";
                 }
                 _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins = 0;
-                return CreateTokenAsync(user/*,role[0]*/);
+                return await CreateTokenAsync(user/*,role[0]*/);
             }
             catch (Exception ex)
             {
@@ -263,8 +287,6 @@ namespace HomeRealtorApi.Controllers
                 await _context.SaveChangesAsync();
                 return "Error";
             }
-
-            //  return  CreateTokenAsync(user,role[0]);
 
 
         }
@@ -331,30 +353,52 @@ namespace HomeRealtorApi.Controllers
             }
         }
 
-        [HttpGet("checkcode")]
-        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        [HttpPost("checkcode")]
+        public async Task<IActionResult> CheckCode([FromBody]CheckCodeModel model)
         {
-           var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
-           if(res!=null)
+            try
             {
-                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
-            }
-           
+                var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+                if (res != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ForgotPasswords.Remove(res);
+                    await _context.SaveChangesAsync();
 
-            return Content("OK");
+                }
+                return BadRequest();
+
+            }
+
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
         }
 
-        private string CreateTokenAsync(User user/*, string role*/)
+        private async Task<string> CreateTokenAsync(User user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name,user.UserName),
-               // new Claim("role",role)
             };
+
+            foreach (var item in await _userManager.GetRolesAsync(user))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, item));
+            }
+
             var now = DateTime.UtcNow;
             var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret-key-example"));
             var signinCredentials = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
             // Generate the jwt token
+            // tyt byv melnyk )))
+
             var jwt = new JwtSecurityToken(
                 signingCredentials: signinCredentials,
                 expires: now.Add(TimeSpan.FromDays(1)),

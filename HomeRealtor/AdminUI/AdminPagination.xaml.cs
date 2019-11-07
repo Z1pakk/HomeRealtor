@@ -1,5 +1,6 @@
-﻿using APIConnectService.Service;
-using MahApps.Metro.Controls;
+﻿using AdminUI.Model;
+using APIConnectService.Service;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RealtorUI
+namespace AdminUI
 {
     /// <summary>
     /// Interaction logic for AdminPagination.xaml
     /// </summary>
-    public partial class AdminPagination : MetroWindow
+    public partial class AdminPagination : Page
     {
         GetUsersPaginationService service = new GetUsersPaginationService();
         public AdminPagination()
         {
             InitializeComponent();
-
         }
         private void But1_Click(object sender, RoutedEventArgs e)
         {
             int nom = int.Parse(But1.Content.ToString());
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", nom).ToList();
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
             if ((int.Parse(But1.Content.ToString()) >= 3))
             {
 
@@ -46,7 +48,9 @@ namespace RealtorUI
         private void But2_Click(object sender, RoutedEventArgs e)
         {
             int nom = int.Parse(But2.Content.ToString());
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", nom).ToList();
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
             if (int.Parse(But2.Content.ToString()) >= 3)
             {
                 But3.Content = But2.Content;
@@ -60,13 +64,17 @@ namespace RealtorUI
         private void But3_Click(object sender, RoutedEventArgs e)
         {
             int nom = int.Parse(But3.Content.ToString());
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", nom).ToList();
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
         }
 
         private void But4_Click(object sender, RoutedEventArgs e)
         {
             int nom = int.Parse(But4.Content.ToString());
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", nom).ToList();
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
             if (int.Parse(But4.Content.ToString()) >= 4)
             {
                 But3.Content = But4.Content;
@@ -80,7 +88,9 @@ namespace RealtorUI
         private void But5_Click(object sender, RoutedEventArgs e)
         {
             int nom = int.Parse(But5.Content.ToString());
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", nom).ToList();
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
             if (int.Parse(But5.Content.ToString()) >= 5)
             {
                 But3.Content = But5.Content;
@@ -92,16 +102,28 @@ namespace RealtorUI
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int ar = int.Parse(txtBox.Text);
-            data.ItemsSource = service.GetPagin("http://localhost:44325/api/Admin/GetUserPagin/", ar).ToList();
-            But3.Content = ar;
-            But4.Content = int.Parse(But3.Content.ToString()) + 1;
-            But5.Content = int.Parse(But3.Content.ToString()) + 2;
-            But2.Content = int.Parse(But3.Content.ToString()) - 1;
-            But1.Content = int.Parse(But3.Content.ToString()) - 2;
-            
+            int nom = int.Parse(txtBox.Text);
+            string get = service.GetPagin("https://localhost:44325/api/Admin/GetUserPagin/", nom);
+            List<AdminHelpModel> list = JsonConvert.DeserializeObject<List<AdminHelpModel>>(get);
+            data.ItemsSource = list;
+            if (nom >= 3)
+            {
+                But3.Content = nom;
+                But4.Content = int.Parse(But3.Content.ToString()) + 1;
+                But5.Content = int.Parse(But3.Content.ToString()) + 2;
+                But2.Content = int.Parse(But3.Content.ToString()) - 1;
+                But1.Content = int.Parse(But3.Content.ToString()) - 2;
+            }
+            else
+            {
+                But3.Content = 3;
+                But4.Content = int.Parse(But3.Content.ToString()) + 1;
+                But5.Content = int.Parse(But3.Content.ToString()) + 2;
+                But2.Content = int.Parse(But3.Content.ToString()) - 1;
+                But1.Content = int.Parse(But3.Content.ToString()) - 2;
+            }
+
             txtBox.Clear();
         }
     }
-
 }

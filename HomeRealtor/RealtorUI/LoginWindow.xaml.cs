@@ -80,16 +80,11 @@ namespace RealtorUI
         {
             RegisterWindow window = new RegisterWindow();
             this.Visibility = Visibility.Hidden;
-            var result = window.ShowDialog();
-
-            if (result.HasValue && result.Value == true) {
-                this.Visibility = Visibility.Visible;
-            };
+            this.Close();
+            window.ShowDialog();
         }
         private async Task<string> LoginAsync()
-        {
-
-
+        { 
             string Role;
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
@@ -102,6 +97,7 @@ namespace RealtorUI
                 UserLoginModel model = new UserLoginModel();
                 writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
                 {
+
                     Password = passwdBox.Password,
                     Email = loginBox.Text,
                     Role = Role
@@ -122,7 +118,7 @@ namespace RealtorUI
 
                 sP.Visibility = Visibility.Hidden;
                 sP2.Visibility = Visibility.Hidden;
-                btn.Visibility = Visibility.Hidden;
+                //btn.Visibility = Visibility.Hidden;
                 //lB.Visibility = Visibility.Hidden;
                 mE.Visibility = Visibility.Visible;
 
@@ -136,7 +132,7 @@ namespace RealtorUI
                 {
                     sP.Visibility = Visibility.Visible;
                     sP2.Visibility = Visibility.Visible;
-                    btn.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
                     MessageBox.Show("Your account is banned ! Please unlock your account in your email");
@@ -146,7 +142,7 @@ namespace RealtorUI
                 {
                     sP.Visibility = Visibility.Visible;
                     sP2.Visibility = Visibility.Visible;
-                    btn.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
                     MessageBox.Show("You haven`t got this role");

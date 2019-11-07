@@ -55,6 +55,8 @@
     <Compile Include="Models\GetListEstateViewModel.cs" />
     <Compile Include="Models\GetRealEstateViewModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
+    <Compile Include="Models\HomePlaceModel.cs" />
+    <Compile Include="Models\HomePlaceTypeModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Service\AddUserService.cs" />
     <Compile Include="Service\BaseServices.cs" />
     <Compile Include="Service\GetUsersPaginationService.cs" />
+    <Compile Include="Service\SendCodeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
