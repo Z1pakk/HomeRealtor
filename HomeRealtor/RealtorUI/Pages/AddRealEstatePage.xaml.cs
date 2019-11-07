@@ -30,7 +30,8 @@ namespace RealtorUI.Pages
     {
         public UserInfoModel UserM { get; set; }
 
-        ObservableCollection<ImageEstateModel> images = new ObservableCollection<ImageEstateModel>();
+        ObservableCollection<LVImages> lvImages = new ObservableCollection<LVImages>();
+        List<string> images = new List<string>();
 
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
@@ -80,7 +81,7 @@ namespace RealtorUI.Pages
             cbType.ItemsSource = typesId;
             cbSellType.ItemsSource = sellTypesId;
             cbHomePlace.ItemsSource = homePlaceId;
-            lvPhotos.ItemsSource = images;
+            lvPhotos.ItemsSource = lvImages;
 
 
         }
@@ -94,7 +95,8 @@ namespace RealtorUI.Pages
             {
                 imagePath = openFile.FileName;
                 
-                images.Add(new ImageEstateModel() { EstateId = 0, Name = ImageHelper.ImageToBase64(imagePath), Image= new BitmapImage(new Uri(imagePath)) });
+                images.Add(ImageHelper.ImageToBase64(imagePath));
+                lvImages.Add(new LVImages() { BitImage = new BitmapImage(new Uri(imagePath))});
 
             }
 
@@ -102,7 +104,7 @@ namespace RealtorUI.Pages
 
         private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
         {
-            imagePath = images.First().Name;
+            imagePath = images.First();
             RealEstateViewModel realEstate = new RealEstateViewModel()
             {
                 Active = true,
@@ -111,18 +113,15 @@ namespace RealtorUI.Pages
                 Price = Double.Parse(tbPrice.Text),
                 StateName = tbState.Text,
                 TerritorySize = Double.Parse(tbArea.Text),
-                TypeId = types.FirstOrDefault(t=>t.Name== (string)cbType.SelectedItem).Id,
+                TypeId = types.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
                 TimeOfPost = DateTime.Now,
                 RoomCount = Int32.Parse(tbRoomCount.Text),
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
                 HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
                 UserId = UserM.Id,
-                images = images.Select(t=>new ImageEstateModel()
-                {
-                    EstateId=t.EstateId,
-                    Name=t.Name
-
-                }).ToList()
+                images = images,
+                description = tbAbout.Text
+                
             };
 
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");

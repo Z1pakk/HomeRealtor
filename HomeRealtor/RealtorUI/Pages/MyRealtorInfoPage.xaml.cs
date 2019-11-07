@@ -27,6 +27,10 @@ namespace RealtorUI.Pages
     public partial class MyRealtorInfoPage : Page
     {
         public UserInfoModel UserM { get; set; }
+
+        string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+        BaseServices services = new BaseServices();
+
         public MyRealtorInfoPage(UserInfoModel user)
         {
             InitializeComponent();
@@ -42,7 +46,6 @@ namespace RealtorUI.Pages
         {
             if (dgEstates.SelectedItem != null)
             {
-                BaseServices services = new BaseServices();
                 ServiceResult resOrder = await services.OrderMethod("https://localhost:44325/api/order/orders", string.Empty, "GET");
                 if (resOrder.Success == true)
                 {
@@ -63,8 +66,6 @@ namespace RealtorUI.Pages
         }
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-            BaseServices services = new BaseServices();
             ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET",tok);
             if (res.Success == true)
             {
@@ -91,7 +92,7 @@ namespace RealtorUI.Pages
             string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
-            BaseServices services = new BaseServices();
+
             ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
             if (res.Result == false)
                 MessageBox.Show(res.ExceptionMessage);
@@ -103,8 +104,6 @@ namespace RealtorUI.Pages
             AddRealEstatePage page = new AddRealEstatePage(UserM);
             NavigationService.Navigate(page);
 
-            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-            BaseServices services = new BaseServices();
             ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
             if (res.Success == true)
             {
@@ -127,8 +126,6 @@ namespace RealtorUI.Pages
             EditRealEstatePage page = new EditRealEstatePage(UserM, id);
             NavigationService.Navigate(page);
 
-            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-            BaseServices services = new BaseServices();
             ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET", tok);
             if (res.Success == true)
             {
@@ -159,7 +156,6 @@ namespace RealtorUI.Pages
             if (openFile.FileName != null)
             {
                 sser.Image = ImageHelper.ImageToBase64(openFile.FileName);
-                BaseServices services = new BaseServices();
                 ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
                 if (res.Success == false)
                     MessageBox.Show(res.ExceptionMessage);

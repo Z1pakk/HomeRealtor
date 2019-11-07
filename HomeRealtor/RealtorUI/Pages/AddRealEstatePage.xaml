@@ -57,7 +57,7 @@
             <ComboBox x:Name="cbType" Grid.Column="1" Grid.Row="8" FontSize="18" Margin="150,0,10,10"/>
 
             <Label Grid.Column="1" Grid.Row="9"  FontSize="20" HorizontalAlignment="Left" Content="About: " Width="76" VerticalAlignment="Bottom" Height="37" />
-            <RichTextBox x:Name="rtbAbout" Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" FontSize="18" Height="150" Margin="10" />
+            <TextBox x:Name="tbAbout" Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" FontSize="18" Height="150" Margin="10" />
 
             <Button x:Name="btnAddPhoto" Grid.Column="2" Content="Add Photo" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,10,0,0" Click="BtnAddPhoto_Click"/>
 
@@ -69,7 +69,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding Image}" MaxHeight="200" MaxWidth="200" />
+                        <Image Source="{Binding BitImage}" MaxHeight="200" MaxWidth="200" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

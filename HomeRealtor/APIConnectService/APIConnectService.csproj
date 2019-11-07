@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -51,10 +54,12 @@
   <ItemGroup>
     <Compile Include="Helpers\ServiceResult.cs" />
     <Compile Include="Models\AddOrderViewModel.cs" />
+    <Compile Include="Models\GetEstateImagesViewModel.cs" />
     <Compile Include="Models\GetListEstateViewModel.cs" />
     <Compile Include="Models\GetRealEstateViewModel.cs" />
     <Compile Include="Models\HomePlaceModel.cs" />
     <Compile Include="Models\HomePlaceTypeModel.cs" />
+    <Compile Include="Models\ImageEstateModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />

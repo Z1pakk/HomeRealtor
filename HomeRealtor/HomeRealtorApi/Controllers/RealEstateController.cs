@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using HomeRealtorApi.Helpers;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -143,28 +144,45 @@ namespace HomeRealtorApi.Controllers
                     TimeOfPost = model.TimeOfPost,
                     RoomCount = model.RoomCount,
                     SellType = model.SellType,
-                    HomePlaceId = model.HomePlaceId
+                    HomePlaceId = model.HomePlaceId,
+                    Description = model.description
+                    
                 };
+                _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
-                    string path = string.Empty;
-                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                    string smallImage = string.Empty;
+                    string mediumImage = string.Empty;
+                    string largeImage = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(imgEst);
                     using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
                     {
                         //Назва фотки із розширення
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image realEstateImage = Image.FromStream(stream);
-                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                        string name = Guid.NewGuid().ToString();
+                        smallImage = name + "_small.jpg";
+                        mediumImage = name + "_medium.jpg";
+                        largeImage = name + "_large.jpg";
+                        //Image realEstateImage = Image.FromStream(stream);
+                        Image imgSmall = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 64, 64);
+                        Image imgMedium = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 480, 480);
+                        Image imgLarge = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 1024, 1024);
+                        imgSmall.Save(_appEnvoronment.WebRootPath + @"/Content/" + smallImage, ImageFormat.Jpeg);
+                        imgMedium.Save(_appEnvoronment.WebRootPath + @"/Content/" + mediumImage, ImageFormat.Jpeg);
+                        imgLarge.Save(_appEnvoronment.WebRootPath + @"/Content/" + largeImage, ImageFormat.Jpeg);
+                        //realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
                     }
-
                     ImageEstate estateImage = new ImageEstate()
                     {
-                        Name = path,
+                        SmallImage   = smallImage,
+                        MediumImage= mediumImage,
+                        LargeImage = largeImage,
                         EstateId = estate.Id
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
-                _context.RealEstates.Add(estate);
+                estate.Image = estate.ImageEstates.First().MediumImage;
+
+
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
@@ -182,14 +200,15 @@ namespace HomeRealtorApi.Controllers
             {
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
-                estate.Image = model.Image;
-                estate.Location = model.Location;
-                estate.TerritorySize = model.TerritorySize;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
+                estate.TerritorySize = model.TerritorySize;
+                estate.Location = model.Location;
                 estate.TypeId = model.TypeId;
-                estate.UserId = model.UserId;
-                estate.TimeOfPost = model.TimeOfPost;
+                estate.RoomCount = model.RoomCount;
+                estate.SellType = model.SellType;
+                estate.HomePlaceId = model.HomePlaceId;
+                estate.Description = model.description;
                 _context.SaveChanges();
                 return Content("Real Estate is edited");
             }
