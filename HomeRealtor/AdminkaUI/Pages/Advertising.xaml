@@ -29,6 +29,6 @@
         </DataGrid>
         <Button x:Name="Addbtn" Content="Add" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="Banbtn" Content="Ban" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+   
     </Grid>
 </Page>

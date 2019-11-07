@@ -27,6 +27,7 @@ namespace AdminkaUI.Pages
         public Advertising()
         {
             InitializeComponent();
+            ShowAdvertising();
         }
         private void ShowAdvertising()
         {
@@ -41,10 +42,7 @@ namespace AdminkaUI.Pages
                 string temp = writer.ReadToEnd();
                 advertisings = JsonConvert.DeserializeObject<List<ShowAdvertisingModel>>(temp);
             }
-            foreach(var item in advertisings)
-            {
-                
-            }
+             AdvertizingDg.ItemsSource = advertisings;
         }
     }
 }
