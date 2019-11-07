@@ -85,5 +85,13 @@ namespace HomeRealtorApi.Controllers
             string json = JsonConvert.SerializeObject(models);
             return Content(json, "application/json");
         }
+
+        [HttpDelete("delete")]
+        public ContentResult DeleteAdvertising([FromBody]DellAdvertising model)
+        {
+            _context.Advertisings.Remove(_context.Advertisings.FirstOrDefault(t => t.Id == model.Id));
+            _context.SaveChanges();
+            return Content("OK");
+        }
     }
 }

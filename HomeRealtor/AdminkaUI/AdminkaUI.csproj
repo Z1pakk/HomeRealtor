@@ -88,6 +88,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\AddAdvertisingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\AdminBanPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,6 +128,15 @@
     <Compile Include="Model\AddAdvertisingModel.cs" />
     <Compile Include="Model\AdminHelpModel.cs" />
     <Compile Include="Model\AdminLoginModel.cs" />
+    <Compile Include="Model\DelAdvertisingModel.cs" />
+    <Compile Include="Model\ImageModel.cs" />
+    <Compile Include="Model\ShowAdvertisingModel.cs" />
+    <Compile Include="Pages\AddAdvertisingPage.xaml.cs">
+      <DependentUpon>AddAdvertisingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AdminBanPage.xaml.cs">
+      <DependentUpon>AdminBanPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AdminPagination.xaml.cs">
       <DependentUpon>AdminPagination.xaml</DependentUpon>
     </Compile>

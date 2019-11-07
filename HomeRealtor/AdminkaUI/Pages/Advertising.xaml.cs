@@ -44,5 +44,28 @@ namespace AdminkaUI.Pages
             }
              AdvertizingDg.ItemsSource = advertisings;
         }
+
+        private void Addbtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddAdvertisingPage page = new AddAdvertisingPage();
+            NavigationService.Navigate(page);
+        }
+
+        private void Banbtn_Click(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/dell");
+            request.Method = "DELETE";
+            request.ContentType = "application/json";
+
+            WebResponse response = request.GetResponse();
+            using (StreamWriter writer = new StreamWriter(response.GetResponseStream()))
+            {
+                DelAdvertisingModel model = new DelAdvertisingModel();
+                writer.Write(JsonConvert.SerializeObject(new DelAdvertisingModel()
+                {
+                    Id = AdvertizingDg
+                }));
+            }
+        }
     }
 }
