@@ -30,8 +30,6 @@ namespace RealtorUI
     {
         private string ImagePath;
         AddUserService service = new AddUserService();
-        private int Code;
-
         public RegisterWindow()
         {
             InitializeComponent();
@@ -71,8 +69,9 @@ namespace RealtorUI
            
             service.AddUser("https://localhost:44325/api/user/add/", user);
             
+            ConfirmEmailWindow window = new ConfirmEmailWindow();
             this.Visibility = Visibility.Hidden;
-            LoginWindow window = new LoginWindow();
+            this.Close();
             window.ShowDialog();
 
         }

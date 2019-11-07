@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Helpers;
 using HomeRealtorApi.Models;
@@ -31,7 +32,7 @@ namespace HomeRealtorApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
-
+        private int code;
         private readonly EFContext _context;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
@@ -80,6 +81,39 @@ namespace HomeRealtorApi.Controllers
 
                 var result = await _userManager.CreateAsync(user, User.Password);
 
+
+
+                if(result.Succeeded)
+                {
+                    try
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        MailAddress to = new MailAddress(user.Email);
+                        MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Confirmation Email";
+                        m.IsBodyHtml = true;
+                        m.Body = "To confirm EMAIL enter this code: " + code;
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        ConfirmEmail confirm = new ConfirmEmail()
+                        {
+                            UserId = user.Id,
+                            Code = code
+                        };
+                        _context.ConfirmEmails.Add(confirm);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
+
+
                 await _userManager.AddToRoleAsync(user, "Realtor");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
@@ -99,7 +133,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
@@ -357,7 +391,6 @@ namespace HomeRealtorApi.Controllers
 
                 }
                 return BadRequest();
-
             }
 
             catch (Exception)
@@ -366,6 +399,34 @@ namespace HomeRealtorApi.Controllers
             }
 
         }
+
+
+        [HttpPost("confirmcode")]
+        public async Task<IActionResult> ConfirmCode([FromBody]ConfirmEmailModel confirm)
+        {
+            try
+            {
+                var check = _context.ConfirmEmails.FirstOrDefault(t => t.Code == confirm.Code);
+                if (check != null)
+                {
+                    var result = await _userManager.ConfirmEmailAsync(check.UserOf, confirm.Code);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ConfirmEmails.Remove(check);
+                    await _context.SaveChangesAsync();
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+
 
         private async Task<string> CreateTokenAsync(User user)
         {

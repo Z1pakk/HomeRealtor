@@ -265,6 +265,7 @@
     <Resource Include="login.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Content\email-icon.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Resource Include="Content\no-photo.png" />

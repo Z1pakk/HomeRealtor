@@ -1,7 +1,12 @@
-﻿using MahApps.Metro.Controls;
+﻿using APIConnectService.Service;
+using MahApps.Metro.Controls;
+using Newtonsoft.Json;
+using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HomeRealtorApi.Models;
 
 namespace RealtorUI
 {
@@ -20,14 +26,24 @@ namespace RealtorUI
     /// </summary>
     public partial class ConfirmEmailWindow : MetroWindow
     {
-        private int Code;
-        private string Email;
+        AddUserService service = new AddUserService();
 
-        public ConfirmEmailWindow(int code, string email)
+        public ConfirmEmailWindow()
         {
             InitializeComponent();
-            Code = code;
-            Email = email;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            service.CheckConfirmationCode("https://localhost:44325/api/user/confirmcode", new ConfirmEmailModel()
+            {
+                Code = tbCode.Text
+            });
+
+            LoginWindow window = new LoginWindow();
+            this.Visibility = Visibility.Hidden;
+            this.Close();
+            window.ShowDialog();
         }
     }
 }
