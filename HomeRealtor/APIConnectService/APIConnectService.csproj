@@ -64,6 +64,7 @@
     <Compile Include="Service\AddUserService.cs" />
     <Compile Include="Service\BaseServices.cs" />
     <Compile Include="Service\GetUsersPaginationService.cs" />
+    <Compile Include="Service\SendCodeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -46,6 +46,22 @@ namespace AdminUI
 
         private void BtnBAN_Click(object sender, RoutedEventArgs e)
         {
+            
+            frame.Navigate(new AdminBanPage());
+        }
+
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void BtnNews_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnReal_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using AdminUI;
 using AdminUI.Model;
+using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace AdminkaUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
@@ -58,12 +59,9 @@ namespace AdminkaUI
             return token;
         }
         private async void Button_Click_1(object sender, RoutedEventArgs e)
-        { 
+        {
+            sP2.Visibility = Visibility.Hidden;
             string token = await LoginAsync();
-
-
-
-
             //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
             if (token == "Locked")
             {
