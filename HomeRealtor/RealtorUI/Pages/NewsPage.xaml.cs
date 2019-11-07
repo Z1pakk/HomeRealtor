@@ -31,7 +31,7 @@ namespace RealtorUI.Pages
 
             InitializeComponent();
             _id = id;
-            string url = $"https://localhost:44325/api/news/get/{_id}";
+            string url = $"https://localhost:44325/api/news/get/{id}";
             string s;
             HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
             myReq.Method = "GET";
@@ -45,7 +45,7 @@ namespace RealtorUI.Pages
 
             txtHeadline.Content = news.Headline;
             txtText.Text = news.Text;
-            imgNews.Source = new BitmapImage(news.Image);
+            imgNews.Source = new BitmapImage(new Uri("https://localhost:44325/Content/News/" + news.Image));
 
 
         }

@@ -20,14 +20,14 @@
             <ColumnDefinition></ColumnDefinition>
 
         </Grid.ColumnDefinitions>
-        
-            <TextBlock x:Name="txtText" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" >
+            <Label Content="" x:Name="txtHeadline" FontSize="35" Grid.Row="0" HorizontalAlignment="Center"  VerticalAlignment="Top" Grid.ColumnSpan="2"    />
+
+            <TextBlock x:Name="txtText" Grid.Row="1" Grid.Column="0"  TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" >
 
             </TextBlock>
       
 
-        <Label Content="" x:Name="txtHeadline" FontSize="35" HorizontalAlignment="Center"  VerticalAlignment="Top" Grid.ColumnSpan="2"    />
-        <Image x:Name="imgNews"   HorizontalAlignment="Left" Height="156" Margin="100,0,0,0" VerticalAlignment="Top" Width="262" Grid.Column="1" Grid.Row="1"/>
+         <Image  x:Name="imgNews" HorizontalAlignment="Left" Height="156" Margin="100,0,0,0" VerticalAlignment="Top" Width="262" Grid.Column="1" Grid.Row="1"/>
 
     </Grid> 
     </ScrollViewer>
