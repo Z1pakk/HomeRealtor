@@ -26,6 +26,10 @@
     <Folder Include="wwwroot\Content\" />
   </ItemGroup>
 
+   <ItemGroup>
+     <ProjectReference Include="..\APIConnectService\APIConnectService.csproj" />
+   </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

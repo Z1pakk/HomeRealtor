@@ -11,10 +11,6 @@ namespace HomeRealtorApi.Entities
     public class Advertising
     {
         [Key] public int Id { get; set; }
-        public string Image { get; set; }
-        [Required] public string StateName { get; set; }
-        [Required] public double Price { get; set; }
-        [Required] public string Contacts { get; set; }
 
         [ForeignKey("UserOf")]
         public string UserId { get; set; }
