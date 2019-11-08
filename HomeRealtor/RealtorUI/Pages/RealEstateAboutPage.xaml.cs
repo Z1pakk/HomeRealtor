@@ -39,7 +39,7 @@ namespace RealtorUI.Pages
             string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
             GetRealEstateViewModel model = service.GetEstate(url, "GET");
 
-            var uri = new Uri(model.Image);
+            var uri = new Uri("https://localhost:44325/content/advertising"+model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
             txt_Name.Text += model.StateName;
