@@ -71,7 +71,11 @@ namespace RealtorUI
 
             if (result.HasValue && result.Value == true) {
                 this.Visibility = Visibility.Visible;
-            };
+            }
+            else if(result.HasValue)
+            {
+                this.Visibility = Visibility.Visible;
+            }
         }
         private async Task<string> LoginAsync()
         {
