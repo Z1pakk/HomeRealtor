@@ -94,7 +94,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == this.User.Identity.Name);
+                /*var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
@@ -117,7 +117,7 @@ namespace HomeRealtorApi.Controllers
                 edit.AboutMe = User.AboutMe;
                 edit.Age = User.Age;
                 edit.Email = User.Email;
-                _context.SaveChanges();
+                _context.SaveChanges();*/
                 return Content("OK");
             }
             catch (Exception ex)
@@ -211,8 +211,6 @@ namespace HomeRealtorApi.Controllers
                 User user = await _userManager.FindByEmailAsync(loginModel.Email);
                 if (user == null)
                 {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
                     return "Error";
                 }
                 var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
