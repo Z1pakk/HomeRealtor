@@ -117,29 +117,38 @@ namespace RealtorUI.Pages
 
         private async void btnAddMyInfo_Click(object sender, RoutedEventArgs e)
         {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             UserInfoModel sser = UserM;
             sser.AboutMe = txtAboutMe.Text;
             BaseServices services = new BaseServices();
-            ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
-            if (res.Result == false) 
+            ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
+            if (res.Success == false) 
                 MessageBox.Show(res.ExceptionMessage); 
             else MessageBox.Show(res.Result);
         }
 
         private async void Button_Click_Image(object sender, RoutedEventArgs e)
         {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             UserInfoModel sser = UserM;
             OpenFileDialog openFile = new OpenFileDialog();
             openFile.Filter = "Image files (*.jpg) | *.jpg";
             openFile.ShowDialog();
             if (openFile.FileName != null)
             {
-                sser.Image = openFile.FileName;
+                sser.Image = ImageHelper.ImageToBase64( openFile.FileName);
                 BaseServices services = new BaseServices();
-                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit/" + UserM.Id, JsonConvert.SerializeObject(sser), "PUT", string.Empty);
-                if (res.Result == false)
+                ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
+                if (res.Success == false)
                     MessageBox.Show(res.ExceptionMessage);
-                else MessageBox.Show(res.Result);
+                else 
+                {
+                    res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
+                    if (res.Success == true)
+                    {
+                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + res.Result.Image));
+                    }
+                }
             }
             else MessageBox.Show("You didn`t choose an image");
         }

@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealtorUI"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Confirm Email" Height="305.911" Width="286.607" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,12 +14,12 @@
             <RowDefinition Height="89*"/>
             <RowDefinition Height="68*"/>
         </Grid.RowDefinitions>
-        <Image  Source="C:\Users\redfreshka\Desktop\HomeRealtor\HomeRealtor\RealtorUI\bin\Debug\email-icon.png" Margin="5" />
+        <Image  Margin="5" Source="Content/email-icon.png"/>
         <StackPanel Grid.Row="1">
             <Label FontSize="14"  HorizontalAlignment="Left" Margin="10,0,0,0" Content="A CODE HAS BEEN SENT TO YOUR EMAIL"/>
             <Label  HorizontalAlignment="Left" Margin="10,0,0,0"  Content="Your code:"/>
-            <TextBox Margin="10 0" ></TextBox>
+            <TextBox x:Name="tbCode" Margin="10 0" ></TextBox>
         </StackPanel>
-        <Button Grid.Row="2" Margin="10 5" >Confirm</Button>
+        <Button Grid.Row="2" Margin="10 5" Click="Button_Click" >Confirm</Button>
     </Grid>
 </Controls:MetroWindow>

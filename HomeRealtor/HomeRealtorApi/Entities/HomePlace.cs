@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace HomeRealtorApi.Entities
+{
+    [Table("tbl_HomePlaces")]
+    public class HomePlace
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required, StringLength(40)]
+        public string Town { get; set; }
+        [Required, StringLength(40)]
+        public string NameOfDistrict { get; set; }
+        [ForeignKey("HomePlaceTypeOf")]
+        public int HomePlaceTypeId { get; set; }
+        [ForeignKey("RegionOf")]
+        public int RegionId { get; set; }
+        public virtual ICollection<RealEstate> RealEstates { get; set; }
+        public virtual HomePlaceType HomePlaceTypeOf { get; set; }
+        public virtual Region RegionOf { get; set; }
+    }
+}
