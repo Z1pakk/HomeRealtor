@@ -54,7 +54,7 @@ namespace HomeRealtorApi.Entities
         [ForeignKey("HomePlaceOf")]
         public int HomePlaceId { get; set; }
 
-        public virtual HomePlace HomePlaceOf { get; set; }
+        public virtual ICollection<HomePlace> HomePlaces { get; set; }
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
         public virtual RealEstateSellType SellOf { get; set; }

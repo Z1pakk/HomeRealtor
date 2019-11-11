@@ -10,18 +10,11 @@ namespace HomeRealtorApi.Entities
     [Table("tbl_HomePlaces")]
     public class HomePlace
     {
-        [Key]
-        public int Id { get; set; }
-        [Required, StringLength(40)]
-        public string Town { get; set; }
-        [Required, StringLength(40)]
-        public string NameOfDistrict { get; set; }
-        [ForeignKey("HomePlaceTypeOf")]
-        public int HomePlaceTypeId { get; set; }
-        [ForeignKey("RegionOf")]
-        public int RegionId { get; set; }
-        public virtual ICollection<RealEstate> RealEstates { get; set; }
-        public virtual HomePlaceType HomePlaceTypeOf { get; set; }
-        public virtual Region RegionOf { get; set; }
+        [Key,ForeignKey("DistrictOf")]
+        public int DistrictId { get; set; }
+        [Key,ForeignKey("RealEstateOf")]
+        public int RealEstateId { get; set; }
+        public virtual RealEstate RealEstateOf { get; set; }
+        public virtual District DistrictOf { get; set; }
     }
 }

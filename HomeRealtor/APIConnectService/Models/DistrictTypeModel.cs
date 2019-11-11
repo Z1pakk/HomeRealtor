@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeRealtorApi.Models
+namespace APIConnectService.Models
 {
-    public class HomePlaceTypeModel
+    public class DistrictTypeModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

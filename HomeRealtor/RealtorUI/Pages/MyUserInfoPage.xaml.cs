@@ -32,7 +32,7 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             UserM = user;
-            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + user.Image));
+            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages/" + user.Image));
             lblName.Content = lblName.Content + user.FirstName + " " + user.LastName;
             lblEmail.Content = lblEmail.Content + user.Email;
             lblAge.Content = lblAge.Content + user.Age.ToString();
@@ -61,7 +61,7 @@ namespace RealtorUI.Pages
                                 if (((RealEstateModel)(it)).Id == ((OrderModel)(item)).ApartId)
                                 {
                                     RealEstateModel model = it;
-                                    model.Image = "https://localhost:44325/Content/" + model.Image;
+                                    model.Image = "https://localhost:44325/Content/EstateImages/" + model.Image;
                                     dgRent.Items.Add(model);
                                 }
                             }
@@ -70,7 +70,7 @@ namespace RealtorUI.Pages
                                 if (((RealEstateModel)(it)).Id == ((OrderModel)(item)).ApartId)
                                 {
                                     RealEstateModel model = it;
-                                    model.Image = "https://localhost:44325/Content/" + model.Image;
+                                    model.Image = "https://localhost:44325/Content/EstateImages/" + model.Image;
                                     dgRent.Items.Add(model);
                                 }
                             }
@@ -136,7 +136,7 @@ namespace RealtorUI.Pages
             openFile.ShowDialog();
             if (openFile.FileName != null)
             {
-                sser.Image = ImageHelper.ImageToBase64( openFile.FileName);
+                sser.Image = ImageHelper.ImageToBase64(openFile.FileName);
                 BaseServices services = new BaseServices();
                 ServiceResult res = await services.UserMethod("https://localhost:44325/api/user/edit", JsonConvert.SerializeObject(sser), "PUT", tok);
                 if (res.Success == false)
@@ -146,7 +146,7 @@ namespace RealtorUI.Pages
                     res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
                     if (res.Success == true)
                     {
-                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + res.Result.Image));
+                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages/" + res.Result.Image));
                     }
                 }
             }

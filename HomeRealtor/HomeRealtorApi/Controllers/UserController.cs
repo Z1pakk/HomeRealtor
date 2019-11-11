@@ -133,9 +133,9 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
-                if(edit.Image != string.Empty)
-                    System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
+                var edit = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                if (edit.Image != string.Empty)
+                    System.IO.File.Delete(hosting.WebRootPath + @"\Content\UserImages\" + edit.Image);
                 string path="";
                 if (User.Image != string.Empty)
                 {
@@ -144,7 +144,7 @@ namespace HomeRealtorApi.Controllers
                     {
                         path = Guid.NewGuid().ToString() + ".jpg";
                         Image product = Image.FromStream(stream);
-                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                        product.Save(hosting.WebRootPath + @"\Content\UserImages\" + path, ImageFormat.Jpeg);
                     }
                 }
                 edit.Image = path;

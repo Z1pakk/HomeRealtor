@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace APIConnectService.Models
 {
-    public class HomePlaceModel
+    public class TownModel
     {
-        public int Id { get; set; }
-        public int RealEstateId { get; set; }
+        public string NameOfTown { get; set; }
+        public int RegionId { get; set; }
     }
 }

@@ -14,6 +14,6 @@ namespace HomeRealtorApi.Entities
         public int Id { get; set; }
         [Required,StringLength(20)]
         public string NameOfRegion { get; set; }
-        public virtual ICollection<HomePlace> HomePlaces { get; set; }
+        public virtual ICollection<Town> Towns { get; set; }
     }
 }
