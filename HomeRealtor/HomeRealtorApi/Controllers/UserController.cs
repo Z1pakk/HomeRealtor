@@ -33,7 +33,6 @@ namespace HomeRealtorApi.Controllers
 
         private readonly EFContext _context;
 
-        private readonly IHostingEnvironment hosting;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
         {

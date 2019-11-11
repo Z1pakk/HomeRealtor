@@ -64,5 +64,10 @@ namespace AdminUI
         {
 
         }
+
+        private void BtnNews(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

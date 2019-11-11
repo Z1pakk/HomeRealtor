@@ -145,26 +145,26 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
-                _context.RealEstates.Add(estate);
-                foreach (var imgEst in model.images)
-                {
-                    string path = string.Empty;
-                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
-                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                    {
-                        //Назва фотки із розширення
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image realEstateImage = Image.FromStream(stream);
-                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
-                    }
+                //foreach (var imgEst in model.images)
+                //{
+                //    string path = string.Empty;
+                //    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                //    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                //    {
+                //        //Назва фотки із розширення
+                //        path = Guid.NewGuid().ToString() + ".jpg";
+                //        Image realEstateImage = Image.FromStream(stream);
+                //        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                //    }
 
-                    ImageEstate estateImage = new ImageEstate()
-                    {
-                        Name = path,
-                        EstateId = estate.Id
-                    };
-                    _context.ImageEstates.Add(estateImage);
-                }
+                //    ImageEstate estateImage = new ImageEstate()
+                //    {
+                //        //Name = path,
+                //        EstateId = estate.Id
+                //    };
+                //    _context.ImageEstates.Add(estateImage);
+                //}
+                _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
