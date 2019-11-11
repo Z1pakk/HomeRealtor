@@ -68,13 +68,17 @@ namespace HomeRealtorApi.Controllers
                     Image = path
                 };
 
+
+
                 var result = await _userManager.CreateAsync(user, User.Password);
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Realtor");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     return Ok();
                 }
+
+
 
             }
             catch (Exception ex)
@@ -89,7 +93,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == this.User.Identity.Name);
+                /*var edit = _context.Users.FirstOrDefault(t => t.Id == id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
@@ -112,7 +116,7 @@ namespace HomeRealtorApi.Controllers
                 edit.AboutMe = User.AboutMe;
                 edit.Age = User.Age;
                 edit.Email = User.Email;
-                _context.SaveChanges();
+                _context.SaveChanges();*/
                 return Content("OK");
             }
             catch (Exception ex)
@@ -206,8 +210,6 @@ namespace HomeRealtorApi.Controllers
                 User user = await _userManager.FindByEmailAsync(loginModel.Email);
                 if (user == null)
                 {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
                     return "Error";
                 }
                 var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
@@ -248,7 +250,11 @@ namespace HomeRealtorApi.Controllers
                 }
 
 
-                // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                if(!role.Contains(loginModel.Role))
+                {
+                    return "Role";
+                }
                 if (await _userManager.IsLockedOutAsync(user))
                 {
 
@@ -286,7 +292,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 string email = model.Email;
-                
+
                 User user = await _userManager.FindByEmailAsync(email);
                 if (user == null)
                 {
@@ -310,6 +316,8 @@ namespace HomeRealtorApi.Controllers
                     code = forgotpassword.Code;
                 }
 
+
+
                 MailAddress to = new MailAddress(email);
                 MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
                 MailMessage m = new MailMessage(from, to);
@@ -317,16 +325,24 @@ namespace HomeRealtorApi.Controllers
                 m.IsBodyHtml = true;
                 m.Body = "Code : " + code + " .";
 
+
+
                 SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                 smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
                 smtp.EnableSsl = true;
                 smtp.Send(m);
 
+
+
                 return Content("OK");
+
+
 
             }
             catch (Exception)
             {
+
+
 
                 return BadRequest();
             }

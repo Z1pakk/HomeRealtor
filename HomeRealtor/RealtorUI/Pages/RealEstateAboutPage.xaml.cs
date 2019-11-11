@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
+using Microsoft.Maps.MapControl.WPF;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace RealtorUI.Pages
             string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
             GetRealEstateViewModel model = service.GetEstate(url, "GET");
 
-            var uri = new Uri(model.Image);
+            var uri = new Uri("https://localhost:44325/content/"+model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
             txt_Name.Text += model.StateName;
@@ -59,36 +60,7 @@ namespace RealtorUI.Pages
             txt_Owner.Text += model.FullName;
             _fullName = model.FullName;
         }
-
-        public RealEstateAboutPage(int id)
-        {
-            InitializeComponent();
-            BaseServices service = new BaseServices();
-            _id = id;
-            string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
-            GetRealEstateViewModel model = service.GetEstate(url, "GET");
-
-            var uri = new Uri(model.Image);
-            var bitmap = new BitmapImage(uri);
-            img_Estate.Source = bitmap;
-            txt_Name.Text += model.StateName;
-            txt_Price.Text += model.Price.ToString();
-            txt_Location.Text += model.Location;
-            txt_RoomCount.Text += model.RoomCount.ToString();
-            txt_TerritorySize.Text += model.TerritorySize.ToString();
-            txt_TimeOfPost.Text += model.TimeOfPost.ToString();
-            if (model.Active == true)
-            {
-                txt_Active.Text += "On Saling";
-            }
-            else
-            {
-                txt_Active.Text += "Sold";
-            }
-            txt_Type.Text += model.TypeName;
-            txt_Owner.Text += model.FullName;
-            _fullName = model.FullName;
-        }
+        
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

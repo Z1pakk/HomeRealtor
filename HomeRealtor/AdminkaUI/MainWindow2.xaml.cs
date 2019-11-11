@@ -65,14 +65,9 @@ namespace AdminUI
 
         }
 
-        private void BtnAdvertising_Click(object sender, RoutedEventArgs e)
+        private void BtnNews(object sender, RoutedEventArgs e)
         {
-            frame.Navigate(new Advertising());
-        }
 
-        private void BtnAddAdvertising_Click(object sender, RoutedEventArgs e)
-        {
-            frame.Navigate(new AddAdvertisingPage());
         }
     }
 }

@@ -256,5 +256,29 @@ namespace APIConnectService.Service
             wr.Close();
             return JsonConvert.DeserializeObject<GetRealEstateViewModel>(responceFromServer);
         }
+
+        public ServiceResult GetEstateImages(string url)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(url);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+                WebResponse wr =  request.GetResponse();
+                string responceFromServer;
+                using (Stream streamResponse = wr.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(streamResponse);
+                    responceFromServer = reader.ReadToEnd();
+                }
+                wr.Close();
+                List<GetEstateImagesViewModel> m = JsonConvert.DeserializeObject<List<GetEstateImagesViewModel>>(responceFromServer); 
+                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = m };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
+            }
+        }
     }
 }

@@ -177,16 +177,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
-      <Project>{ED296726-3F45-4CE5-98CD-1D29CCA4CCCC}</Project>
-      <Name>APIConnectService</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APIConnectService\APIConnectService.csproj">
+      <Project>{ed296726-3f45-4ce5-98cd-1d29cca4cccc}</Project>
+      <Name>APIConnectService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

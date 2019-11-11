@@ -23,22 +23,24 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <ListBox Name="lbAdvertising" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
-            <ListBox.ItemsPanel>
+        <ListView Name="lbAdvertising" BorderThickness="0 0 0 0" Panel.ZIndex="1" SelectionChanged="LbAdvertising_SelectionChanged" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
+                    <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth,ElementName=lbAdvertising}"/>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Controls:Tile Title="{Binding StateName}" Click="Tile_Click" Style="{StaticResource ResourceKey=LargeTileStyle}" Margin="0 0 0 0">
-                        <Controls:Tile.Background>
-                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-                        </Controls:Tile.Background>
-                    </Controls:Tile>
+                    <StackPanel Cursor="Hand" Height="170" Width="220">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="{Binding Image}" />
+                        </StackPanel.Background>
+                        <Label Content="{Binding StateName}" Foreground="White" FontSize="18"/>
+                    </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--</ScrollViewer>-->
 
         <!--<WrapPanel Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top">
             
