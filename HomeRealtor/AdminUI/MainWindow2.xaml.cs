@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,15 +15,14 @@ using System.Windows.Shapes;
 namespace AdminUI
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Interaction logic for MainWindow2.xaml
     /// </summary>
-    public partial class Window1 : MetroWindow
+    public partial class MainWindow2 : Window
     {
-        public Window1()
+        public MainWindow2()
         {
             InitializeComponent();
-            RealEstatePage page = new RealEstatePage();
-            frame.Navigate(page);
+            frame.Navigate(new AdminPagination());
         }
     }
 }
