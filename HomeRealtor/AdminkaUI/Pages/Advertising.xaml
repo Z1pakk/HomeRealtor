@@ -20,14 +20,14 @@
             <ColumnDefinition Width="99*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="AdvertizingDg" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+        <DataGrid x:Name="AdvertizingDg" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="RealtorName" Header="Realtor Name" FontSize="15" Width="150"/>
                 <DataGridTextColumn x:Name="Advertizing" Header="Advertising" FontSize="15" Width="150"/>
                 <DataGridTextColumn x:Name="DateEnd" Header="Date End" FontSize="15" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Addbtn" Content="Add" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Addbtn_Click"/>
+        <Button x:Name="ShouMorebtn" Content="Add" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Addbtn_Click"/>
         <Button x:Name="Banbtn" Content="Ban" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Banbtn_Click"/>
    
     </Grid>

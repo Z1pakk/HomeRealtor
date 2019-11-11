@@ -45,12 +45,6 @@ namespace AdminkaUI.Pages
              AdvertizingDg.ItemsSource = advertisings;
         }
 
-        private void Addbtn_Click(object sender, RoutedEventArgs e)
-        {
-            AddAdvertisingPage page = new AddAdvertisingPage();
-            NavigationService.Navigate(page);
-        }
-
         private void Banbtn_Click(object sender, RoutedEventArgs e)
         {
             var advertising = AdvertizingDg.SelectedItem as DelAdvertisingModel;

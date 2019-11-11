@@ -73,7 +73,7 @@ namespace HomeRealtorApi.Controllers
             {
                 ShowAdvertisingModel model = new ShowAdvertisingModel()
                 {
-                   AdvertisingName = item.StateName,
+                   AdvertisingName = item.RealEstateOf.StateName,
                    UserName = item.UserOf.UserName
                 };
                 models.Add(model);
