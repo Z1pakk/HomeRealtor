@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace HomeRealtorApi.Entities
 {
     [Table("tbl_HomePlaceTypes")]
-    public class HomePlaceType
+    public class DistrictType
     {
         [Key]
         public int Id { get; set; }
         [StringLength(20),Required]
         public string NameOfType { get; set; }
-        public virtual ICollection<HomePlace> HomePlaces { get; set; }
+        public virtual ICollection<District> Districts { get; set; }
     }
 }

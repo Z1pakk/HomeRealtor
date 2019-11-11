@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Models
 {
-    public class HomePlaceModel
+    public class TownModel
     {
-        public int DistrictId { get; set; }
-        public int RealEstateId { get; set; }
+        public string NameOfTown { get; set; }
+        public int RegionId { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Models
 {
-    public class HomePlaceTypeModel
+    public class DistrictTypeModel
     {
         public int Id { get; set; }
         public string NameOfType { get; set; }

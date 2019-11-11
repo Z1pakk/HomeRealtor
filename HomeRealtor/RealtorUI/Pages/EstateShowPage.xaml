@@ -27,7 +27,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <ComboBox x:Name="cbType" IsEditable="True" FontSize="15" Text="Type of real estate" Margin="10" Height="30" SelectionChanged="cbType_SelectionChanged"/>
-                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChangedAsync"/>
+                            <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Region" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChangedAsync"/>
                             <ComboBox x:Name="cbDistrict" IsEditable="True" FontSize="15" Text="District" Margin="10" Height="30" SelectionChanged="cbDistrict_SelectionChanged"/>
                         </StackPanel>
                         <Grid Margin="10 0" Grid.Column="1">
@@ -36,7 +36,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <ComboBox x:Name="cbRCount" IsEditable="True" FontSize="15" Text="Count of rooms" Margin="10" Height="30" SelectionChanged="cbRCount_SelectionChanged"/>
+                            <ComboBox x:Name="cbRCount" IsEditable="True" FontSize="15" Text="Count of rooms" Margin="10 10 10 8" Height="30" SelectionChanged="cbRCount_SelectionChanged"/>
                             <Label Content="Area" Grid.Row="1" Width="60" HorizontalAlignment="Left" FontSize="16" VerticalAlignment="Center"/>
                             <TextBox x:Name="txtAreaFrom" HorizontalAlignment="Right" Grid.Row="1" Margin="0,10,95,10" Width="70"/>
                             <TextBox x:Name="txtAreaTo" HorizontalAlignment="Right" Grid.Row="1" Margin="0,10,10,10" Width="70"/>
@@ -46,7 +46,7 @@
                             <TextBox x:Name="txtPriceTo" HorizontalAlignment="Right" Grid.Row="2" Margin="0,10,10,10" Width="70"/>
 
                         </Grid>
-                        <Button Content="Find" FontSize="13" Grid.Column="2" Margin="10 0 10 10" VerticalAlignment="Bottom" Height="30" Click="Button_Click"/>
+                        <Button Content="Find" FontSize="13" Grid.Column="2" Margin="10 0 10 10" VerticalAlignment="Bottom" Height="30" Click="Button_ClickAsync"/>
                     </Grid>
                     <ListView Margin="0 10 0 0" Grid.Row="1" x:Name="lv_Buy" PreviewMouseDoubleClick="lv_Buy_PreviewMouseDoubleClick">
                         <ListView.ItemTemplate>
