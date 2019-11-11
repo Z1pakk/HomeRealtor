@@ -1,5 +1,4 @@
-﻿using APIConnectService.Helpers;
-using APIConnectService.Models;
+﻿using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
 using Microsoft.Maps.MapControl.WPF;
@@ -31,7 +30,6 @@ namespace RealtorUI.Pages
         int _id;
         string _token;
         string _fullName;
-        string _coordinates;
         public RealEstateAboutPage(int id, string token)
         {
             InitializeComponent();
@@ -40,11 +38,8 @@ namespace RealtorUI.Pages
             _token = token;
             string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
             GetRealEstateViewModel model = service.GetEstate(url, "GET");
-            List<GetEstateImagesViewModel> imgs = new List<GetEstateImagesViewModel>();
-            
-            Lv_PhotosMiddle.ItemsSource = model.Images;
 
-            var uri = new Uri(model.Image);
+            var uri = new Uri("https://localhost:44325/content/advertising"+model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
             txt_Name.Text += model.StateName;
@@ -64,31 +59,6 @@ namespace RealtorUI.Pages
             txt_Type.Text += model.TypeName;
             txt_Owner.Text += model.FullName;
             _fullName = model.FullName;
-            txt_Description.Text = model.Description;
-            txt_PhoneNumber.Text += model.PhoneNumber; 
-            _coordinates = model.Coordinates;
-
-            if(_coordinates!=null)
-            {
-                var coor = _coordinates.Split(',');
-                List<double> coors = new List<double>();
-                foreach (var item in coor)
-                {
-                    var old = item.Replace('.', ',');
-
-                    double number = double.Parse(old);
-                    coors.Add(number);
-                }
-
-                if (model.Coordinates != null)
-                {
-                    myMap.Center = new Location(coors[0], coors[1]);
-                    Pushpin pushpin = new Pushpin();
-                    pushpin.Location = new Location(coors[0], coors[1]);
-                    pushpin.Background = new SolidColorBrush(Colors.CornflowerBlue);
-                    mapLayer.AddChild(pushpin, pushpin.Location);
-                }
-            }
         }
         
 
@@ -97,5 +67,30 @@ namespace RealtorUI.Pages
             OrderPage page = new OrderPage(_token, _fullName, _id);
             NavigationService.Navigate(page);
         }
+
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    BaseServices service = new BaseServices();
+        //    string url = $"http://localhost:58446/api/RealEstate/get/byid/{_id}";
+        //    GetRealEstateViewModel model = service.GetEstate(url, "GET");
+        //    AdvertisingModel advModel = new AdvertisingModel()
+        //    {
+        //        Image = model.Image,
+        //        StateName = model.StateName,
+        //        Contacts = model.FullName,
+        //        Price = model.Price
+        //    };
+
+        //    HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
+        //    request.Method = "POST";
+        //    request.ContentType = "application/json";
+        //    using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+        //    {
+        //        writer.Write(JsonConvert.SerializeObject(advModel));
+        //    }
+
+        //    WebResponse response = request.GetResponse();
+            
+        //}
     }
 }
