@@ -121,6 +121,8 @@ namespace HomeRealtorApi.Controllers
                     return Ok();
                 }
 
+
+
             }
             catch (Exception ex)
             {
@@ -289,7 +291,11 @@ namespace HomeRealtorApi.Controllers
                 }
 
 
-                // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
+                if(!role.Contains(loginModel.Role))
+                {
+                    return "Role";
+                }
                 if (await _userManager.IsLockedOutAsync(user))
                 {
 
@@ -327,7 +333,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 string email = model.Email;
-                
+
                 User user = await _userManager.FindByEmailAsync(email);
                 if (user == null)
                 {
@@ -351,6 +357,8 @@ namespace HomeRealtorApi.Controllers
                     code = forgotpassword.Code;
                 }
 
+
+
                 MailAddress to = new MailAddress(email);
                 MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
                 MailMessage m = new MailMessage(from, to);
@@ -358,16 +366,24 @@ namespace HomeRealtorApi.Controllers
                 m.IsBodyHtml = true;
                 m.Body = "Code : " + code + " .";
 
+
+
                 SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                 smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
                 smtp.EnableSsl = true;
                 smtp.Send(m);
 
+
+
                 return Content("OK");
+
+
 
             }
             catch (Exception)
             {
+
+
 
                 return BadRequest();
             }

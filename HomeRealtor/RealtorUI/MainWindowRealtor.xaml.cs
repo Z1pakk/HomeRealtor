@@ -34,6 +34,8 @@ namespace RealtorUI
         public MainWindowRealtor(string id)
         {
             InitializeComponent();
+            HomePage home = new HomePage();
+            frame.Content = home;
             Id = id;
         }
 
