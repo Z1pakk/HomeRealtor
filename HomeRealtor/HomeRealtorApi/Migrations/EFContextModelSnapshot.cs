@@ -45,6 +45,62 @@ namespace HomeRealtorApi.Migrations
                     b.ToTable("tbl_Advertisings");
                 });
 
+            modelBuilder.Entity("HomeRealtorApi.Entities.ConfirmEmail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .IsRequired();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("tbl_ConfirmationEmails");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.District", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DistrictTypeId");
+
+                    b.Property<string>("NameOfDistrict")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("TownId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistrictTypeId");
+
+                    b.HasIndex("TownId");
+
+                    b.ToTable("tbl_Districts");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.DistrictType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NameOfType")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tbl_HomePlaceTypes");
+                });
+
             modelBuilder.Entity("HomeRealtorApi.Entities.ForgotPassword", b =>
                 {
                     b.Property<int>("Id")
@@ -67,40 +123,15 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.HomePlace", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("DistrictId");
 
-                    b.Property<int>("HomePlaceId");
+                    b.Property<int>("RealEstateId");
 
-                    b.Property<string>("NameOfDistrict")
-                        .IsRequired()
-                        .HasMaxLength(40);
+                    b.HasKey("DistrictId", "RealEstateId");
 
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasMaxLength(40);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HomePlaceId");
+                    b.HasIndex("RealEstateId");
 
                     b.ToTable("tbl_HomePlaces");
-                });
-
-            modelBuilder.Entity("HomeRealtorApi.Entities.HomePlaceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("NameOfType")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_HomePlaceTypes");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>
@@ -236,8 +267,6 @@ namespace HomeRealtorApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HomePlaceId");
-
                     b.HasIndex("SellType");
 
                     b.HasIndex("TypeId");
@@ -275,6 +304,40 @@ namespace HomeRealtorApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tblEstateTypes");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NameOfRegion")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tbl_Regions");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.Town", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NameOfTown")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("RegionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("tbl_Towns");
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.User", b =>
@@ -479,6 +542,26 @@ namespace HomeRealtorApi.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("HomeRealtorApi.Entities.ConfirmEmail", b =>
+                {
+                    b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.District", b =>
+                {
+                    b.HasOne("HomeRealtorApi.Entities.DistrictType", "DistrictTypeOf")
+                        .WithMany("Districts")
+                        .HasForeignKey("DistrictTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HomeRealtorApi.Entities.Town", "TownOf")
+                        .WithMany("Districts")
+                        .HasForeignKey("TownId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HomeRealtorApi.Entities.ForgotPassword", b =>
                 {
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
@@ -488,9 +571,14 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.HomePlace", b =>
                 {
-                    b.HasOne("HomeRealtorApi.Entities.HomePlaceType", "HomePlaceTypeOf")
+                    b.HasOne("HomeRealtorApi.Entities.District", "DistrictOf")
                         .WithMany("HomePlaces")
-                        .HasForeignKey("HomePlaceId")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HomeRealtorApi.Entities.RealEstate", "RealEstateOf")
+                        .WithMany("HomePlaces")
+                        .HasForeignKey("RealEstateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -527,11 +615,6 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.RealEstate", b =>
                 {
-                    b.HasOne("HomeRealtorApi.Entities.HomePlace", "HomePlaceOf")
-                        .WithMany("RealEstates")
-                        .HasForeignKey("HomePlaceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("HomeRealtorApi.Entities.RealEstateSellType", "SellOf")
                         .WithMany("RealEstates")
                         .HasForeignKey("SellType")
@@ -545,6 +628,14 @@ namespace HomeRealtorApi.Migrations
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("RealEstates")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("HomeRealtorApi.Entities.Town", b =>
+                {
+                    b.HasOne("HomeRealtorApi.Entities.Region", "RegionOf")
+                        .WithMany("Towns")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HomeRealtorApi.Entities.UserUnlockCodes", b =>

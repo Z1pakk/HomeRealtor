@@ -66,16 +66,14 @@ namespace RealtorUI.Pages
         }
         private async void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET",tok);
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/myEstatesRealtor", string.Empty, "GET",tok);
             if (res.Success == true)
             {
                 dgEstates.Items.Clear();
                 foreach (var item in res.Result)
                 {
-                    if (((RealEstateModel)(item)).UserId == UserM.Id)
-                    {
-                        dgEstates.Items.Add(item);
-                    }
+                     dgEstates.Items.Add(item);
+                    
                 }
             }
             else MessageBox.Show(res.ExceptionMessage);

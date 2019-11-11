@@ -28,6 +28,8 @@ namespace RealtorUI.Pages
     /// 
     public partial class AddRealEstatePage : Page
     {
+        string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+
         public UserInfoModel UserM { get; set; }
 
         ObservableCollection<LVImages> lvImages = new ObservableCollection<LVImages>();

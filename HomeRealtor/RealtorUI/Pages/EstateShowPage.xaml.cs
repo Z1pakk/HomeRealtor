@@ -72,8 +72,8 @@ namespace RealtorUI.Pages
             cbType.ItemsSource = res.Select(t => t.Name);
             service = new BaseServices();
             url = "https://localhost:44325/api/RealEstate/get/hmpl";
-            List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
-            cbTown.ItemsSource = hm.Select(t => t.Town);
+            //List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
+            //cbTown.ItemsSource = hm.Select(t => t.RealEstateId);
             cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
         }
 
@@ -112,7 +112,7 @@ namespace RealtorUI.Pages
                 for (int i = 0; i < dTypes.Count - 1; i++)
                 {
                     distr.AddRange(districts.Where(t => t.DistrictTypeId == dTypes[i].Id && t.Town == cbTown.Text).Select(t => t.NameOfDistrict));
-                        distr.Add(@"\t"+dTypes[i].NameOfType);
+                        distr.Add(@"\t"+dTypes[i].Name);
                 }
                 cbDistrict.ItemsSource = distr;
                     _region = "";

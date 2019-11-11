@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
+    // Oblast
     [Table("tbl_Regions")]
     public class Region
     {

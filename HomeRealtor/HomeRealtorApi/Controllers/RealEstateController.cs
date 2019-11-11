@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using HomeRealtorApi.Helpers;
+using Microsoft.AspNetCore.Identity;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -21,10 +22,12 @@ namespace HomeRealtorApi.Controllers
     public class RealEstateController : ControllerBase
     {
         private readonly EFContext _context;
+        private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment _appEnvoronment;
-        public RealEstateController(EFContext context, IHostingEnvironment appEnvoronment)
+        public RealEstateController(EFContext context, UserManager<User> userManager, IHostingEnvironment appEnvoronment)
         {
             _context = context;
+            _userManager = userManager;
             _appEnvoronment = appEnvoronment;
         }
         // GET api/values
@@ -32,7 +35,7 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetRealEstate(string type)
         {
 
-            var list = _context.RealEstates.
+            var list =   _context.RealEstates.
                 Where(t => t.SellOf.SellTypeName == type).
                 Select(t =>
                 new GetListEstateViewModel()
@@ -42,6 +45,31 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
                     TerritorySize = t.TerritorySize,
+
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+
+        // GET api/values
+        [HttpGet("myEstatesRealtor")]
+        [Authorize]
+        public ContentResult GetRealEstates()
+        {
+            User user= _userManager.FindByNameAsync(this.User.Identity.Name).Result;
+
+            var list = _context.RealEstates.
+                Where(t=>t.UserId==user.Id)
+.               Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize
 
                 }).ToList();
 
@@ -143,7 +171,7 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetDistrictTypes()
         {
             var list = _context.DistrictTypes.
-                Select(t => new DistrictTypeModel() { NameOfType = t.NameOfType }).ToList();
+                Select(t => new DistrictTypeModel() { Name = t.NameOfType }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
@@ -213,10 +241,14 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType,
                     HomePlaceId = model.HomePlaceId,
-                    Description = model.description
-                    
+                    Description = model.description,             
                 };
                 _context.RealEstates.Add(estate);
+                HomePlace homePlace = new HomePlace()
+                {
+                    DistrictId = 1,
+                    RealEstateId = estate.Id
+                };
                 foreach (var imgEst in model.images)
                 {
                     string smallImage = string.Empty;
