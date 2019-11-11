@@ -11,7 +11,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using HomeRealtorApi.Entities;
+using HomeRealtorApi.Helpers;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +22,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using RealtorUI.Models;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -31,7 +32,7 @@ namespace HomeRealtorApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
-
+        private int code;
         private readonly EFContext _context;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
@@ -45,19 +46,9 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
+
             try
             {
-                string path = "";
-                if (User.Image != null)
-                {
-                    byte[] imageBytes = Convert.FromBase64String(User.Image);
-                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                    {
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image product = Image.FromStream(stream);
-                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
-                    }
-                }
                 User user = new User()
                 {
                     UserName = User.UserName,
@@ -67,11 +58,63 @@ namespace HomeRealtorApi.Controllers
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
                     LastName = User.LastName,
-                    Image=path
+                    CountOfLogins=0
                 };
+                if (!string.IsNullOrEmpty(User.Image))
+                {
+                    if (!Directory.Exists(Path.Combine(hosting.WebRootPath, "Content", "Users")))
+                    {
+                        Directory.CreateDirectory(Path.Combine(hosting.WebRootPath, "Content", "Users"));
+                    }
+
+                    string path = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        //Назва фотки із розширення
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image realEstateImage = Image.FromStream(stream);
+                        realEstateImage.Save(hosting.WebRootPath + @"/Content/Users/" + path, ImageFormat.Jpeg);
+                    }
+                    user.Image = path;
+                }
 
                 var result = await _userManager.CreateAsync(user, User.Password);
-                await _userManager.AddToRoleAsync(user, "Admin");
+
+
+
+                if(result.Succeeded)
+                {
+                    try
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        MailAddress to = new MailAddress(user.Email);
+                        MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Confirmation Email";
+                        m.IsBodyHtml = true;
+                        m.Body = "To confirm EMAIL enter this code: " + code;
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        ConfirmEmail confirm = new ConfirmEmail()
+                        {
+                            UserId = user.Id,
+                            Code = code
+                        };
+                        _context.ConfirmEmails.Add(confirm);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
+
+
+                await _userManager.AddToRoleAsync(user, "Realtor");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
@@ -81,19 +124,20 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
             }
             return BadRequest();
         }
-        [HttpPut("edit/{id}")]
-        public ContentResult Edit(string id, [FromBody]UserInfoModel User)
+        [HttpPut("edit")]
+        [Authorize]
+        public ContentResult Edit([FromBody]UserInfoModel User)
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == id);
-                System.IO.File.Delete(Directory.GetCurrentDirectory()+"\\wwwroot\\Content\\"+edit.Image);
+                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
+                if(edit.Image != string.Empty)
+                    System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
-                if (User.Image != null)
+                if (User.Image != string.Empty)
                 {
                     byte[] imageBytes = Convert.FromBase64String(User.Image);
                     using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
@@ -118,20 +162,49 @@ namespace HomeRealtorApi.Controllers
             catch (Exception ex)
             {
 
+
+
                 return Content("Еррор:" + ex.Message);
 
-            }
 
+
+            }
         }
 
-        [HttpGet("current")]
+
+        [HttpPut("change")]
         [Authorize]
-        public async Task<ContentResult> CurrentUser()
+        public async Task<ContentResult> ChangePasswordAsync([FromBody]string[] Passwords)
         {
             try
             {
-                //_userManager.FindByNameAsync(this.User.Identity.Name);
                 User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                IdentityResult res = await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
+                return Content("OK");
+            }
+            catch (Exception ex)
+            {
+                return Content("Еррор:" + ex.Message);
+
+
+            }
+
+
+        }
+
+
+
+
+
+        [HttpGet("current")]
+        [Authorize]
+        public ContentResult CurrentUser()
+        {
+            try
+            {
+                
+                //_userManager.FindByNameAsync(this.User.Identity.Name);
+                User us  =_context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 string json = JsonConvert.SerializeObject(new UserInfoModel()
                 {
                     FirstName = us.FirstName,
@@ -152,16 +225,15 @@ namespace HomeRealtorApi.Controllers
                 return Content("Error: " + ec.Message);
             }
 
-
         }
         [HttpGet("unlock/{code}")]
         public async Task<ActionResult<string>> UnlockUser(string code)
         {
-            UserUnlockCodes uuc = _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
+            UserUnlockCodes uuc= _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
             User user = await _userManager.FindByIdAsync(uuc.UserId);
-            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins = 0;
+            _context.Users.FirstOrDefault(t => t.Email == user.Email).CountOfLogins=0;
             await _context.SaveChangesAsync();
-            await _userManager.SetLockoutEnabledAsync(user, false);
+            await _userManager.SetLockoutEnabledAsync( user,false);
             return "All done !";
         }
 
@@ -177,8 +249,6 @@ namespace HomeRealtorApi.Controllers
                 User user = await _userManager.FindByEmailAsync(loginModel.Email);
                 if (user == null)
                 {
-                    _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
-                    await _context.SaveChangesAsync();
                     return "Error";
                 }
                 var result = await _sigInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
@@ -252,52 +322,111 @@ namespace HomeRealtorApi.Controllers
         }
 
         [HttpPost("sendcode")]
-        public async Task<ContentResult> SendCode([FromBody]SendCodeModel model)
+        public async Task<IActionResult> SendCode([FromBody]SendCodeModel model)
         {
-            string email = model.Email;
-            Random rnd = new Random();
-            string code = (rnd.Next(1000, 9999)).ToString();
-            User user = await _userManager.FindByEmailAsync(email);
-
-            ForgotPassword password = new ForgotPassword()
+            try
             {
-                Code = code,
-                UserOf = user,
-                UserId = user.Id
-            };
-            _context.ForgotPasswords.Add(password);
-            _context.SaveChanges();
+                string email = model.Email;
+                
+                User user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                string code = string.Empty;
+                var forgotpassword = _context.ForgotPasswords.FirstOrDefault(t => t.UserId == user.Id);
+                if (forgotpassword == null)
+                {
+                    code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    ForgotPassword password = new ForgotPassword()
+                    {
+                        Code = code,
+                        UserId = user.Id
+                    };
+                    _context.ForgotPasswords.Add(password);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    code = forgotpassword.Code;
+                }
 
-            MailAddress to = new MailAddress(email);
-            MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
-            MailMessage m = new MailMessage(from, to);
-            string _code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            password.Code.Replace(code, _code);
-            _context.SaveChanges();
-            m.Subject = "Input this code :";
-            m.IsBodyHtml = true;
-            m.Body = "Code : " + _code + " .";
+                MailAddress to = new MailAddress(email);
+                MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                MailMessage m = new MailMessage(from, to);
+                m.Subject = "Input this code :";
+                m.IsBodyHtml = true;
+                m.Body = "Code : " + code + " .";
 
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new NetworkCredential("homerealtor@gmail.com", "homeRealtor1234");
-            smtp.EnableSsl = true;
-            smtp.Send(m);
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                smtp.EnableSsl = true;
+                smtp.Send(m);
 
-            return Content("OK");
+                return Content("OK");
+
+            }
+            catch (Exception)
+            {
+
+                return BadRequest();
+            }
         }
 
-        [HttpGet("checkcode")]
-        public ContentResult CheckCode([FromBody]CheckCodeModel model)
+        [HttpPost("checkcode")]
+        public async Task<IActionResult> CheckCode([FromBody]CheckCodeModel model)
         {
-            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
-            if (res != null)
+            try
             {
-                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
+                if (res != null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ForgotPasswords.Remove(res);
+                    await _context.SaveChangesAsync();
+
+                }
+                return BadRequest();
             }
 
+            catch (Exception)
+            {
+                return BadRequest();
+            }
 
-            return Content("OK");
         }
+
+
+        [HttpPost("confirmcode")]
+        public async Task<IActionResult> ConfirmCode([FromBody]ConfirmEmailModel confirm)
+        {
+            try
+            {
+                var check = _context.ConfirmEmails.FirstOrDefault(t => t.Code == confirm.Code);
+                if (check != null)
+                {
+                    var result = await _userManager.ConfirmEmailAsync(check.UserOf, confirm.Code);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ConfirmEmails.Remove(check);
+                    await _context.SaveChangesAsync();
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+
 
         private async Task<string> CreateTokenAsync(User user)
         {

@@ -32,7 +32,7 @@ namespace HomeRealtorApi.Controllers
         {
 
             var list = _context.RealEstates.
-                Where(t=>t.SellOf.SellTypeName==type).
+                Where(t => t.SellOf.SellTypeName == type).
                 Select(t =>
                 new GetListEstateViewModel()
                 {
@@ -40,25 +40,48 @@ namespace HomeRealtorApi.Controllers
                     Image = t.Image,
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
-                    TerritorySize = t.TerritorySize
+                    TerritorySize = t.TerritorySize,
+                    
                 }).ToList();
-
-           string json = JsonConvert.SerializeObject(list);
-
-            return Content(json);
-        }
-
-        [HttpGet("get/types")]
-        public ContentResult GetRealEstateTypes()
-        {
-            var list = _context.RealEstateTypes.
-                Select(t => new TypeViewModel() {Name = t.TypeName, Id = t.Id }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
             return Content(json);
         }
 
+        [HttpGet("get/types")]
+        [Authorize]
+        public ContentResult GetRealEstateTypes()
+        {
+            var list = _context.RealEstateTypes.
+                Select(t => new TypeViewModel() { Name = t.TypeName, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("get/hmpl")]
+        [Authorize]
+        public ContentResult GetRealEstateHomePlaces()
+        {
+            var list = _context.HomePlaces.
+                Select(t => new HomePlaceModel() { Town = t.Town, NameOfDistrict = t.NameOfDistrict, Id = t.Id }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("get/hmpl/types")]
+        [Authorize]
+        public ContentResult GetRealEstateHomePlaceTypes()
+        {
+            var list = _context.HomePlaces.
+                Select(t => new HomePlaceTypeModel() { Id = t.Id, Name = t.NameOfDistrict }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
         [HttpGet("get/selltypes")]
         public ContentResult GetRealEstateSellTypes()
         {
@@ -73,7 +96,6 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/byid/{_id}")]
         public ContentResult GetRealEstate(int _id)
         {
-           
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
@@ -113,6 +135,7 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = model.RoomCount,
                     SellType = model.SellType
                 };
+                _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
                     string path = string.Empty;
@@ -132,7 +155,6 @@ namespace HomeRealtorApi.Controllers
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
-                _context.RealEstates.Add(estate);
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
@@ -182,6 +204,108 @@ namespace HomeRealtorApi.Controllers
             catch (Exception ex)
             {
                 return Content("Error" + ex.Message);
+            }
+        }
+        [HttpPost("find/{type}")]
+        [Authorize]
+        public ContentResult FindEstates(string type,[FromBody] string[] values)
+        {
+            try
+            {
+                List<RealEstate> temp = new List<RealEstate>();
+                temp.AddRange(_context.RealEstates);
+                List<RealEstate> res = new List<RealEstate>();
+                if (values[0] != string.Empty && values[1] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in _context.RealEstates)
+                    {
+                        if (item.TerritorySize >= double.Parse(values[0]) && item.TerritorySize <= double.Parse(values[1]))
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[2] != string.Empty && values[3] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (item.TerritorySize >= double.Parse(values[2]) && item.TerritorySize <= double.Parse(values[3]))
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[4] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (values[4] == "4+" && item.RoomCount >= 4)
+                            temp.Add(item);
+                        else if (values[4] != "4+" && item.RoomCount >= int.Parse(values[4]))
+                            temp.Add(item);
+
+                    }
+                }
+                res = temp;
+                if (values[5] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        foreach (var i in _context.RealEstateTypes)
+                        {
+                            if (values[5] == i.TypeName && item.TypeId == i.Id)
+                                temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[6] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (item.HomePlaceOf.Town == values[6])
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+                res = temp;
+                if (values[7] != string.Empty)
+                {
+                    temp = null;
+                    foreach (var item in res)
+                    {
+                        if (item.HomePlaceOf.NameOfDistrict == values[7])
+                        {
+                            temp.Add(item);
+                        }
+                    }
+                }
+               
+                var list = temp.
+                Where(t => t.SellOf.SellTypeName == type).
+                Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+
+                }).ToList();
+                return Content(JsonConvert.SerializeObject(list));
+            }
+            catch (Exception rx)
+            {
+                return Content("Eror:" + rx.Message);
             }
         }
     }
