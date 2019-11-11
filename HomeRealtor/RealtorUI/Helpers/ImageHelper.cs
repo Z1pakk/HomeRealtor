@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RealtorUI
 {
-    class ImageHelper
+    public static class ImageHelper
     {
         public static string ImageToBase64(string pathToImage)
         {

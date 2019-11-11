@@ -1,9 +1,11 @@
 ﻿using APIConnectService.Models;
 using APIConnectService.Service;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Hosting;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -29,7 +31,6 @@ namespace RealtorUI.Pages
         List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
         private readonly IHostingEnvironment _appEnvironment;
         string _token;
-        int _currentTownId;
         public EstateShowPage(string token)
         {
             InitializeComponent();
@@ -73,7 +74,7 @@ namespace RealtorUI.Pages
             url = "https://localhost:44325/api/RealEstate/get/hmpl";
             List<HomePlaceModel> hm =service.GetHomePlaces(url, "GET", _token).Result.Result;
             cbTown.ItemsSource = hm.Select(t => t.Town);
-
+            cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
         }
 
         private void lv_Buy_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -116,6 +117,21 @@ namespace RealtorUI.Pages
         private void cbDistrict_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cbDistrict.IsEditable = false;
+        }
+
+        private void cbRCount_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbRCount.IsEditable = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices services = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/find/Sell";
+            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, cbType.Text, cbTown.Text, cbDistrict.Text };
+            List<GetListEstateViewModel> estates = services.GetFindedEstates(url,"POST",JsonConvert.SerializeObject(arr),tok);
+            lv_Buy.ItemsSource = estates;
         }
     }
 }

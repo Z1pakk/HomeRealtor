@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ServiceResult.cs" />
     <Compile Include="Models\AddOrderViewModel.cs" />
+    <Compile Include="Models\ConfirmEmailModel.cs" />
     <Compile Include="Models\GetEstateImagesViewModel.cs" />
     <Compile Include="Models\GetListEstateViewModel.cs" />
     <Compile Include="Models\GetRealEstateViewModel.cs" />
