@@ -53,6 +53,7 @@ namespace AdminkaUI.Pages
 
         private void Banbtn_Click(object sender, RoutedEventArgs e)
         {
+            var advertising = AdvertizingDg.SelectedItem as DelAdvertisingModel;
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/dell");
             request.Method = "DELETE";
             request.ContentType = "application/json";
@@ -63,7 +64,7 @@ namespace AdminkaUI.Pages
                 DelAdvertisingModel model = new DelAdvertisingModel();
                 writer.Write(JsonConvert.SerializeObject(new DelAdvertisingModel()
                 {
-                    Id = AdvertizingDg
+                    Id = advertising.Id
                 }));
             }
         }

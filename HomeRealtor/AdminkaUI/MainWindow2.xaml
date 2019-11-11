@@ -28,7 +28,7 @@
                     <Button Name="btnBAN" Click="BtnBAN_Click" Content="BAN" Height="50" FontSize="18"/>
                     <Button Name="btnNews" Content="News" Height="50" FontSize="18"/>
                     <Button Name="btnAdvertising" Content="Advertising" Height="50" FontSize="18" Click="BtnAdvertising_Click"/>
-                    <Button Name="btnAddAdvertising" Content="AddAdvertising" Height="50" FontSize="18" Click="BtnAddAdvertising_Click"/>
+                    <Button Name="btnAddAdvertising" Content="Add Advertising" Height="50" FontSize="18" Click="BtnAddAdvertising_Click"/>
                     <Button Name="btnAbout" Content="About us" Height="50" FontSize="18"/>
                     <Button Name="btnExit" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
