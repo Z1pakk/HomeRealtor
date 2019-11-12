@@ -11,7 +11,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using HomeRealtorApi.Entities;
+using HomeRealtorApi.Helpers;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +32,7 @@ namespace HomeRealtorApi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IHostingEnvironment hosting;
         private readonly SignInManager<User> _sigInManager;
+        private int code;
         private readonly EFContext _context;
 
         public UserController(EFContext context, UserManager<User> userManager, SignInManager<User> sigInManager, IHostingEnvironment environment)
@@ -43,19 +46,9 @@ namespace HomeRealtorApi.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<string>> Add([FromBody]UserModel User)
         {
+
             try
             {
-                string path = "";
-                if (User.Image != null)
-                {
-                    byte[] imageBytes = Convert.FromBase64String(User.Image);
-                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                    {
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image product = Image.FromStream(stream);
-                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
-                    }
-                }
                 User user = new User()
                 {
                     UserName = User.UserName,
@@ -65,12 +58,62 @@ namespace HomeRealtorApi.Controllers
                     FirstName = User.FirstName,
                     AboutMe = User.AboutMe,
                     LastName = User.LastName,
-                    Image = path
+                    CountOfLogins=0
                 };
+                if (!string.IsNullOrEmpty(User.Image))
+                {
+                    if (!Directory.Exists(Path.Combine(hosting.WebRootPath, "Content", "Users")))
+                    {
+                        Directory.CreateDirectory(Path.Combine(hosting.WebRootPath, "Content", "Users"));
+                    }
 
-
+                    string path = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(User.Image);
+                    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                    {
+                        //Назва фотки із розширення
+                        path = Guid.NewGuid().ToString() + ".jpg";
+                        Image realEstateImage = Image.FromStream(stream);
+                        realEstateImage.Save(hosting.WebRootPath + @"/Content/Users/" + path, ImageFormat.Jpeg);
+                    }
+                    user.Image = path;
+                }
 
                 var result = await _userManager.CreateAsync(user, User.Password);
+
+
+
+                if(result.Succeeded)
+                {
+                    try
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        MailAddress to = new MailAddress(user.Email);
+                        MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Confirmation Email";
+                        m.IsBodyHtml = true;
+                        m.Body = "To confirm EMAIL enter this code: " + code;
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        ConfirmEmail confirm = new ConfirmEmail()
+                        {
+                            UserId = user.Id,
+                            Code = code
+                        };
+                        _context.ConfirmEmails.Add(confirm);
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+
+
+
                 await _userManager.AddToRoleAsync(user, "Realtor");
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
@@ -83,7 +126,6 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
             }
             return BadRequest();
         }
@@ -93,7 +135,7 @@ namespace HomeRealtorApi.Controllers
         {
             try
             {
-                /*var edit = _context.Users.FirstOrDefault(t => t.Id == id);
+                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
                 if(edit.Image != string.Empty)
                     System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
                 string path="";
@@ -116,7 +158,7 @@ namespace HomeRealtorApi.Controllers
                 edit.AboutMe = User.AboutMe;
                 edit.Age = User.Age;
                 edit.Email = User.Email;
-                _context.SaveChanges();*/
+                _context.SaveChanges();
                 return Content("OK");
             }
             catch (Exception ex)
@@ -158,7 +200,7 @@ namespace HomeRealtorApi.Controllers
 
         [HttpGet("current")]
         [Authorize]
-        public async Task<ContentResult> CurrentUser()
+        public ContentResult CurrentUser()
         {
             try
             {
@@ -184,7 +226,6 @@ namespace HomeRealtorApi.Controllers
             {
                 return Content("Error: " + ec.Message);
             }
-
 
         }
         [HttpGet("unlock/{code}")]
@@ -366,7 +407,6 @@ namespace HomeRealtorApi.Controllers
 
                 }
                 return BadRequest();
-
             }
 
             catch (Exception)
@@ -375,6 +415,34 @@ namespace HomeRealtorApi.Controllers
             }
 
         }
+
+
+        [HttpPost("confirmcode")]
+        public async Task<IActionResult> ConfirmCode([FromBody]ConfirmEmailModel confirm)
+        {
+            try
+            {
+                var check = _context.ConfirmEmails.FirstOrDefault(t => t.Code == confirm.Code);
+                if (check != null)
+                {
+                    var result = await _userManager.ConfirmEmailAsync(check.UserOf, confirm.Code);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    _context.ConfirmEmails.Remove(check);
+                    await _context.SaveChangesAsync();
+                }
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+
 
         private async Task<string> CreateTokenAsync(User user)
         {

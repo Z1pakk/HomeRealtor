@@ -122,7 +122,6 @@
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\OutlinedTextBlock.cs" />
     <Compile Include="ForgotPasswordWindow.xaml.cs">
       <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
     </Compile>
@@ -166,6 +165,7 @@
     <Compile Include="Pages\OrderPage.xaml.cs">
       <DependentUpon>OrderPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OutlinedTextBlock.cs" />
     <Compile Include="Pages\RealEstateAboutPage.xaml.cs">
       <DependentUpon>RealEstateAboutPage.xaml</DependentUpon>
     </Compile>
@@ -293,8 +293,10 @@
     <Resource Include="login.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Content\email-icon.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Resource Include="Content\no-photo.png" />
     <Content Include="fonts\fontawesome-webfont.svg" />
   </ItemGroup>
   <ItemGroup>
