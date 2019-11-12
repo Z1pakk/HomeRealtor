@@ -47,6 +47,11 @@ namespace RealtorUI.Pages
                 _token = temp;
             }
 
+            foreach(var item in advertisings)
+            {
+                item.Image = "https://localhost:44325/content/" + item.Image;
+            }
+
             InitializeComponent();
 
             lbAdvertising.ItemsSource = advertisings;
