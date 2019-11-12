@@ -62,11 +62,6 @@ namespace AdminUI
 
         private void BtnReal_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void BtnReal_Click(object sender, RoutedEventArgs e)
-        {
             frame.Navigate(new RealEstatePage());
         }
 
