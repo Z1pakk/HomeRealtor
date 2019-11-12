@@ -1,4 +1,5 @@
 ﻿using APIConnectService.Models;
+using HomeRealtorApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,19 @@ namespace APIConnectService.Service
                 writer.Write(JsonConvert.SerializeObject(user));
             }
 
+            WebResponse response = request.GetResponse();
+        }
+
+        public void CheckConfirmationCode(string url, ConfirmEmailModel confirm)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+            {
+                writer.Write(JsonConvert.SerializeObject(confirm));
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
             WebResponse response = request.GetResponse();
         }
     }

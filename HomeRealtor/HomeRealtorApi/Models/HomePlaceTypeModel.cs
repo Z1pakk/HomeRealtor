@@ -8,6 +8,6 @@ namespace HomeRealtorApi.Models
     public class HomePlaceTypeModel
     {
         public int Id { get; set; }
-        public string NameOfType { get; set; }
+        public string Name { get; set; }
     }
 }

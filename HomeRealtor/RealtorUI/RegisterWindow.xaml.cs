@@ -30,7 +30,6 @@ namespace RealtorUI
     {
         private string ImagePath;
         AddUserService service = new AddUserService();
-
         public RegisterWindow()
         {
             InitializeComponent();
@@ -48,6 +47,7 @@ namespace RealtorUI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+
             try
             {
                 UserModel user = new UserModel()
@@ -59,17 +59,26 @@ namespace RealtorUI
                     PhoneNumber = tbPhNum.Text,
                     Password = tbPass.Password,
                     Age = int.Parse(tbAge.Text),
-                    Image = ImagePath,
                     AboutMe = null,
                     Role = cbRole.Text
                 };
+                if (!string.IsNullOrEmpty(ImagePath))
+                {
+                    string image = ImageHelper.ImageToBase64(ImagePath);
+                    user.Image = image;
+                }
+
                 service.AddUser("https://localhost:44325/api/user/add/", user);
-                this.DialogResult = true;
+
+                ConfirmEmailWindow window = new ConfirmEmailWindow();
+                this.Visibility = Visibility.Hidden;
+                this.Close();
+                window.ShowDialog();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                this.DialogResult = false;
+                MessageBox.Show("Register failed! " + ex.Message);
+                this.Close();
             }
         }
     }
