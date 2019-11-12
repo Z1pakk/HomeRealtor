@@ -88,10 +88,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\ShowMorePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\AdminBanPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,9 +127,6 @@
     <Compile Include="Model\DelAdvertisingModel.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="Model\ShowAdvertisingModel.cs" />
-    <Compile Include="Pages\ShowMorePage.xaml.cs">
-      <DependentUpon>ShowMorePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\AdminBanPage.xaml.cs">
       <DependentUpon>AdminBanPage.xaml</DependentUpon>
     </Compile>
