@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdminkaUI.Model
 {
-   public class ShowAdvertisingModel
+    public class ShowAdvertisingModel
     {
         public string UserName { get; set; }
         public string AdvertisingName { get; set; }

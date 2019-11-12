@@ -44,7 +44,7 @@ namespace AdminkaUI.Pages
             }
              AdvertizingDg.ItemsSource = advertisings;
         }
-
+         
         private void Banbtn_Click(object sender, RoutedEventArgs e)
         {
             var advertising = AdvertizingDg.SelectedItem as DelAdvertisingModel;
