@@ -92,13 +92,20 @@ namespace HomeRealtorApi.Controllers
         }
 
 
-        [HttpGet("ban/{code}")]
-        public async Task<ActionResult<string>> BanUserAsync(string code)
+        [HttpGet("ban/{email}")]
+        public async Task<ActionResult<string>> BanUserAsync(string email)
         {
-            UserUnlockCodes uuc = _context.UserUnlockCodes.FirstOrDefault(t => t.Code == code);
-            User user = await _userManager.FindByIdAsync(uuc.UserId);
-            await _userManager.SetLockoutEnabledAsync(user, true);
-            return "User Baned";
+            try
+            {
+                User user = _context.Users.FirstOrDefault(t => t.Email == email);
+                await _userManager.SetLockoutEnabledAsync(user, true);
+                return "User Baned";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
         }
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody]UserLoginModel loginModel)
@@ -154,11 +161,9 @@ namespace HomeRealtorApi.Controllers
                     return "Locked";
                 }
 
-
                 // List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
-                if (await _userManager.IsLockedOutAsync(user))
-                {
-
+                if (await _userManager.GetLockoutEnabledAsync(user))
+                { 
                     return "Locked";
                 }
                 //TODO: FindByPhoneAsync
@@ -184,7 +189,7 @@ namespace HomeRealtorApi.Controllers
                 return "Error";
             }
 
-            //  return  CreateTokenAsync(user,role[0]);
+            //return CreateTokenAsync(user,role[0]);
 
 
         }
@@ -206,40 +211,6 @@ namespace HomeRealtorApi.Controllers
                 claims: claims
                 );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
-        }
-
-        [HttpPost("code")]
-        public async Task<ContentResult> CreateCode([FromBody]SendCodeModel model)
-        {
-            string email = model.Email;
-            Random rnd = new Random();
-            string code = (rnd.Next(1000, 9999)).ToString();
-            User user = await _userManager.FindByEmailAsync(email);
-
-            ForgotPassword password = new ForgotPassword()
-            {
-                Code = code,
-                UserId = user.Id
-            };
-            _context.ForgotPasswords.Add(password);
-            _context.SaveChanges();
-
-            return Content("OK");
-        }
-
-
-
-        [HttpGet("checkcode")]
-        public ContentResult CheckCode([FromBody]CheckCodeModel model)
-        {
-            var res = _context.ForgotPasswords.FirstOrDefault(t => t.Code == model.Code);
-            if (res != null)
-            {
-                _userManager.ResetPasswordAsync(res.UserOf, model.Code, model.NewPassword);
-            }
-
-
-            return Content("OK");
         }
     }
 }
