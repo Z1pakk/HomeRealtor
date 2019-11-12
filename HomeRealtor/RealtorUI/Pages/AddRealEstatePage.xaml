@@ -5,25 +5,25 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RealtorUI.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="800"
+      d:DesignHeight="900" d:DesignWidth="800"
       Title="AddRealEstatePage">
 
     <ScrollViewer Padding="20">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="31*"/>
-                <RowDefinition Height="46*"/>
-                <RowDefinition Height="45*"/>
+                <RowDefinition Height="0*"/>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="47*"/>
                 <RowDefinition Height="48*"/>
-                <RowDefinition Height="54*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="52*"/>
+                <RowDefinition Height="47*"/>
                 <RowDefinition Height="45*"/>
-                <RowDefinition Height="38*"/>
-                <RowDefinition Height="74*"/>
-                <RowDefinition Height="151*"/>
-                <RowDefinition Height="66*"/>
+                <RowDefinition Height="278*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="34*"/>
+                <RowDefinition Height="138*"/>
+                <RowDefinition Height="45*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="31*"/>
@@ -44,20 +44,38 @@
             <Label Grid.Column="1" Grid.Row="4" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="State Name: " Width="119"/>
             <TextBox x:Name="tbState" Grid.Column="1" Grid.Row="4" FontSize="18" Margin="150,0,10,10"/>
 
-            <Label Grid.Row="5" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Count of Rooms: " Width="166" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="5" Margin="0,0,208,10" FontSize="20" HorizontalAlignment="Right" Content="Count of Rooms: " Width="159" Grid.ColumnSpan="2"/>
             <TextBox x:Name="tbRoomCount" Grid.Column="1" Grid.Row="5" FontSize="18" Margin="150,0,10,10"/>
 
-            <Label Grid.Column="1" Grid.Row="6" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Type of Sell: " Width="119"/>
-            <ComboBox x:Name="cbSellType" Grid.Column="1" Grid.Row="6" FontSize="18" Margin="150,0,10,10"/>
+            <Label Grid.Column="1" Grid.Row="7" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Type of Sell: " Width="119"/>
+            <ComboBox x:Name="cbSellType" Grid.Column="1" Grid.Row="7" FontSize="18" Margin="150,0,10,10"/>
 
-            <Label Grid.Column="1" Grid.Row="7" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Home Place: " Width="119"/>
-            <ComboBox x:Name="cbHomePlace" Grid.Column="1" Grid.Row="7" FontSize="18" Margin="150,0,10,10"/>
+            <Label Grid.Column="1" Grid.Row="6" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Type: " Width="61"/>
+            <ComboBox x:Name="cbType" Grid.Column="1" Grid.Row="6" FontSize="18" Margin="150,0,10,10"/>
 
-            <Label Grid.Column="1" Grid.Row="8" Margin="0,0,231,10" FontSize="20" HorizontalAlignment="Right" Content="Type: " Width="61"/>
-            <ComboBox x:Name="cbType" Grid.Column="1" Grid.Row="8" FontSize="18" Margin="150,0,10,10"/>
+            <GroupBox Grid.Column="1" Grid.Row="8" Margin="1,11,10,11">
+                <StackPanel>
+                    <Grid HorizontalAlignment="Right" Width="320">
+                        <Label FontSize="20"  Content="Regions: " />
+                        <ComboBox HorizontalAlignment="Right" x:Name="cbRegions"   FontSize="18" Width="170"  />
+                    </Grid>
+                    <Grid  HorizontalAlignment="Right" Width="320">
+                        <Label FontSize="20" Content="Towns: " />
+                        <ComboBox x:Name="cbTowns"  HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                    </Grid>
+                    <Grid HorizontalAlignment="Right" Width="320">
+                        <Label FontSize="20" Content="District Types: " />
+                        <ComboBox x:Name="cbDistrictTypes"  HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                    </Grid >
+                    <Grid HorizontalAlignment="Right" Width="320">
+                        <Label FontSize="20" Content="Districts: " />
+                        <ComboBox x:Name="cbDistricts" HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
 
             <Label Grid.Column="1" Grid.Row="9"  FontSize="20" HorizontalAlignment="Left" Content="About: " Width="76" VerticalAlignment="Bottom" Height="37" />
-            <TextBox x:Name="tbAbout" Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" FontSize="18" Height="150" Margin="10" />
+            <TextBox x:Name="tbAbout" Grid.Column="1" Grid.Row="10" Grid.RowSpan="2" FontSize="18" Margin="10,18,10,10" />
 
             <Button x:Name="btnAddPhoto" Grid.Column="2" Content="Add Photo" Grid.ColumnSpan="2" Grid.Row="1" Margin="10,10,0,0" Click="BtnAddPhoto_Click"/>
 
