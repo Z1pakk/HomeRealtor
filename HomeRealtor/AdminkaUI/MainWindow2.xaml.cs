@@ -1,4 +1,5 @@
-﻿using APIConnectService.Helpers;
+﻿using AdminkaUI.Pages;
+using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
 using MahApps.Metro.Controls;
@@ -46,6 +47,16 @@ namespace AdminUI
         private void BtnBAN_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void BtnReal_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new RealEstatePage());
+        }
+
+        private void BtnGraphs_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new GraphsPage());
         }
     }
 }

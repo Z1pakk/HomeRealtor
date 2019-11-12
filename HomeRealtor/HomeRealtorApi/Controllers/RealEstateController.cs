@@ -95,7 +95,7 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/byid/{_id}")]
         public ContentResult GetRealEstate(int _id)
         {           
-            RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
+            var estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
                 Id = estate.Id,
