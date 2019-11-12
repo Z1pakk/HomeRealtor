@@ -125,5 +125,10 @@ namespace AdminUI
 
             txtBox.Clear();
         }
+
+        private void Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
     }
 }

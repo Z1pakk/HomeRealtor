@@ -85,7 +85,9 @@ namespace HomeRealtorApi.Controllers
             {
                 Name = p.FirstName + " " + p.LastName,
                 Age = p.Age,
-                Email = p.Email
+                Email = p.Email,
+                AboutMy = p.AboutMe,
+                Path = p.Image
             }).Skip((value - 1) * 10).Take(10).ToList();
             string json = JsonConvert.SerializeObject(helps);
             return Content(json, "application/json");

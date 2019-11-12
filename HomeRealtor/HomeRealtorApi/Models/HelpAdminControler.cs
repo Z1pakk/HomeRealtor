@@ -12,5 +12,10 @@ namespace HomeRealtorApi.Models
         public string Email { get; set; }
 
         public int Age { get; set; }
+
+        public string AboutMy { get; set; }
+
+        public string Path { get; set; }
+
     }
 }

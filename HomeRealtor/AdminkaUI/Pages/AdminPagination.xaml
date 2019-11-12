@@ -8,13 +8,15 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdminPagination">
     <Grid>
-        <DataGrid AutoGenerateColumns="True" x:Name="data" Width="750" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 20 0 0" Height="300" />
-        <TextBox FontSize="18" x:Name="txtBox" HorizontalAlignment="Right" Height="50" Width="100" VerticalAlignment="Bottom" Margin="0 0 100 25"/>
-        <Button Content="Go" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 25" Click="Button_Click" />
-        <Button Content="5" Name="But5" HorizontalAlignment="Left" Margin="458,359,0,0" VerticalAlignment="Top" Width="25" Click="But5_Click"/>
-        <Button Content="4" Name="But4" HorizontalAlignment="Left" Margin="415,359,0,0" VerticalAlignment="Top" Width="24" Click="But4_Click"/>
-        <Button Content="3" Name="But3" HorizontalAlignment="Left" Margin="368,359,0,0" VerticalAlignment="Top" Width="25" Click="But3_Click"/>
-        <Button Content="2" Name="But2" HorizontalAlignment="Left" Margin="321,359,0,0" VerticalAlignment="Top" Width="26" Click="But2_Click"/>
-        <Button Content="1" Name="But1" HorizontalAlignment="Left" Margin="272,359,0,0" VerticalAlignment="Top" Width="25" Click="But1_Click"/>
+        <DataGrid SelectionChanged="Data_SelectionChanged" AutoGenerateColumns="True" x:Name="data" Width="555" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25,20,220,0" Height="300" />
+        <TextBox FontSize="18" x:Name="txtBox" HorizontalAlignment="Right" Height="50" Width="100" VerticalAlignment="Bottom" Margin="0,0,300,28"/>
+        <Button Content="Go" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,220,28" Click="Button_Click" />
+        <Button Content="5" Name="But5" HorizontalAlignment="Left" Margin="258,356,0,0" VerticalAlignment="Top" Width="26" Click="But5_Click"/>
+        <Button Content="4" Name="But4" HorizontalAlignment="Left" Margin="216,356,0,0" VerticalAlignment="Top" Width="24" Click="But4_Click"/>
+        <Button Content="3" Name="But3" HorizontalAlignment="Left" Margin="168,356,0,0" VerticalAlignment="Top" Width="26" Click="But3_Click"/>
+        <Button Content="2" Name="But2" HorizontalAlignment="Left" Margin="122,356,0,0" VerticalAlignment="Top" Width="26" Click="But2_Click"/>
+        <Button Content="1" Name="But1" HorizontalAlignment="Left" Margin="72,356,0,0" VerticalAlignment="Top" Width="26" Click="But1_Click"/>
+        <Image x:Name="image" Height="200" Width="200" Margin="590,20,10,230"/>
+        <TextBlock Background="White" x:Name="AboutMe" Width="200" Margin="590,240,10,28"/>
     </Grid>
 </Page>
