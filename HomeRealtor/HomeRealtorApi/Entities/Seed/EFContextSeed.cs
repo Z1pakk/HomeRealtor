@@ -61,6 +61,20 @@ namespace HomeRealtorApi.Entities.Seed
                         isCanSaveChanges = true;
                     }
 
+                    if (!context.Users.Any())
+                    {
+                        User user = new User()
+                        {
+                            Email = "admin@hr.com",
+                            FirstName = "Super",
+                            LastName = "Admin",
+                            UserName = "superAdmin",
+                            CountOfLogins=0
+                        };
+
+                        await usermanager.CreateAsync(user, "Qwerty-1");
+                        await usermanager.AddToRoleAsync(user, "Admin");
+                    }
                     
 
                     if (!context.RealEstateSellTypes.Any())

@@ -236,7 +236,7 @@ namespace HomeRealtorApi.Controllers
                     TimeOfPost = model.TimeOfPost,
                     RoomCount = model.RoomCount,
                     SellType = model.SellType,
-                    HomePlaceId = model.HomePlaceId,
+                    //HomePlaceId = model.HomePlaceId,
                     Description = model.description
                     
                 };
@@ -318,7 +318,7 @@ namespace HomeRealtorApi.Controllers
                 estate.TypeId = model.TypeId;
                 estate.RoomCount = model.RoomCount;
                 estate.SellType = model.SellType;
-                estate.HomePlaceId = model.HomePlaceId;
+                //estate.HomePlaceId = model.HomePlaceId;
                 estate.Description = model.description;
                 _context.SaveChanges();
                 return Content("Real Estate is edited");

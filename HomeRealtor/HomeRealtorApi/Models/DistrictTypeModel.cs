@@ -8,6 +8,6 @@ namespace HomeRealtorApi.Models
     public class DistrictTypeModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string NameOfType { get; set; }
     }
 }

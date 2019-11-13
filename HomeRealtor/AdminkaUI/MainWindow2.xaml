@@ -32,7 +32,6 @@
                     <Button Name="btnNews" Content="News" Height="50" FontSize="18"/>
                     <Button Name="btnAdvertising" Content="Advertising" Height="50" FontSize="18" Click="BtnAdvertising_Click"/>
                     <Button Name="btnAbout" Content="About us" Height="50" FontSize="18"/>
-                    <Button Name="btnExit" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">

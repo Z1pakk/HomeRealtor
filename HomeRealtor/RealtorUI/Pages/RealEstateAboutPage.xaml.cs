@@ -30,6 +30,7 @@ namespace RealtorUI.Pages
         int _id;
         string _token;
         string _fullName;
+        string _coordinates;
         public RealEstateAboutPage(int id, string token)
         {
             InitializeComponent();
