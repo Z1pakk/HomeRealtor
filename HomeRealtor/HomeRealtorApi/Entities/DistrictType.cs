@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
-    [Table("tbl_HomePlaceTypes")]
+    [Table("tbl_DistrictTypes")]
     public class DistrictType
     {
         [Key]

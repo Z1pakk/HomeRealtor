@@ -8,7 +8,7 @@ namespace APIConnectService.Models
 {
     public class HomePlaceModel
     {
-        public int Id { get; set; }
+        public int DistrictId { get; set; }
         public int RealEstateId { get; set; }
     }
 }
