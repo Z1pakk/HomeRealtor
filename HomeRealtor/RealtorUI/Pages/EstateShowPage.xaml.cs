@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Models;
 using APIConnectService.Service;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 using RealtorUI.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace RealtorUI.Pages
     {
         List<GetListEstateViewModel> _estates = new List<GetListEstateViewModel>();
         List<GetListEstateViewModel> estates_ = new List<GetListEstateViewModel>();
+        private readonly IHostingEnvironment _appEnvironment;
         string _token;
         public EstateShowPage(string token)
         {
@@ -56,7 +58,7 @@ namespace RealtorUI.Pages
                 estates_.Add(new GetListEstateViewModel()
                 {
                     Id = result1[i].Id,
-                    Image = result1[i].Image,
+                    Image = result[i].Image,
                     StateName = result1[i].StateName,
                     RoomCount = result1[i].RoomCount,
                     TerritorySize = result1[i].TerritorySize,

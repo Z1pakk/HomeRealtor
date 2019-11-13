@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIConnectService.Service;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Http;
@@ -27,11 +28,10 @@ namespace HomeRealtorApi.Controllers
             {
                 Advertising advertising = new Advertising()
                 {
-                    StateName = Advertising.StateName,
-                    Price = Advertising.Price,
-                    Image = Advertising.Image,
-                    Contacts = Advertising.Contacts
+                    UserId = Advertising.UserId,
+                    RealEstsateId = Advertising.RealEstateId
                 };
+
 
                 var result = _context.Advertisings.Add(advertising);
                 return Ok();
@@ -51,10 +51,11 @@ namespace HomeRealtorApi.Controllers
             {
                 AdvertisingModel model = new AdvertisingModel()
                 {
-                    StateName = item.StateName,
-                    Image = item.Image,
-                    Contacts = item.Contacts,
-                    Price = item.Price
+                    UserId = item.UserId,
+                    RealEstateId = item.RealEstsateId,
+                    Image = item.RealEstateOf.Image,
+                    Contacts = item.UserOf.Email,
+                    StateName = item.RealEstateOf.StateName
                 };
                 models.Add(model);
             }

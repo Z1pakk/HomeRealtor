@@ -23,7 +23,10 @@ namespace RealtorUI
         string Id;
         public MainWindow(string id)
         {
+
             InitializeComponent();
+            HomePage home = new HomePage();
+            frame.Content = home;
             Id = id;
         }
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)

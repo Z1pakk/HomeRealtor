@@ -34,6 +34,8 @@ namespace RealtorUI
         public MainWindowRealtor(string id)
         {
             InitializeComponent();
+            HomePage home = new HomePage();
+            frame.Content = home;
             Id = id;
         }
 
@@ -65,6 +67,12 @@ namespace RealtorUI
                 if (user != null)
                     frame.Navigate(new MyRealtorInfoPage(user));
             }
+        }
+
+        private void BtnHome_Click(object sender, RoutedEventArgs e)
+        {
+            HomePage home = new HomePage();
+            frame.Content = home;
         }
     }
 }

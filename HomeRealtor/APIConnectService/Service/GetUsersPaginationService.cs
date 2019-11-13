@@ -21,5 +21,14 @@ namespace APIConnectService.Service
                 return reader.ReadToEnd();
             }
         }
+        public string Ban(string url,string email)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url + email);
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            WebResponse response = request.GetResponse();
+            return "User BANED";
+
+        }
     }
 }

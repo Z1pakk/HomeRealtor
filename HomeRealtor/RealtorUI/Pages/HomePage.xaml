@@ -23,22 +23,40 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <ListBox Name="lbAdvertising" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
-            <ListBox.ItemsPanel>
+        <ListView  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Name="lbAdvertising" BorderThickness="0 0 0 0" Panel.ZIndex="1" SelectionChanged="LbAdvertising_SelectionChanged" Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" >
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
+                    <WrapPanel Orientation="Horizontal" Width="{Binding ActualWidth,ElementName=lbAdvertising}"/>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Controls:Tile Title="{Binding StateName}" Style="{StaticResource ResourceKey=LargeTileStyle}" Margin="0 0 0 0">
-                        <Controls:Tile.Background>
-                            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill"/>
-                        </Controls:Tile.Background>
-                    </Controls:Tile>
+                    <StackPanel Cursor="Hand" Height="170" Width="215">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="{Binding Image}" />
+                        </StackPanel.Background>
+                        <!--<Border BorderThickness="0 0 2 2" BorderBrush="Black">-->
+                        <!--<TextBlock Text="{Binding StateName}" Foreground="White" FontSize="18">
+                            --><!--<Label.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" Direction="320" ShadowDepth="10" Opacity="1" Softness="3" />
+                            </Label.BitmapEffect>--><!--
+                        </TextBlock>-->
+                        <!--</Border>-->
+
+                        <local:OutlinedTextBlock Stroke="#603cba" 
+                             ClipToBounds="False"
+                             FontSize="30" 
+                             Fill="White"
+                             FontWeight="Bold"
+                             FontFamily="Segoe"
+                             StrokePosition="Inside"
+                             StrokeThickness="1" Text="{Binding StateName}">
+                        </local:OutlinedTextBlock>
+                    </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--</ScrollViewer>-->
 
         <!--<WrapPanel Margin="50" Grid.Row="1" Grid.Column="1" Width="700" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top">
             
