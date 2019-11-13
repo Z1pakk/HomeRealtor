@@ -88,13 +88,21 @@ namespace HomeRealtorApi.Controllers
                     try
                     {
                         string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
+                        string guidcode = Guid.NewGuid().ToString();
                         MailAddress to = new MailAddress(user.Email);
                         MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
                         MailMessage m = new MailMessage(from, to);
                         m.Subject = "Confirmation Email";
                         m.IsBodyHtml = true;
-                        m.Body = "To confirm EMAIL enter this code: " + code;
+                        m.Body = "" +
+                            "<head>" +
+                            "Your account need to confirmation. Press button to confirm :" +
+                            "</head>" +
+                            $" <a href=\" https://localhost:44325/api/user/confirm/{guidcode}/ \">" +
+                            "<button>" +
+                            "Confirm" +
+                            "</button>" +
+                            " </a>  ";
                         SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                         smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
                         smtp.EnableSsl = true;
@@ -103,7 +111,8 @@ namespace HomeRealtorApi.Controllers
                         ConfirmEmail confirm = new ConfirmEmail()
                         {
                             UserId = user.Id,
-                            Code = code
+                            Code = code,
+                            GuidCode = guidcode
                         };
                         _context.ConfirmEmails.Add(confirm);
                     }
@@ -127,6 +136,19 @@ namespace HomeRealtorApi.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("confirm/{guidcode}")]
+        public async Task<ActionResult<string>> ConfirmUser(string guidcode)
+        {
+            ConfirmEmail uuc = _context.ConfirmEmails.FirstOrDefault(t => t.GuidCode == guidcode);
+            User user = await _userManager.FindByIdAsync(uuc.UserId);
+            await _userManager.ConfirmEmailAsync(user, uuc.Code);
+            await _context.SaveChangesAsync();
+            return "All done !";
+        }
+
+
+
         [HttpPut("edit")]
         [Authorize]
         public ContentResult Edit([FromBody]UserInfoModel User)
@@ -161,12 +183,7 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception ex)
             {
-
-
-
                 return Content("Еррор:" + ex.Message);
-
-
 
             }
         }
@@ -286,6 +303,46 @@ namespace HomeRealtorApi.Controllers
 
                     await _userManager.SetLockoutEnabledAsync(user, true);
                     return "Locked";
+                }
+                
+                if(!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    try
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        string guidcode = Guid.NewGuid().ToString();
+                        MailAddress to = new MailAddress(user.Email);
+                        MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Confirmation Email";
+                        m.IsBodyHtml = true;
+                        m.Body = "" +
+                            "<head>" +
+                            "Your account need to confirmation. Press button to confirm :" +
+                            "</head>" +
+                            $" <a href=\" https://localhost:44325/api/user/confirm/{guidcode}/ \">" +
+                            "<button>" +
+                            "Confirm" +
+                            "</button>" +
+                            " </a>  ";
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        ConfirmEmail confirm = new ConfirmEmail()
+                        {
+                            UserId = user.Id,
+                            Code = code,
+                            GuidCode = guidcode
+                        };
+                        _context.ConfirmEmails.Add(confirm);
+                        await _context.SaveChangesAsync();
+                        return "Confirm";
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
 
 

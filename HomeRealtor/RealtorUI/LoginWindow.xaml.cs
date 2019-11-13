@@ -167,6 +167,16 @@ namespace RealtorUI
                     MessageBox.Show("You haven`t got this role");
                     return;
                 }
+                if(token == "Confirm")
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    sP.Visibility = Visibility.Visible;
+                    //lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    MessageBox.Show("Need to confirm your email!");
+                    return;
+                }
                 if (token != "Error")
                 {
                     if (rbtnUser.IsChecked == true)
