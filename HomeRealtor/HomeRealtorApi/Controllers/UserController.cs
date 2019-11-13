@@ -49,6 +49,10 @@ namespace HomeRealtorApi.Controllers
 
             try
             {
+                if(await _userManager.FindByEmailAsync(User.Email)!=null)
+                {
+                    return "Mail";
+                }
                 User user = new User()
                 {
                     UserName = User.UserName,
@@ -208,8 +212,6 @@ namespace HomeRealtorApi.Controllers
 
 
         }
-
-
 
 
 

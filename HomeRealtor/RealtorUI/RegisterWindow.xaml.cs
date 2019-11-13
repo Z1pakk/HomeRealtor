@@ -68,14 +68,22 @@ namespace RealtorUI
                     user.Image = image;
                 }
 
-                service.AddUser("https://localhost:44325/api/user/add/", user);
-
-                ConfirmEmailWindow window = new ConfirmEmailWindow();
-                this.Visibility = Visibility.Hidden;
-                this.Close();
-                window.ShowDialog();
+                string token = service.AddUser("https://localhost:44325/api/user/add/", user);
+                if (token == "Mail")
+                {
+                    tbEmail.BorderBrush = Brushes.Red;
+                    tbEmail.Text = "";
+                    MessageBox.Show("Register failed! This email is alredy used");
+                }
+                else
+                {
+                    ConfirmEmailWindow window = new ConfirmEmailWindow();
+                    this.Visibility = Visibility.Hidden;
+                    this.Close();
+                    window.ShowDialog();
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Register failed! " + ex.Message);
                 this.Close();

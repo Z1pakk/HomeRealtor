@@ -13,7 +13,7 @@ namespace APIConnectService.Service
 {
     public class AddUserService
     {
-        public void AddUser(string url, UserModel user)
+        public string AddUser(string url, UserModel user)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = "POST";
@@ -25,6 +25,14 @@ namespace APIConnectService.Service
             }
 
             WebResponse response = request.GetResponse();
+
+            string token;
+            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            {
+                string temp = reader.ReadToEnd();
+                token = temp;
+            }
+            return token;
         }
 
         public void CheckConfirmationCode(string url, ConfirmEmailModel confirm)
