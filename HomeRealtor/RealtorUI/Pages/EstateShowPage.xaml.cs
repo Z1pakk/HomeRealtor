@@ -83,8 +83,20 @@ namespace RealtorUI.Pages
             string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
             BaseServices services = new BaseServices();
             string url = "https://localhost:44325/api/RealEstate/find/Sell";
-            //string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, cbType.Text,((ComboBoxModel)(cbRegion.SelectedItem)).Name, cbTown.Text, cbDistrict.Text };
-            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, ((ComboBoxModel)(cbType.SelectedItem)).Name, ((ComboBoxModel)(cbRegion.SelectedItem)).Name, ((ComboBoxModel)(cbTown.SelectedItem)).Name, ((ComboBoxModel)(cbDistrict.SelectedItem)).Name };
+            //string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, ((ComboBoxModel)(cbType.SelectedItem)).Name, ((ComboBoxModel)(cbRegion.SelectedItem)).Name, ((ComboBoxModel)(cbTown.SelectedItem)).Name, ((ComboBoxModel)(cbDistrict.SelectedItem)).Name };
+            string reg=string.Empty, town = string.Empty, distr = string.Empty, count = string.Empty,type=string.Empty;
+            if (cbRCount.Text != null)
+                count = cbRCount.Text;
+            if (((ComboBoxModel)(cbType.SelectedItem)).Name != null)
+                type = ((ComboBoxModel)(cbRegion.SelectedItem)).Name;
+            if (((ComboBoxModel)(cbRegion.SelectedItem)).Name != null)
+                reg = ((ComboBoxModel)(cbRegion.SelectedItem)).Name;
+            if (((ComboBoxModel)(cbTown.SelectedItem)).Name != null)
+                town = cbRCount.Text;
+            if (((ComboBoxModel)(cbDistrict.SelectedItem)).Name != null)
+                distr = cbRCount.Text;
+            string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, count, type, reg,town, distr};
+
             List<GetListEstateViewModel> estates = await services.GetFindedEstatesAsync(url, JsonConvert.SerializeObject(arr), "POST", tok);
             lv_Buy.ItemsSource = estates;
         }
