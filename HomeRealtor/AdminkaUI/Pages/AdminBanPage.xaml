@@ -20,6 +20,6 @@
         <TextBox Grid.Row="1" Name="BanEmail" Margin="190,0,400,0" />
         <TextBlock Text="Your answer" FontSize="20" Margin="205,13,450,5" Width="auto" Grid.Row="3"/>
         <TextBlock x:Name="answer" Width="auto" Grid.Row="4" Margin="205,0,382,0" />
-        <Button x:Name="butAccept" Content="BAN" Margin="388,10,312,10" Grid.Row="2" Click="ButAccept_Click" />
+        <Button x:Name="butAccept" Content="BAN" Margin="388,10,312,10" Grid.Row="2"/>
     </Grid>
 </Page>

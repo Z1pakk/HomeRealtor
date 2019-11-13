@@ -3,6 +3,7 @@ using APIConnectService.Models;
 using APIConnectService.Service;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
+using RealtorUI.Models;
 using RealtorUI.Pages;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        EstateShowPage estateSP ;
         public MainWindow()
         {
            
@@ -29,7 +31,15 @@ namespace RealtorUI
             HomePage home = new HomePage();
             frame.Content = home;
             Id = id;
+            estateSP = new EstateShowPage(Id);
+            btnFind.Click += estateSP.Button_ClickAsync;
+            cbTown.SelectionChanged += estateSP.cbTown_SelectionChangedAsync;
+            cbRegion.SelectionChanged += estateSP.cbRegion_SelectionChangedAsync;
+            tbtnFind.Margin = new Thickness(0, 10, this.Width/7.5, 0);
+
         }
+
+
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             AboutUs aboutUs = new AboutUs();
@@ -38,7 +48,7 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage(Id));
+            frame.Navigate(estateSP);
             
         }
 
@@ -73,16 +83,33 @@ namespace RealtorUI
             {
 
             ThemeManager.ChangeAppStyle(Application.Current,
-                                ThemeManager.GetAccent("Blue"),
+                                ThemeManager.GetAccent("Purple"),
                                 ThemeManager.GetAppTheme("BaseDark"));
             }
             else
             {
 
                 ThemeManager.ChangeAppStyle(Application.Current,
-                                    ThemeManager.GetAccent("Blue"),
+                                    ThemeManager.GetAccent("Purple"),
                                     ThemeManager.GetAppTheme("BaseLight"));
             }
+        }
+
+        private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            string _token = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            BaseServices service = new BaseServices();
+            string url = "https://localhost:44325/api/RealEstate/get/types";
+            List<TypeViewModel> res = service.GetEstateTypes(url, "GET", _token);
+            List<ComboBoxModel> temp = res.Select(t => new ComboBoxModel() { Id = t.Id, Name = t.Name }).ToList();
+            cbType.ItemsSource = temp;
+
+            url = "https://localhost:44325/api/RealEstate/get/regions";
+            List<RegionModel> regions = (await service.GetRegions(url, _token)).Result;
+            string er = (await service.GetRegions(url, _token)).ExceptionMessage;
+            cbRegion.ItemsSource = regions.Select(t => new ComboBoxModel() { Id = t.Id, Name = t.NameOfRegion }).ToList();
+            cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
         }
     }
 }
