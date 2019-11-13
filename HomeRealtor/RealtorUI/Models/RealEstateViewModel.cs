@@ -19,8 +19,10 @@ namespace RealtorUI.Models
         public bool Active { get; set; }
         public int TypeId { get; set; }
         public string UserId { get; set; }
+        public int HomePlaceId { get; set; }
         public int SellType { get; set; }
-        public List<ImageEstateModel> images { get; set; }
+        public List<string> images { get; set; }
+        public string description { get; set; }
 
     }
 }

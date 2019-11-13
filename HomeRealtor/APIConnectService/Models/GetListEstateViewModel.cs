@@ -13,6 +13,9 @@ namespace APIConnectService.Models
         public string Image { get; set; }
         public int RoomCount { get; set; }
         public double TerritorySize { get; set; }
-
+        public bool Active { get; set; }
+        public bool IsDeleted { get; set; }
+        public string btnContext { get; set; }
+        public string btnBackground { get; set; }
     }
 }

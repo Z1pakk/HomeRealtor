@@ -27,16 +27,15 @@ namespace HomeRealtorApi.Controllers
             {
                 Advertising advertising = new Advertising()
                 {
-                    StateName = Advertising.StateName,
-                    Price = Advertising.Price,
-                    Image = Advertising.Image,
-                    Contacts = Advertising.Contacts
+                    UserId = Advertising.UserId,
+                    RealEstsateId = Advertising.RealEstateId
                 };
+
 
                 var result = _context.Advertisings.Add(advertising);
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -47,20 +46,48 @@ namespace HomeRealtorApi.Controllers
         {
             List<Advertising> advertisings = _context.Advertisings.ToList();
             List<AdvertisingModel> models = new List<AdvertisingModel>();
-            foreach(var item in advertisings)
+            foreach (var item in advertisings)
             {
                 AdvertisingModel model = new AdvertisingModel()
                 {
-                    StateName = item.StateName,
-                    Image = item.Image,
-                    Contacts = item.Contacts,
-                    Price = item.Price
+                    UserId = item.UserId,
+                    RealEstateId = item.RealEstsateId,
+                    Image = item.RealEstateOf.Image,
+                    Contacts = item.UserOf.Email,
+                    StateName = item.RealEstateOf.StateName
                 };
                 models.Add(model);
             }
 
             string json = JsonConvert.SerializeObject(models);
             return Content(json, "application/json");
+        }
+        [HttpGet("showadddvertising")]
+        public ContentResult GetAdvertising()
+        {
+            List<Advertising> advertisings = _context.Advertisings.ToList();
+            List<ShowAdvertisingModel> models = new List<ShowAdvertisingModel>();
+
+            foreach (var item in advertisings)
+            {
+                ShowAdvertisingModel model = new ShowAdvertisingModel()
+                {
+                   AdvertisingName = item.RealEstateOf.StateName,
+                   UserName = item.UserOf.UserName
+                };
+                models.Add(model);
+            }
+
+            string json = JsonConvert.SerializeObject(models);
+            return Content(json, "application/json");
+        }
+
+        [HttpDelete("delete")]
+        public ContentResult DeleteAdvertising([FromBody]DellAdvertising model)
+        {
+            _context.Advertisings.Remove(_context.Advertisings.FirstOrDefault(t => t.Id == model.Id));
+            _context.SaveChanges();
+            return Content("OK");
         }
     }
 }

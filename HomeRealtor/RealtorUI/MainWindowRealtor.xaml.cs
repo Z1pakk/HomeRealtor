@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using RealtorUI.Pages;
 using System;
@@ -34,6 +35,8 @@ namespace RealtorUI
         public MainWindowRealtor(string id)
         {
             InitializeComponent();
+            HomePage home = new HomePage();
+            frame.Content = home;
             Id = id;
         }
 
@@ -44,7 +47,7 @@ namespace RealtorUI
 
         private void BtnNews_Click(object sender, RoutedEventArgs e)
         {
-
+               
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
@@ -65,6 +68,12 @@ namespace RealtorUI
                 if (user != null)
                     frame.Navigate(new MyRealtorInfoPage(user));
             }
+        }
+
+        private void BtnHome_Click(object sender, RoutedEventArgs e)
+        {
+            HomePage home = new HomePage();
+            frame.Content = home;
         }
     }
 }

@@ -6,11 +6,11 @@
       xmlns:local="clr-namespace:RealtorUI.Pages"
       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1200" d:DesignWidth="800"
       Title="EstateShowPage"
       Loaded="Page_Loaded">
 
-    <Grid>
+    <ScrollViewer x:Name="srlAboutPage">
         <Controls:MetroTabControl>
             <TabItem Header="Buy" Width="100">
                 <Grid Margin="10,10,10,10">
@@ -48,10 +48,15 @@
                         <ComboBox Grid.Column="2" x:Name="cbType" IsEditable="True" FontSize="15" VerticalAlignment="Top" Text="Type of real estate" Margin="10" Height="30"/>
                         <Button Name="btnFind" Content="Find" FontSize="13" Grid.Column="2" Margin="30 0 30 10" VerticalAlignment="Bottom" Height="30" Click="Button_ClickAsync"/>
                     </Grid>
-                    <ListView Margin="0 10 0 0" Grid.Row="1" x:Name="lv_Buy" PreviewMouseDoubleClick="lv_Buy_PreviewMouseDoubleClick">
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="880" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                    <ListView Grid.Row="0"  Width="630" x:Name="lv_Buy" PreviewMouseDoubleClick="lv_Buy_PreviewMouseDoubleClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="{Binding ElementName=lv_Buy, Path=ActualWidth}" BorderThickness="0 0 0 1" BorderBrush="Black">
+                                <Border Width="600" BorderThickness="0 0 0 1" BorderBrush="Black">
                                     <Grid Height="200">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
@@ -79,7 +84,17 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <ListView x:Name="lv_Paging" Grid.Row="1" Width="490" BorderThickness="0" >
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                    <Button Grid.Row="1" FontSize="14" Content="First page" Style="{StaticResource AccentedSquareButtonStyle}" Margin="38,11,627.6,9.8" Click="Button_Click"/>
+                    <Button Grid.Row="1" Content="Last page" FontSize="14" Style="{StaticResource AccentedSquareButtonStyle}" Margin="628,11,37.6,9.8" Click="Button_Click_1"/>
                 </Grid>
+               </Grid>
             </TabItem>
             <TabItem Header="Rent" Width="100">
                 <Grid Margin="10,10,10,10">
@@ -117,5 +132,5 @@
                 </Grid>
             </TabItem>
         </Controls:MetroTabControl>
-    </Grid>
+    </ScrollViewer>
 </Page>

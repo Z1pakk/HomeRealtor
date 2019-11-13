@@ -33,7 +33,7 @@ namespace HomeRealtorApi.Entities
         public virtual DbSet<RealEstateType> RealEstateTypes { get; set; }
         public virtual DbSet<News> News{ get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-
+        public virtual DbSet<ConfirmEmail> ConfirmEmails { get; set; }
         public virtual DbSet<UserUnlockCodes> UserUnlockCodes  { get; set; }
         public virtual DbSet<Advertising> Advertisings { get; set; }
         public virtual DbSet<RealEstateSellType> RealEstateSellTypes { get; set; }

@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using RealtorUI.Pages;
 using System.Collections.Generic;
@@ -24,7 +25,10 @@ namespace RealtorUI
         string Id;
         public MainWindow(string id)
         {
+
             InitializeComponent();
+            HomePage home = new HomePage();
+            frame.Content = home;
             Id = id;
             estateSP = new EstateShowPage(Id);
             btnFind.Click += estateSP.Button_ClickAsync;
@@ -67,6 +71,24 @@ namespace RealtorUI
                 UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
+            }
+        }
+
+        private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            if(togle.IsChecked==true)
+            {
+
+            ThemeManager.ChangeAppStyle(Application.Current,
+                                ThemeManager.GetAccent("Blue"),
+                                ThemeManager.GetAppTheme("BaseDark"));
+            }
+            else
+            {
+
+                ThemeManager.ChangeAppStyle(Application.Current,
+                                    ThemeManager.GetAccent("Blue"),
+                                    ThemeManager.GetAppTheme("BaseLight"));
             }
         }
     }

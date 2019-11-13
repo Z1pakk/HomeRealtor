@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealtorUI.Models
+namespace AdminkaUI.Model
 {
-    public class ImageEstateModel
+    public class ImageModel
     {
         public string Name { get; set; }
         public int EstateId { get; set; }

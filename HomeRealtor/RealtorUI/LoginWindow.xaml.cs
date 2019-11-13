@@ -63,7 +63,7 @@ namespace RealtorUI
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
 
             }
@@ -84,45 +84,33 @@ namespace RealtorUI
             window.ShowDialog();
         }
         private async Task<string> LoginAsync()
-        {
-
-
-
+        { 
+            string Role;
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
-            if (rbtnUser.IsChecked == true)
+            //if(rbtnUser.IsChecked==true)
+            //{
+            //    Role = "User";
+            //}
+            //else
+            //{
+            //    Role = "Realtor";
+            //}
+            Role = rbtnUser.IsChecked==true ? "Realtor":"User" ;
+
+            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
-
-                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                UserLoginModel model = new UserLoginModel();
+                writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
                 {
-                    UserLoginModel model = new UserLoginModel();
-                    writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
-                    {
 
-                        Password = passwdBox.Password,
-                        Email = loginBox.Text,
-
-                        Role = "User"
-                    }));
-                }
+                    Password = passwdBox.Password,
+                    Email = loginBox.Text,
+                    Role = Role
+                }));
             }
-            else
-            {
-                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-                {
-                    UserLoginModel model = new UserLoginModel();
-                    writer.Write(JsonConvert.SerializeObject(new UserLoginModel()
-                    {
-
-                        Password = passwdBox.Password,
-                        Email = loginBox.Text,
-
-                        Role = "Realtor"
-                    }));
-                }
-            }
-                WebResponse response = await request.GetResponseAsync();
+            WebResponse response = await request.GetResponseAsync();
 
                 string token;
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
@@ -165,6 +153,16 @@ namespace RealtorUI
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
                     MessageBox.Show("You haven`t got this role");
+                    return;
+                }
+                if(token == "Confirm")
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    sP.Visibility = Visibility.Visible;
+                    //lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    MessageBox.Show("Need to confirm your email!");
                     return;
                 }
                 if (token != "Error")
