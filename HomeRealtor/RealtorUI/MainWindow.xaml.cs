@@ -17,6 +17,7 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        EstateShowPage estateSP ;
         public MainWindow()
         {
            
@@ -29,7 +30,13 @@ namespace RealtorUI
             HomePage home = new HomePage();
             frame.Content = home;
             Id = id;
+            estateSP = new EstateShowPage(Id);
+            btnFind.Click += estateSP.Button_ClickAsync;
+            cbTown.SelectionChanged += estateSP.cbTown_SelectionChangedAsync;
+            cbRegion.SelectionChanged += estateSP.cbRegion_SelectionChangedAsync;
         }
+
+
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             AboutUs aboutUs = new AboutUs();
@@ -38,7 +45,7 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage(Id));
+            frame.Navigate(estateSP);
             
         }
 

@@ -147,6 +147,7 @@
       <DependentUpon>ImageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\CheckCodeModel.cs" />
+    <Compile Include="Models\ComboBoxModel.cs" />
     <Compile Include="Models\SaveModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
     <Compile Include="Models\NewsModels.cs" />
@@ -188,10 +189,6 @@
     <Compile Include="RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="LoginWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
     <Page Include="MainWindowRealtor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

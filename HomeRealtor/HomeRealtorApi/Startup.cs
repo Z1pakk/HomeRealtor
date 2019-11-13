@@ -84,6 +84,14 @@ namespace HomeRealtorApi
             {
                 Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "Advertising"));
             }
+            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content", "EstateImages")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "EstateImages"));
+            }
+            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content", "UserImages")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "UserImages"));
+            }
         }
 
 

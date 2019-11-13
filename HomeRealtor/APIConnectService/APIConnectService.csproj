@@ -60,10 +60,13 @@
     <Compile Include="Models\GetListEstateViewModel.cs" />
     <Compile Include="Models\GetRealEstateViewModel.cs" />
     <Compile Include="Models\ImageEstateModel.cs" />
+    <Compile Include="Models\DistrictModel.cs" />
+    <Compile Include="Models\DistrictTypeModel.cs" />
     <Compile Include="Models\HomePlaceModel.cs" />
-    <Compile Include="Models\HomePlaceTypeModel.cs" />
     <Compile Include="Models\OrderModel.cs" />
     <Compile Include="Models\RealEstateModel.cs" />
+    <Compile Include="Models\RegionModel.cs" />
+    <Compile Include="Models\TownModel.cs" />
     <Compile Include="Models\TypeViewModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\UserModel.cs" />

@@ -37,7 +37,7 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             UserM = user;
-            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + user.Image));
+            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages" + user.Image));
             lblName.Content = lblName.Content + user.FirstName + " " + user.LastName;
             lblEmail.Content = lblEmail.Content + user.Email;
             lblAge.Content = lblAge.Content + user.Age.ToString();
@@ -74,7 +74,7 @@ namespace RealtorUI.Pages
                 dgEstates.Items.Clear();
                 foreach (var item in res.Result)
                 {
-                    if (((RealEstateModel)(item)).UserId == UserM.Id.ToString())
+                    if (((RealEstateModel)(item)).UserId == UserM.Id)
                     {
                         dgEstates.Items.Add(item);
                     }
@@ -195,7 +195,7 @@ namespace RealtorUI.Pages
                     res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
                     if (res.Success == true)
                     {
-                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/" + res.Result.Image));
+                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages/" + res.Result.Image));
                     }
                 }
             }
