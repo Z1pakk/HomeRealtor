@@ -11,7 +11,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="79*"/>
-            <RowDefinition Height="371*"/>
+            <RowDefinition Height="169*"/>
+            <RowDefinition Height="202*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400*"/>
@@ -19,13 +20,14 @@
 
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Deleted" Background="#FFDE0A0A" FontSize="21" Width="100" Margin="15"/>
+            <Button Content="Deleted" Background="#FFDE0A0A" FontSize="21" Width="100" Margin="15" Click="Button_Click_2"/>
             <Button Content="Active" Background="#FF10CF07" FontSize="21" Width="100" Margin="15" Click="Button_Click_1"/>
-            <Button Content="Disabled"  FontSize="18" Width="100" Margin="15" Background="#FFFBAD07" Click="Button_Click"/>
+            <Button Content="Sold"  FontSize="20" Width="100" Margin="15" Background="#FFFBAD07" Click="Button_Click"/>
+
         </StackPanel>
-        
-            
-        <ListView BorderThickness="2" BorderBrush="#FF17A5FD" ScrollViewer.HorizontalScrollBarVisibility="Hidden" PreviewMouseDoubleClick="lv_Rent_PreviewMouseDoubleClick_1" x:Name="lv" Grid.Row="1"  SelectionChanged="Lv_SelectionChanged" Margin="15,30,30,30">
+        <Button BorderThickness="2" Content="All"  FontSize="20" Margin="0,15,300,15" Background="White" Click="Button_Click2" BorderBrush="#FF0097FF" Grid.Column="1"/>
+
+        <ListView BorderThickness="2" BorderBrush="#FF17A5FD" ScrollViewer.HorizontalScrollBarVisibility="Hidden" x:Name="lv" Grid.Row="1"  SelectionChanged="Lv_SelectionChanged" Margin="15,30,30,30" Grid.RowSpan="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Width="{Binding ElementName=lv, Path=ActualWidth}" BorderThickness="0 0 0 1" BorderBrush="Black">
@@ -53,23 +55,37 @@
                                         <TextBlock FontSize="18" Text="{Binding TerritorySize}" Height="22"/>
                                     </StackPanel>
                                 </StackPanel>
-                                
+
                             </StackPanel>
-                           
+
                         </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        <TextBlock Text="Detal info :" FontSize="25" Margin="20,25,0,0" Grid.Column="1"/>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1"  Margin="0,30,0,30">
+
+
+        <ScrollViewer x:Name="sv" Visibility="Hidden" Grid.Row="1" Grid.Column="1"  Margin="0,30,0,30" Grid.RowSpan="2">
+            <StackPanel>
+                
             
-        <Frame NavigationUIVisibility="Hidden"   x:Name="frame" Grid.Row="1" Grid.Column="1"  Margin="30">
-            
-        </Frame>
+            <Image Height="200" Name="img_Estate" VerticalAlignment="Top" Margin="25,10,25,0"/>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" Grid.RowSpan="2">
+                <TextBlock HorizontalAlignment="Center" Name="txt_Name" Text="Real Estate Title: " TextWrapping="Wrap" Height="40" FontSize="23" FontWeight="Bold"/>
+                <TextBlock Name="txt_Price" Height="30" Text="Prcie: " FontSize="18"/>
+                <TextBlock Name="txt_Location" Height="30" Text="Location: " FontSize="18"/>
+                <TextBlock Name="txt_RoomCount" Height="30" Text="Rooms Count: " FontSize="18"/>
+                <TextBlock Name="txt_TerritorySize" Height="30" Text="Size: " FontSize="18"/>
+                <TextBlock Name="txt_TimeOfPost" Height="30" Text="Posted: " FontSize="18"/>
+                <TextBlock Name="txt_Active" Height="30" Text="Is Active: " FontSize="18"/>
+                <TextBlock Name="txt_Type" Height="30" Text="Type of Estate: " FontSize="18"/>
+                <TextBlock Name="txt_Owner" Height="30" Text="Owner/Seller: " FontSize="18"/>
+                <Button   Background="#FFDE0A0A" x:Name="btnDel" FontSize="21" Width="100" HorizontalAlignment="Right" Margin="0,10,30,0" Content="Delete" Click="ButtonDel_Click" />
+            </StackPanel>
+            </StackPanel>
         </ScrollViewer>
-        
+
     </Grid>
 </Page>

@@ -26,9 +26,9 @@
                 <StackPanel>
                     <Button Name="btnPag" Click="BtnPag_Click" Content="Admin Pagination" Height="50" FontSize="18" />
                     <Button Name="btnBAN" Click="BtnBAN_Click" Content="BAN" Height="50" FontSize="18"/>
-                    <Button Name="btnReal" Click="BtnReal_Click" Content="Real Estates" Height="50" FontSize="18"/>
-                    <Button Name="btnNews" Content="News" Click="BtnNews" Height="50" FontSize="18"/>
-                    <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
+                    <Button Name="btnReal" Content="Real estates" Click="BtnReal_Click" Height="50" FontSize="18"/>
+                    <Button Name="btnGraphs" Content="Graphs" Click="BtnGraphs_Click" Height="50" FontSize="18"/>
+                    <Button Name="btnExit" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">

@@ -89,8 +89,15 @@ namespace RealtorUI
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
-
-            Role = rbtnUser.IsChecked==true ? "User": "Realtor";
+            //if(rbtnUser.IsChecked==true)
+            //{
+            //    Role = "User";
+            //}
+            //else
+            //{
+            //    Role = "Realtor";
+            //}
+            Role = rbtnUser.IsChecked==true ? "Realtor":"User" ;
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {

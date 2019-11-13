@@ -62,7 +62,12 @@ namespace AdminUI
 
         private void BtnReal_Click(object sender, RoutedEventArgs e)
         {
+            frame.Navigate(new RealEstatePage());
+        }
 
+        private void BtnGraphs_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new GraphsPage());
         }
 
         private void BtnNews(object sender, RoutedEventArgs e)
