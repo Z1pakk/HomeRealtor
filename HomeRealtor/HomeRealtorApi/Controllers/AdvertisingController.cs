@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIConnectService.Service;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Http;

@@ -87,7 +87,7 @@ namespace HomeRealtorApi.Controllers
                 Age = p.Age,
                 Email = p.Email,
                 AboutMy = p.AboutMe,
-                Path = p.Image
+                Path = @"https://localhost:44325/Content/Users/"+p.Image
             }).Skip((value - 1) * 10).Take(10).ToList();
             string json = JsonConvert.SerializeObject(helps);
             return Content(json, "application/json");
