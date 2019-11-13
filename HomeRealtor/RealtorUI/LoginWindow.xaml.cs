@@ -17,7 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using MahApps.Metro.Controls.Dialogs;
 namespace RealtorUI
 {
     /// <summary>
@@ -25,8 +25,10 @@ namespace RealtorUI
     /// </summary>
     public partial class LoginWindow : MetroWindow
     {
+      
         public LoginWindow()
         {
+
             try
             {
                 if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
@@ -84,7 +86,8 @@ namespace RealtorUI
             window.ShowDialog();
         }
         private async Task<string> LoginAsync()
-        { 
+        {
+         
             string Role;
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
@@ -142,7 +145,9 @@ namespace RealtorUI
                     //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
-                    MessageBox.Show("Your account is banned ! Please unlock your account in your email");
+                await this.ShowMessageAsync("Eror", "Your account is banned ! Please unlock your account in your email");
+                //await _dialogService.ShowMessageAsync("Eror", "Your account is banned ! Please unlock your account in your email");
+                    //MessageBox.Show("Your account is banned ! Please unlock your account in your email");
                     return;
                 }
                 if (token == "Role")
@@ -152,7 +157,9 @@ namespace RealtorUI
                     //btn.Visibility = Visibility.Visible;
                     // lB.Visibility = Visibility.Visible;
                     mE.Visibility = Visibility.Hidden;
-                    MessageBox.Show("You haven`t got this role");
+                await this.ShowMessageAsync("Eror", "You haven`t got this role");
+  
+                //essageBox.Show("You haven`t got this role");
                     return;
                 }
                 if (token != "Error")
@@ -185,7 +192,9 @@ namespace RealtorUI
                     mE.Visibility = Visibility.Hidden;
                     passwdBox.BorderBrush = Brushes.Red;
                     passwdBox.Password = "";
-                    MessageBox.Show("Incorrect login or password");
+                await this.ShowMessageAsync("Eror", "Incorrect login or password");
+              
+                //MessageBox.Show("Incorrect login or password");
                 }
 
             }
