@@ -17,7 +17,7 @@ namespace HomeRealtorApi.Entities
         [Required]
         public string Image { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, StringLength(300)]
         public string StateName { get; set; }
 
         [Required]

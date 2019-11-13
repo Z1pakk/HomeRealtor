@@ -38,11 +38,19 @@ namespace RealtorUI.Pages
             _token = token;
             string url = $"https://localhost:44325/api/RealEstate/get/byid/{_id}";
             GetRealEstateViewModel model = service.GetEstate(url, "GET");
-            List<GetEstateImagesViewModel> imgs = new List<GetEstateImagesViewModel>();
-            
-            Lv_PhotosMiddle.ItemsSource = model.Images;
+            List<APIConnectService.Models.ImageEstateModel> imgs = new List<APIConnectService.Models.ImageEstateModel>();
+            foreach (var item in model.Images)
+            {
+                imgs.Add(new APIConnectService.Models.ImageEstateModel()
+                {
+                    SmallImage = @"https://localhost:44325/Content/EstateImages/" + item.SmallImage,
+                    MediumImage = @"https://localhost:44325/Content/EstateImages/" + item.MediumImage,
+                    LargeImage = @"https://localhost:44325/Content/EstateImages/" + item.LargeImage
+                });
+            }
+            Lv_PhotosMiddle.ItemsSource = imgs;
 
-            var uri = new Uri(model.Image);
+            var uri = new Uri(@"https://localhost:44325/Content/EstateImages/" + model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
             txt_Name.Text += model.StateName;
@@ -93,6 +101,31 @@ namespace RealtorUI.Pages
         {
             OrderPage page = new OrderPage(_token, _fullName, _id);
             NavigationService.Navigate(page);
-        }        
+        }
+
+        private void Lv_PhotosMiddle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = (APIConnectService.Models.ImageEstateModel)Lv_PhotosMiddle.SelectedItem;
+            img_Estate.Source = null;
+            Uri uri = new Uri(selected.MediumImage);
+            img_Estate.Source = new BitmapImage(uri);
+        }
+
+        private void img_Estate_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string path = img_Estate.Source.ToString();
+            ImageWindow window = new ImageWindow(path);
+            window.ShowDialog ();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            myMap.ZoomLevel += 1;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            myMap.ZoomLevel -= 1;
+        }
     }
 }

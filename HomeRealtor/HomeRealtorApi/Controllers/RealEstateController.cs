@@ -28,11 +28,15 @@ namespace HomeRealtorApi.Controllers
         }
         // GET api/values
         [HttpGet("get/{type}")]
-        public ContentResult GetRealEstate(string type)
+        public ContentResult GetRealEstate(string type, int page)
         {
-
-            var list = _context.RealEstates.
-                Where(t=>t.SellOf.SellTypeName==type).
+            var elem = new ListAndCount()
+            {
+                EstatesCount = _context.RealEstates.Count(),
+                Estates = _context.RealEstates.
+                Skip(page * 3).
+                Take(3).
+                Where(t => t.SellOf.SellTypeName == type).
                 Select(t =>
                 new GetListEstateViewModel()
                 {
@@ -41,9 +45,10 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
                     TerritorySize = t.TerritorySize
-                }).ToList();
-
-           string json = JsonConvert.SerializeObject(list);
+                }).ToList()
+            }; 
+           
+            string json = JsonConvert.SerializeObject(elem);
 
             return Content(json);
         }
@@ -73,7 +78,6 @@ namespace HomeRealtorApi.Controllers
         [HttpGet("get/byid/{_id}")]
         public ContentResult GetRealEstate(int _id)
         {
-           
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
 
             GetRealEstateViewModel model = new GetRealEstateViewModel()
