@@ -97,7 +97,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Districts.
-                    Select(t => new DistrictModel() { NameOfDistrict = t.NameOfDistrict, DistrictTypeId=t.DistrictTypeId,TownId=t.TownId }).ToList();
+                    Select(t => new DistrictModel() { Id = t.Id, NameOfDistrict = t.NameOfDistrict, DistrictTypeId=t.DistrictTypeId,TownId=t.TownId }).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -116,7 +116,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Towns.
-                    Select(t => new TownModel() { NameOfTown=t.NameOfTown, RegionId=t.RegionId}).ToList();
+                    Select(t => new TownModel() { Id = t.Id, NameOfTown =t.NameOfTown, RegionId=t.RegionId}).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -154,7 +154,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Regions.
-                    Select(t => new RegionModel() {NameOfRegion = t.NameOfRegion }).ToList();
+                    Select(t => new RegionModel() { Id=t.Id, NameOfRegion = t.NameOfRegion }).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -171,13 +171,14 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetDistrictTypes()
         {
             var list = _context.DistrictTypes.
-                Select(t => new DistrictTypeModel() { Name = t.NameOfType }).ToList();
+                Select(t => new DistrictTypeModel() { Id = t.Id, Name = t.NameOfType }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
             return Content(json);
         }
         [HttpGet("get/selltypes")]
+        [Authorize]
         public ContentResult GetRealEstateSellTypes()
         {
             var list = _context.RealEstateSellTypes.

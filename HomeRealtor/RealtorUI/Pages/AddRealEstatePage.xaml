@@ -18,10 +18,10 @@
                 <RowDefinition Height="47*"/>
                 <RowDefinition Height="48*"/>
                 <RowDefinition Height="47*"/>
-                <RowDefinition Height="45*"/>
-                <RowDefinition Height="278*"/>
-                <RowDefinition Height="37*"/>
-                <RowDefinition Height="34*"/>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="210*"/>
+                <RowDefinition Height="36*"/>
+                <RowDefinition Height="101*"/>
                 <RowDefinition Height="138*"/>
                 <RowDefinition Height="45*"/>
             </Grid.RowDefinitions>
@@ -55,21 +55,22 @@
 
             <GroupBox Grid.Column="1" Grid.Row="8" Margin="1,11,10,11">
                 <StackPanel>
-                    <Grid HorizontalAlignment="Right" Width="320">
+                    <Grid HorizontalAlignment="Right" Width="320" Margin="0,3">
                         <Label FontSize="20"  Content="Regions: " />
-                        <ComboBox HorizontalAlignment="Right" x:Name="cbRegions"   FontSize="18" Width="170"  />
+                        <ComboBox HorizontalAlignment="Right" x:Name="cbRegions"   FontSize="18" Width="170" SelectionChanged="CbRegions_SelectionChanged"  />
                     </Grid>
-                    <Grid  HorizontalAlignment="Right" Width="320">
+                    <Grid  HorizontalAlignment="Right" Width="320" Margin="0,3">
                         <Label FontSize="20" Content="Towns: " />
-                        <ComboBox x:Name="cbTowns"  HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                        <ComboBox x:Name="cbTowns"  HorizontalAlignment="Right"  FontSize="18" Width="170" SelectionChanged="CbTowns_SelectionChanged"  />
                     </Grid>
-                    <Grid HorizontalAlignment="Right" Width="320">
+                    <Grid HorizontalAlignment="Right" Width="320" Margin="0,3">
                         <Label FontSize="20" Content="District Types: " />
-                        <ComboBox x:Name="cbDistrictTypes"  HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                        <ComboBox x:Name="cbDistrictTypes"  HorizontalAlignment="Right"  FontSize="18" Width="170" SelectionChanged="CbDistrictTypes_SelectionChanged"  />
                     </Grid >
-                    <Grid HorizontalAlignment="Right" Width="320">
+                    <Grid HorizontalAlignment="Right" Width="320" Margin="0,3
+                          ">
                         <Label FontSize="20" Content="Districts: " />
-                        <ComboBox x:Name="cbDistricts" HorizontalAlignment="Right"  FontSize="18" Width="170"  />
+                        <ComboBox x:Name="cbDistricts" HorizontalAlignment="Right"  FontSize="18" Width="170" SelectionChanged="CbDistricts_SelectionChanged"  />
                     </Grid>
                 </StackPanel>
             </GroupBox>

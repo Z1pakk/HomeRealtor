@@ -111,7 +111,7 @@ namespace RealtorUI.Pages
                 List<string> distr = new List<string>();
                 for (int i = 0; i < dTypes.Count - 1; i++)
                 {
-                    distr.AddRange(districts.Where(t => t.DistrictTypeId == dTypes[i].Id && t.Town == cbTown.Text).Select(t => t.NameOfDistrict));
+                    distr.AddRange(districts.Where(t => t.DistrictTypeId == dTypes[i].Id && t.TownId.ToString() == cbTown.Text).Select(t => t.NameOfDistrict));
                         distr.Add(@"\t"+dTypes[i].Name);
                 }
                 cbDistrict.ItemsSource = distr;

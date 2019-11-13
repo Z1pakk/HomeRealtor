@@ -7,6 +7,7 @@ namespace HomeRealtorApi.Models
 {
     public class RegionModel
     {
+        public int Id { get; set; }
         public string NameOfRegion { get; set; }
     }
 }
