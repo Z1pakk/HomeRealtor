@@ -135,23 +135,7 @@ namespace APIConnectService.Service
             {
                 return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
             }
-        }
-
-        public List<GetListEstateViewModel> GetEstates(string url, string method)
-        {
-            HttpWebRequest request = WebRequest.CreateHttp(url);
-            request.Method = method;
-            WebResponse wr = request.GetResponse();
-            string responceFromServer;
-            using (Stream streamResponce = wr.GetResponseStream())
-            {
-                StreamReader reader = new StreamReader(streamResponce);
-                responceFromServer = reader.ReadToEnd();
-            }
-            wr.Close();
-            List<GetListEstateViewModel> models = JsonConvert.DeserializeObject<List<GetListEstateViewModel>>(responceFromServer);
-            return models;
-        }
+        }         
 
         public List<GetListEstateViewModel> GetFindedEstates(string url,string json, string method,string token)
         {
@@ -300,6 +284,22 @@ namespace APIConnectService.Service
             {
                 return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
             }
+        }
+
+        public GetEstatesAndCountViewModel GetEstates(string url, string method)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            GetEstatesAndCountViewModel models = JsonConvert.DeserializeObject<GetEstatesAndCountViewModel>(responceFromServer);
+            return models;
         }
     }
 }

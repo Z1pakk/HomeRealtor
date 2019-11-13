@@ -214,7 +214,7 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<string>("StateName")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(300);
 
                     b.Property<double>("TerritorySize");
 

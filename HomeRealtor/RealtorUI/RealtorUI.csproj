@@ -119,6 +119,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ImageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="ConfirmEmailWindow.xaml.cs">
       <DependentUpon>ConfirmEmailWindow.xaml</DependentUpon>
     </Compile>
@@ -135,6 +143,9 @@
       <DependentUpon>MainWindowRealtor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AdvertisingModel.cs" />
+    <Compile Include="ImageWindow.xaml.cs">
+      <DependentUpon>ImageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\CheckCodeModel.cs" />
     <Compile Include="Models\SaveModel.cs" />
     <Compile Include="Models\SendCodeModel.cs" />
