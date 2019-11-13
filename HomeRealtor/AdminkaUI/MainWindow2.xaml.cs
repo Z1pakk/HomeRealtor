@@ -74,5 +74,10 @@ namespace AdminUI
         {
 
         }
+
+        private void BtnAdvertising_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Advertising());
+        }
     }
 }
