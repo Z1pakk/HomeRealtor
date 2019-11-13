@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using RealtorUI.Pages;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        EstateShowPage estateSP ;
         public MainWindow()
         {
            
@@ -28,7 +30,13 @@ namespace RealtorUI
             HomePage home = new HomePage();
             frame.Content = home;
             Id = id;
+            estateSP = new EstateShowPage(Id);
+            btnFind.Click += estateSP.Button_ClickAsync;
+            cbTown.SelectionChanged += estateSP.cbTown_SelectionChangedAsync;
+            cbRegion.SelectionChanged += estateSP.cbRegion_SelectionChangedAsync;
         }
+
+
         private void BtnNews_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             AboutUs aboutUs = new AboutUs();
@@ -37,7 +45,7 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(new EstateShowPage(Id));
+            frame.Navigate(estateSP);
             
         }
 
@@ -63,6 +71,24 @@ namespace RealtorUI
                 UserInfoModel user = (UserInfoModel)res.Result;
                 if (user != null)
                     frame.Navigate(new MyUserInfoPage(user));
+            }
+        }
+
+        private void ToggleSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            if(togle.IsChecked==true)
+            {
+
+            ThemeManager.ChangeAppStyle(Application.Current,
+                                ThemeManager.GetAccent("Purple"),
+                                ThemeManager.GetAppTheme("BaseDark"));
+            }
+            else
+            {
+
+                ThemeManager.ChangeAppStyle(Application.Current,
+                                    ThemeManager.GetAccent("Purple"),
+                                    ThemeManager.GetAppTheme("BaseLight"));
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using APIConnectService.Helpers;
 using APIConnectService.Models;
 using APIConnectService.Service;
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using RealtorUI.Pages;
 using System;
@@ -46,7 +47,7 @@ namespace RealtorUI
 
         private void BtnNews_Click(object sender, RoutedEventArgs e)
         {
-
+               
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)

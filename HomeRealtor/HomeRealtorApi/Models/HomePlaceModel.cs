@@ -7,10 +7,7 @@ namespace HomeRealtorApi.Models
 {
     public class HomePlaceModel
     {
-        public int Id { get; set; }
-        public string Town { get; set; }
-        public string NameOfDistrict { get; set; }
-        public int HomePlaceId { get; set; }
-
+        public int DistrictId { get; set; }
+        public int RealEstateId { get; set; }
     }
 }

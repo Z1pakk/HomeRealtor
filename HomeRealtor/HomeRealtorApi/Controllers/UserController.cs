@@ -88,13 +88,21 @@ namespace HomeRealtorApi.Controllers
                     try
                     {
                         string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
+                        string guidcode = Guid.NewGuid().ToString();
                         MailAddress to = new MailAddress(user.Email);
                         MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
                         MailMessage m = new MailMessage(from, to);
                         m.Subject = "Confirmation Email";
                         m.IsBodyHtml = true;
-                        m.Body = "To confirm EMAIL enter this code: " + code;
+                        m.Body = "" +
+                            "<head>" +
+                            "Your account need to confirmation. Press button to confirm :" +
+                            "</head>" +
+                            $" <a href=\" https://localhost:44325/api/user/confirm/{guidcode}/ \">" +
+                            "<button>" +
+                            "Confirm" +
+                            "</button>" +
+                            " </a>  ";
                         SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                         smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
                         smtp.EnableSsl = true;
@@ -103,7 +111,8 @@ namespace HomeRealtorApi.Controllers
                         ConfirmEmail confirm = new ConfirmEmail()
                         {
                             UserId = user.Id,
-                            Code = code
+                            Code = code,
+                            GuidCode = guidcode
                         };
                         _context.ConfirmEmails.Add(confirm);
                     }
@@ -129,15 +138,28 @@ namespace HomeRealtorApi.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("confirm/{guidcode}")]
+        public async Task<ActionResult<string>> ConfirmUser(string guidcode)
+        {
+            ConfirmEmail uuc = _context.ConfirmEmails.FirstOrDefault(t => t.GuidCode == guidcode);
+            User user = await _userManager.FindByIdAsync(uuc.UserId);
+            await _userManager.ConfirmEmailAsync(user, uuc.Code);
+            await _context.SaveChangesAsync();
+            return "All done !";
+        }
+
+
+
         [HttpPut("edit")]
         [Authorize]
         public ContentResult Edit([FromBody]UserInfoModel User)
         {
             try
             {
-                var edit = _context.Users.FirstOrDefault(t => t.Id == User.Id);
-                if(edit.Image != string.Empty)
-                    System.IO.File.Delete(hosting.WebRootPath+@"\Content\"+edit.Image);
+                var edit = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+                if (edit.Image != string.Empty)
+                    System.IO.File.Delete(hosting.WebRootPath + @"\Content\Users\" + edit.Image);
                 string path="";
                 if (User.Image != string.Empty)
                 {
@@ -146,10 +168,9 @@ namespace HomeRealtorApi.Controllers
                     {
                         path = Guid.NewGuid().ToString() + ".jpg";
                         Image product = Image.FromStream(stream);
-                        product.Save(hosting.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                        product.Save(hosting.WebRootPath + @"\Content\Users\" + path, ImageFormat.Jpeg);
                     }
                 }
-                edit.Image = User.Image;
                 edit.Image = path;
                 edit.LastName = User.LastName;
                 edit.PhoneNumber = User.PhoneNumber;
@@ -163,12 +184,7 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception ex)
             {
-
-
-
                 return Content("Еррор:" + ex.Message);
-
-
 
             }
         }
@@ -289,6 +305,46 @@ namespace HomeRealtorApi.Controllers
                     await _userManager.SetLockoutEnabledAsync(user, true);
                     return "Locked";
                 }
+                
+                if(!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    try
+                    {
+                        string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        string guidcode = Guid.NewGuid().ToString();
+                        MailAddress to = new MailAddress(user.Email);
+                        MailAddress from = new MailAddress("homerealtor@gmail.com", "Home Realtor");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Confirmation Email";
+                        m.IsBodyHtml = true;
+                        m.Body = "" +
+                            "<head>" +
+                            "Your account need to confirmation. Press button to confirm :" +
+                            "</head>" +
+                            $" <a href=\" https://localhost:44325/api/user/confirm/{guidcode}/ \">" +
+                            "<button>" +
+                            "Confirm" +
+                            "</button>" +
+                            " </a>  ";
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("home.realtor.suport@gmail.com", "00752682");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+
+                        ConfirmEmail confirm = new ConfirmEmail()
+                        {
+                            UserId = user.Id,
+                            Code = code,
+                            GuidCode = guidcode
+                        };
+                        _context.ConfirmEmails.Add(confirm);
+                        await _context.SaveChangesAsync();
+                        return "Confirm";
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
 
 
                 List<string> role =(List<string>)await _userManager.GetRolesAsync(user);
@@ -317,7 +373,7 @@ namespace HomeRealtorApi.Controllers
                 _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins = 0;
                 return await CreateTokenAsync(user/*,role[0]*/);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
                 await _context.SaveChangesAsync();

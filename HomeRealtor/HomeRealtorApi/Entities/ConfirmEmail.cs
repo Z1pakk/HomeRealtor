@@ -16,6 +16,8 @@ namespace HomeRealtorApi.Entities
         public string Code { get; set; }
         [ForeignKey("UserOf")]
         public string UserId { get; set; }
+        [Required]
+        public string GuidCode { get; set; }
         public virtual User UserOf { get; set; }
     }
 }

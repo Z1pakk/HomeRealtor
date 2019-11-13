@@ -35,11 +35,6 @@ namespace RealtorUI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            service.CheckConfirmationCode("https://localhost:44325/api/user/confirmcode", new ConfirmEmailModel()
-            {
-                Code = tbCode.Text
-            });
-
             LoginWindow window = new LoginWindow();
             this.Visibility = Visibility.Hidden;
             this.Close();
