@@ -11,8 +11,8 @@
 
 
     <ScrollViewer x:Name="srlAboutPage">
-        <Grid Background="LightSteelBlue">
-            <Grid Margin="10,10" Background="White">
+        <Grid>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="300"/>
                     <RowDefinition Height="450"/>
@@ -24,14 +24,14 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Background="AliceBlue" CornerRadius="3" Grid.Column="0" Margin="0,0,0,10">
+                        <Border  CornerRadius="3" Grid.Column="0" Margin="0,0,0,10">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="200"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Image Grid.Row="0" Name="img_Estate" Grid.Column="0" VerticalAlignment="Top" Margin="10,10" PreviewMouseDown="img_Estate_PreviewMouseDown"/>
-                                <ListView BorderThickness="0" Name="Lv_PhotosMiddle" Grid.Row="1" Margin="5,0,5,5" Background="AliceBlue" SelectionChanged="Lv_PhotosMiddle_SelectionChanged">
+                                <ListView BorderThickness="0" Name="Lv_PhotosMiddle" Grid.Row="1" Margin="5,0,5,5" SelectionChanged="Lv_PhotosMiddle_SelectionChanged">
                                     <ListView.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"></StackPanel>
@@ -49,8 +49,8 @@
                         </Border>
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                            <TextBlock HorizontalAlignment="Center" Name="txt_Name" Text="Real Estate Title: " Height="40" FontSize="25" FontWeight="Bold"/>
-                            <TextBlock HorizontalAlignment="Center" Name="txt_Price" Height="30" Text="Prcie: " FontSize="18"/>
+                            <TextBlock HorizontalAlignment="Center" Name="txt_Name" Text="" Height="40" FontSize="25" FontWeight="Bold"/>
+                            <TextBlock HorizontalAlignment="Center" Name="txt_Price" Height="30" Text="Price: " FontSize="18"/>
                             <TextBlock HorizontalAlignment="Center" Name="txt_Location" Height="30" Text="Location: " FontSize="18"/>
                             <TextBlock HorizontalAlignment="Center" Name="txt_RoomCount" Height="30" Text="Rooms Count: " FontSize="18"/>
                             <TextBlock Name="txt_TerritorySize" HorizontalAlignment="Center" Height="30" Text="Size: " FontSize="18"/>
@@ -79,8 +79,8 @@
                     <Button Grid.Column="1" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="-" FontSize="20" RenderTransformOrigin="4.526,-1.991" Margin="9.8,0,0,10.4" Click="Button_Click_2"/>
                     <Button Grid.Column="1" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="+" FontSize="20" RenderTransformOrigin="4.526,-1.991" Margin="0,0,292.6,10.4" Click="Button_Click_1" />
                     <StackPanel Grid.Column="0" Grid.Row="0">
-                        <TextBlock Text="Description:" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" FontStyle="Italic" Foreground="CornflowerBlue"/>
-                        <ScrollViewer Height="310">
+                        <TextBlock Text="Description:" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="310">
                             <TextBlock  x:Name="txt_Description" Margin="10,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Text="{Binding Description}" FontSize="16" ScrollViewer.CanContentScroll="True"/>
                         </ScrollViewer>
                     </StackPanel>
@@ -90,10 +90,10 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" BorderThickness="1 1 1 1" BorderBrush="LightSkyBlue"/>
-                            <Border Grid.Column="1" BorderThickness="1 1 1 1" BorderBrush="LightSkyBlue"/>
+                            <Border Grid.Column="0" BorderThickness="1 1 1 1" BorderBrush="{DynamicResource AccentColorBrush}"/>
+                            <Border Grid.Column="1" BorderThickness="1 1 1 1" BorderBrush="{DynamicResource AccentColorBrush}"/>
                             <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center" Content="Write Me" Background="LightBlue" 
+                                    VerticalAlignment="Center" Content="Write Me" Background="{DynamicResource AccentColorBrush}" 
                                     FontSize="16" Height="60" FontStyle="Italic" Width="120" 
                                     Click="Button_Click"/>
                             <TextBlock x:Name="txt_PhoneNumber" Text="Call me: " FontSize="24" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>

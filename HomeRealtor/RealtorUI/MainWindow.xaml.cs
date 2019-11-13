@@ -80,14 +80,14 @@ namespace RealtorUI
             {
 
             ThemeManager.ChangeAppStyle(Application.Current,
-                                ThemeManager.GetAccent("Blue"),
+                                ThemeManager.GetAccent("Purple"),
                                 ThemeManager.GetAppTheme("BaseDark"));
             }
             else
             {
 
                 ThemeManager.ChangeAppStyle(Application.Current,
-                                    ThemeManager.GetAccent("Blue"),
+                                    ThemeManager.GetAccent("Purple"),
                                     ThemeManager.GetAppTheme("BaseLight"));
             }
         }
