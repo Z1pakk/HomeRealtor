@@ -49,7 +49,7 @@ namespace RealtorUI.Pages
 
             foreach(var item in advertisings)
             {
-                item.Image = "https://localhost:44325/content/" + item.Image;
+                item.Image = "https://localhost:44325/content/EstateImages" + item.Image;
             }
 
             InitializeComponent();
