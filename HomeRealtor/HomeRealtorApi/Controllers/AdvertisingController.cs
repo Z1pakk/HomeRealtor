@@ -28,7 +28,6 @@ namespace HomeRealtorApi.Controllers
             {
                 Advertising advertising = new Advertising()
                 {
-                    UserId = Advertising.UserId,
                     RealEstsateId = Advertising.RealEstateId
                 };
 
@@ -51,10 +50,10 @@ namespace HomeRealtorApi.Controllers
             {
                 AdvertisingModel model = new AdvertisingModel()
                 {
-                    UserId = item.UserId,
+                    UserId = item.RealEstateOf.UserId,
                     RealEstateId = item.RealEstsateId,
                     Image = item.RealEstateOf.Image,
-                    Contacts = item.UserOf.Email,
+                    Contacts = item.RealEstateOf.UserOf.Email,
                     StateName = item.RealEstateOf.StateName
                 };
                 models.Add(model);

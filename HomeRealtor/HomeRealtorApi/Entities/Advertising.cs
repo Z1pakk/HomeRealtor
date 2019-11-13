@@ -12,10 +12,6 @@ namespace HomeRealtorApi.Entities
     {
         [Key] public int Id { get; set; }
 
-        [ForeignKey("UserOf")]
-        public string UserId { get; set; }
-        public virtual User UserOf { get; set; }
-
         [ForeignKey("RealEstateOf")]
         public int RealEstsateId { get; set; }
         public virtual RealEstate RealEstateOf { get; set; }
