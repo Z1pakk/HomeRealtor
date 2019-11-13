@@ -26,11 +26,6 @@ namespace AdminkaUI.Pages
     {
         public Advertising()
         {
-            InitializeComponent();
-            ShowAdvertising();
-        }
-        private void ShowAdvertising()
-        {
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/showadddvertising");
             request.Method = "GET";
             request.ContentType = "application/json";
@@ -42,25 +37,30 @@ namespace AdminkaUI.Pages
                 string temp = writer.ReadToEnd();
                 advertisings = JsonConvert.DeserializeObject<List<ShowAdvertisingModel>>(temp);
             }
-             AdvertizingDg.ItemsSource = advertisings;
+
+            InitializeComponent();
+            try
+            {
+                foreach (var item in advertisings)
+                {
+                    AdvertizingDg.Items.Add(item);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
          
         private void Banbtn_Click(object sender, RoutedEventArgs e)
         {
-            var advertising = AdvertizingDg.SelectedItem as DelAdvertisingModel;
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/dell");
+            var advertising = AdvertizingDg.SelectedItem;
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/delete/"+ advertising);
             request.Method = "DELETE";
             request.ContentType = "application/json";
 
             WebResponse response = request.GetResponse();
-            using (StreamWriter writer = new StreamWriter(response.GetResponseStream()))
-            {
-                DelAdvertisingModel model = new DelAdvertisingModel();
-                writer.Write(JsonConvert.SerializeObject(new DelAdvertisingModel()
-                {
-                    Id = advertising.Id
-                }));
-            }
         }
     }
 }

@@ -73,8 +73,9 @@ namespace HomeRealtorApi.Controllers
             {
                 ShowAdvertisingModel model = new ShowAdvertisingModel()
                 {
-                   AdvertisingName = item.RealEstateOf.StateName,
-                   UserName = item.UserOf.UserName
+                    RealtorName = item.RealEstateOf.UserOf.FirstName +  " " + item.RealEstateOf.UserOf.LastName,
+                    Contacts = item.UserOf.Email,
+                    StateName = item.RealEstateOf.StateName
                 };
                 models.Add(model);
             }
@@ -83,10 +84,10 @@ namespace HomeRealtorApi.Controllers
             return Content(json, "application/json");
         }
 
-        [HttpDelete("delete")]
-        public ContentResult DeleteAdvertising([FromBody]DellAdvertising model)
+        [HttpDelete("delete/{id}")]
+        public ContentResult DeleteAdvertising(int id)
         {
-            _context.Advertisings.Remove(_context.Advertisings.FirstOrDefault(t => t.Id == model.Id));
+            _context.Advertisings.Remove(_context.Advertisings.FirstOrDefault(t => t.Id == id));
             _context.SaveChanges();
             return Content("OK");
         }

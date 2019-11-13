@@ -20,11 +20,11 @@
             <ColumnDefinition Width="99*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="AdvertizingDg" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="False">
+        <DataGrid x:Name="AdvertizingDg" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="False" Foreground="Black">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="RealtorName" Header="Realtor Name" FontSize="15" Width="150"/>
-                <DataGridTextColumn x:Name="Advertizing" Header="Advertising" FontSize="15" Width="150"/>
-                <DataGridTextColumn x:Name="DateEnd" Header="Date End" FontSize="15" Width="150"/>
+                <DataGridTextColumn x:Name="RealtorName" Header="Realtor Name" FontSize="15" Width="150" Binding="{Binding RealtorName}"/>
+                <DataGridTextColumn x:Name="StateName" Header="State name" FontSize="15" Width="150" Binding="{Binding StateName}"/>
+                <DataGridTextColumn x:Name="Contacts" Header="Contacts" FontSize="15" Width="150" Binding="{Binding Contacts}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="ShowMorebtn" Content="Show More" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
