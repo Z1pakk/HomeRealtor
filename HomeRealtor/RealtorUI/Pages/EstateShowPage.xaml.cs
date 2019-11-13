@@ -86,7 +86,7 @@ namespace RealtorUI.Pages
             //string[] arr = { txtAreaFrom.Text, txtAreaTo.Text, txtPriceFrom.Text, txtPriceTo.Text, cbRCount.Text, ((ComboBoxModel)(cbType.SelectedItem)).Name, ((ComboBoxModel)(cbRegion.SelectedItem)).Name, ((ComboBoxModel)(cbTown.SelectedItem)).Name, ((ComboBoxModel)(cbDistrict.SelectedItem)).Name };
             string reg=string.Empty, town = string.Empty, distr = string.Empty, count = string.Empty,type=string.Empty;
             if (cbRCount.Text != null)
-                count = cbRCount.Text;
+                count = cbRCount.Text; ;
             if (((ComboBoxModel)(cbType.SelectedItem)).Name != null)
                 type = ((ComboBoxModel)(cbRegion.SelectedItem)).Name;
             if (((ComboBoxModel)(cbRegion.SelectedItem)).Name != null)
