@@ -13,11 +13,16 @@ namespace HomeRealtorApi.Entities
             [Key]
             public int Id { get; set; }
             [Required]
-            public string Name { get; set; }
+            public string SmallImage { get; set; }
+            [Required]
+            public string MediumImage { get; set; }
+            [Required]
+            public string LargeImage { get; set; }
+
             [ForeignKey("EstateOf")]
             public int EstateId { get; set; }
             public virtual RealEstate EstateOf { get; set; }
-
-        
+            
+            
     }
 }

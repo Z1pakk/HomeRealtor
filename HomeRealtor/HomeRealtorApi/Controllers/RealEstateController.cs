@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using HomeRealtorApi.Helpers;
 
 namespace HomeRealtorApi.Controllers
 {
@@ -97,6 +98,7 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetRealEstate(int _id)
         {
             RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == _id);
+
             GetRealEstateViewModel model = new GetRealEstateViewModel()
             {
                 Id = estate.Id,
@@ -109,7 +111,17 @@ namespace HomeRealtorApi.Controllers
                 TerritorySize = estate.TerritorySize,
                 TimeOfPost = estate.TimeOfPost,
                 TypeName = estate.TypeOf?.TypeName,
-                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}"
+                FullName = $"{estate.UserOf?.FirstName} {estate.UserOf?.LastName}",
+                Description = estate.Description,
+                Coordinates = estate.Coordinates,
+                PhoneNumber = estate.UserOf.PhoneNumber,
+                Images = estate.ImageEstates?.Select(x => new ImageEstateModel
+                {
+                    EstateId = x.EstateId,
+                    LargeImage = x.LargeImage,
+                    MediumImage = x.LargeImage,
+                    SmallImage = x.SmallImage
+                }).ToList()
             };
             string estateJson = JsonConvert.SerializeObject(model);
             return Content(estateJson);
@@ -133,28 +145,65 @@ namespace HomeRealtorApi.Controllers
                     UserId = model.UserId,
                     TimeOfPost = model.TimeOfPost,
                     RoomCount = model.RoomCount,
-                    SellType = model.SellType
+                    SellType = model.SellType,
+                    HomePlaceId = model.HomePlaceId,
+                    Description = model.description
+                    
                 };
+                //foreach (var imgEst in model.images)
+                //{
+                //    string path = string.Empty;
+                //    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                //    using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
+                //    {
+                //        //Назва фотки із розширення
+                //        path = Guid.NewGuid().ToString() + ".jpg";
+                //        Image realEstateImage = Image.FromStream(stream);
+                //        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                //    }
+
+                //    ImageEstate estateImage = new ImageEstate()
+                //    {
+                //        //Name = path,
+                //        EstateId = estate.Id
+                //    };
+                //    _context.ImageEstates.Add(estateImage);
+                //}
                 _context.RealEstates.Add(estate);
                 foreach (var imgEst in model.images)
                 {
-                    string path = string.Empty;
-                    byte[] imageBytes = Convert.FromBase64String(imgEst.Name);
+                    string smallImage = string.Empty;
+                    string mediumImage = string.Empty;
+                    string largeImage = string.Empty;
+                    byte[] imageBytes = Convert.FromBase64String(imgEst);
                     using (MemoryStream stream = new MemoryStream(imageBytes, 0, imageBytes.Length))
                     {
                         //Назва фотки із розширення
-                        path = Guid.NewGuid().ToString() + ".jpg";
-                        Image realEstateImage = Image.FromStream(stream);
-                        realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
+                        string name = Guid.NewGuid().ToString();
+                        smallImage = name + "_small.jpg";
+                        mediumImage = name + "_medium.jpg";
+                        largeImage = name + "_large.jpg";
+                        //Image realEstateImage = Image.FromStream(stream);
+                        Image imgSmall = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 64, 64);
+                        Image imgMedium = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 480, 480);
+                        Image imgLarge = ImageHelper.CreateImage((Bitmap)Image.FromStream(stream), 1024, 1024);
+                        imgSmall.Save(_appEnvoronment.WebRootPath + @"/Content/" + smallImage, ImageFormat.Jpeg);
+                        imgMedium.Save(_appEnvoronment.WebRootPath + @"/Content/" + mediumImage, ImageFormat.Jpeg);
+                        imgLarge.Save(_appEnvoronment.WebRootPath + @"/Content/" + largeImage, ImageFormat.Jpeg);
+                        //realEstateImage.Save(_appEnvoronment.WebRootPath + @"/Content/" + path, ImageFormat.Jpeg);
                     }
-
                     ImageEstate estateImage = new ImageEstate()
                     {
-                        Name = path,
+                        SmallImage   = smallImage,
+                        MediumImage= mediumImage,
+                        LargeImage = largeImage,
                         EstateId = estate.Id
                     };
                     _context.ImageEstates.Add(estateImage);
                 }
+                estate.Image = estate.ImageEstates.First().MediumImage;
+
+
                 _context.SaveChanges();
                 return Content("Real Estate is added");
             }
@@ -172,14 +221,15 @@ namespace HomeRealtorApi.Controllers
             {
                 RealEstate estate = _context.RealEstates.FirstOrDefault(x => x.Id == id);
                 estate.Active = model.Active;
-                estate.Image = model.Image;
-                estate.Location = model.Location;
-                estate.TerritorySize = model.TerritorySize;
                 estate.Price = model.Price;
                 estate.StateName = model.StateName;
+                estate.TerritorySize = model.TerritorySize;
+                estate.Location = model.Location;
                 estate.TypeId = model.TypeId;
-                estate.UserId = model.UserId;
-                estate.TimeOfPost = model.TimeOfPost;
+                estate.RoomCount = model.RoomCount;
+                estate.SellType = model.SellType;
+                estate.HomePlaceId = model.HomePlaceId;
+                estate.Description = model.description;
                 _context.SaveChanges();
                 return Content("Real Estate is edited");
             }
@@ -201,14 +251,105 @@ namespace HomeRealtorApi.Controllers
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
                     TerritorySize = t.TerritorySize,
-                    Active=t.Active
+                    Active=t.Active,
+                    IsDeleted=t.IsDeleted
                 }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
             return Content(json);
         }
+        [HttpGet("getDeleted")]
+        public ContentResult GetRealEstatesDeleted()
+        {
 
+            var list = _context.RealEstates.Where(t=>t.IsDeleted==true)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("getActive")]
+        public ContentResult GetRealEstatesActive()
+        {
+
+            var list = _context.RealEstates.Where(t => t.Active == true).Where(t=> t.IsDeleted==false)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpGet("getSold")]
+        public ContentResult GetRealEstatesSold()
+        {
+
+            var list = _context.RealEstates.Where(t => t.Active == false).Where(t => t.IsDeleted == false)
+                .Select(t =>
+                new GetListEstateViewModel()
+                {
+                    Id = t.Id,
+                    Image = t.Image,
+                    RoomCount = t.RoomCount,
+                    StateName = t.StateName,
+                    TerritorySize = t.TerritorySize,
+                    Active = t.Active,
+                    IsDeleted = t.IsDeleted
+                }).ToList();
+
+            string json = JsonConvert.SerializeObject(list);
+
+            return Content(json);
+        }
+        [HttpDelete("del/{id}")]
+        public ContentResult DelRealEstate(int id)
+        {
+            try
+            {
+                 _context.RealEstates.FirstOrDefault(x => x.Id == id).IsDeleted=true;
+                _context.SaveChanges();
+                return Content("Real Estate is deleted");
+            }
+            catch (Exception ex)
+            {
+                return Content("Error" + ex.Message);
+            }
+        }
+        [HttpGet("restore/{id}")]
+        public ContentResult RestoreRealEstate(int id)
+        {
+            try
+            {
+                _context.RealEstates.FirstOrDefault(x => x.Id == id).IsDeleted = false;
+                _context.SaveChanges();
+                return Content("Real Estate is restored");
+            }
+            catch (Exception ex)
+            {
+                return Content("Error" + ex.Message);
+            }
+        }
         // DELETE api/values/5
         [HttpDelete("delete/{id}")]
         public ContentResult DeleteRealEstate(int id)

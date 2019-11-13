@@ -27,6 +27,7 @@ namespace AdminUI.Pages
     {
         int _id;
         string _fullName;
+        bool IsDeleted=false;
         public RealEstatePageAbout(int id)
         {
             InitializeComponent();
@@ -48,7 +49,16 @@ namespace AdminUI.Pages
             wr.Close();
             GetRealEstateViewModel model= JsonConvert.DeserializeObject<GetRealEstateViewModel>(responceFromServer);
 
-
+            if(model.IsDeleted)
+            {
+                btn.Content = "Restore";
+                btn.Background = (Brush)new BrushConverter().ConvertFromString("White");
+                BrushConverter brush = new BrushConverter();
+                 
+                btn.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FF17A5FD");
+                  
+                IsDeleted = true;
+            }
             var uri = new Uri(model.Image);
             var bitmap = new BitmapImage(uri);
             img_Estate.Source = bitmap;
@@ -69,6 +79,36 @@ namespace AdminUI.Pages
             txt_Type.Text += model.TypeName;
             txt_Owner.Text += model.FullName;
             _fullName = model.FullName;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HttpWebRequest request;
+            if(IsDeleted)
+            {
+                request = WebRequest.CreateHttp($"https://localhost:44325/api/RealEstate/restore/{_id}");
+                request.Method = "GET";
+               
+            }
+        
+            else
+            {
+
+               request = WebRequest.CreateHttp($"https://localhost:44325/api/RealEstate/del/{_id}");
+                request.Method = "DELETE";
+             
+            }
+            request.ContentType = "application/json";
+                WebResponse wr = request.GetResponse();
+                string responceFromServer;
+                using (Stream streamResponce = wr.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(streamResponce);
+                    responceFromServer = reader.ReadToEnd();
+                }
+                MessageBox.Show("All done !");
+            RealEstatePageAbout page = new RealEstatePageAbout(_id);
+               NavigationService.Navigate(page);
         }
     }
 }

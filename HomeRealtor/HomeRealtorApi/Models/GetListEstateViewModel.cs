@@ -13,6 +13,6 @@ namespace HomeRealtorApi.Models
         public int RoomCount { get; set; }
         public double TerritorySize { get; set; }
         public bool Active { get; set; }
-
+        public bool IsDeleted { get; set; }
     }
 }

@@ -200,6 +200,8 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("Image")
                         .IsRequired();
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(500);
