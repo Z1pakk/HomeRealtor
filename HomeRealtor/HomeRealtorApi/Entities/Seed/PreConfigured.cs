@@ -80,7 +80,192 @@ namespace HomeRealtorApi.Entities.Seed
                 }
             };
         }
-
+        public static IEnumerable<Region> GetPreconfiguredRegions()
+        {
+            return new List<Region>
+            {
+                new Region()
+                {
+                    NameOfRegion="Rivnenska"
+                },
+                new Region()
+                {
+                    NameOfRegion="Volunska"
+                },
+                new Region()
+                {
+                    NameOfRegion="Kyivska"
+                },
+                new Region()
+                {
+                    NameOfRegion="Lvivska"
+                },
+                new Region()
+                {
+                    NameOfRegion="Kharkivska"
+                },
+                new Region()
+                {
+                    NameOfRegion="Poltavska"
+                }
+            };
+        }
+        public static IEnumerable<Town> GetPreconfiguredTowns()
+        {
+            return new List<Town>
+            {
+                new Town()
+                {
+                    RegionId=1,
+                    NameOfTown="Rivne"
+                },
+                new Town()
+                {
+                    RegionId=2,
+                    NameOfTown="Lutsk"
+                },
+                new Town()
+                {
+                    RegionId=3,
+                    NameOfTown="Kyiv"
+                },
+                new Town()
+                {
+                    RegionId=4,
+                    NameOfTown="Lviv"
+                },
+                new Town()
+                {
+                    RegionId=5,
+                    NameOfTown="Kharkiv"
+                },
+                new Town()
+                {
+                    RegionId=6,
+                    NameOfTown="Poltava"
+                }
+            };
+        }
+        public static IEnumerable<DistrictType> GetPreconfiguredDistrictTypes()
+        {
+            return new List<DistrictType>
+            {
+                new DistrictType()
+                {
+                    NameOfType="Suburb"
+                },
+                new DistrictType()
+                {
+                    NameOfType="Village"
+                },
+                new DistrictType()
+                {
+                    NameOfType="District"
+                }
+            };
+        }
+        public static IEnumerable<District> GetPreconfiguredDistricts()
+        {
+            return new List<District>
+            {
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Barmaki",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Zhutun",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=2,
+                    NameOfDistrict="Goroduchshe",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=2,
+                    NameOfDistrict="Gorodok",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Jubileyniy",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Boyarka",
+                    TownId=1
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Kivertsi",
+                    TownId=2
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Centre",
+                    TownId=2
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Troeschina",
+                    TownId=3
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Chapayevka",
+                    TownId=3
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Runok squaire",
+                    TownId=4
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Sokilnyki",
+                    TownId=4
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Saltivka",
+                    TownId=5
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Frunze",
+                    TownId=5
+                },
+                new District()
+                {
+                    DistrictTypeId=1,
+                    NameOfDistrict="Polovki",
+                    TownId=6
+                },
+                new District()
+                {
+                    DistrictTypeId=3,
+                    NameOfDistrict="Rybci",
+                    TownId=6
+                }
+            };
+        }
         public static IEnumerable<RealEstateSellType> GetPreconfiguredRealEstateSellTypes()
         {
             return new List<RealEstateSellType>
