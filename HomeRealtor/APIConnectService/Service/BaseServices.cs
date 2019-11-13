@@ -223,6 +223,7 @@ namespace APIConnectService.Service
                 request.Method = "GET";
                 request.ContentType = "application/json";
                 request.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + token);
+                
                 WebResponse wr = await request.GetResponseAsync();
                 string responceFromServer;
                 using (Stream streamResponce = wr.GetResponseStream())

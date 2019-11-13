@@ -8,6 +8,7 @@ namespace APIConnectService.Models
 {
     public class TownModel
     {
+        public int Id { get; set; }
         public string NameOfTown { get; set; }
         public int RegionId { get; set; }
     }

@@ -68,7 +68,27 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Districts.
-                    Select(t => new DistrictModel() { NameOfDistrict = t.NameOfDistrict, DistrictTypeId=t.DistrictTypeId,TownId=t.TownId }).ToList();
+                    Select(t => new DistrictModel() {Id=t.Id, NameOfDistrict = t.NameOfDistrict, DistrictTypeId=t.DistrictTypeId,TownId=t.TownId }).ToList();
+
+                string json = JsonConvert.SerializeObject(list);
+
+                return Content(json);
+            }
+            catch (Exception ex)
+            {
+
+                return Content("Error: " + ex.Message);
+            }
+        }
+        [HttpGet("get/districts/bytown/{townid}")]
+        [Authorize]
+        public ContentResult GetDistrictsByTown(int townid)
+        {
+            try
+            {
+                var list = _context.Districts.
+                    Select(t => new DistrictModel() { Id = t.Id, NameOfDistrict = t.NameOfDistrict, DistrictTypeId = t.DistrictTypeId, TownId = t.TownId }).
+                    Where(t=>t.TownId==townid).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -87,7 +107,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Towns.
-                    Select(t => new TownModel() { NameOfTown=t.NameOfTown, RegionId=t.RegionId}).ToList();
+                    Select(t => new TownModel() {Id=t.Id, NameOfTown=t.NameOfTown, RegionId=t.RegionId}).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -125,7 +145,7 @@ namespace HomeRealtorApi.Controllers
             try
             {
                 var list = _context.Regions.
-                    Select(t => new RegionModel() {NameOfRegion = t.NameOfRegion }).ToList();
+                    Select(t => new RegionModel() {Id=t.Id,NameOfRegion = t.NameOfRegion }).ToList();
 
                 string json = JsonConvert.SerializeObject(list);
 
@@ -142,7 +162,7 @@ namespace HomeRealtorApi.Controllers
         public ContentResult GetDistrictTypes()
         {
             var list = _context.DistrictTypes.
-                Select(t => new DistrictTypeModel() { NameOfType = t.NameOfType }).ToList();
+                Select(t => new DistrictTypeModel() { Id=t.Id,NameOfType = t.NameOfType }).ToList();
 
             string json = JsonConvert.SerializeObject(list);
 
@@ -288,7 +308,7 @@ namespace HomeRealtorApi.Controllers
                 if (values[2] != string.Empty && values[3] != string.Empty)
                 {
                     double from = double.Parse(values[2]), to = double.Parse(values[3]);
-                    query = query.Where(t => t.TerritorySize >= from && t.TerritorySize <= to);
+                    query = query.Where(t => t.Price >= from && t.Price <= to);
                 }
                 if (values[4] != string.Empty)
                 {
@@ -298,13 +318,7 @@ namespace HomeRealtorApi.Controllers
                     else if (values[4] != "4+")
                         query = query.Where(t => t.RoomCount == roomC);
                 }
-
                 if (values[5] != string.Empty)
-                {
-                    int idRegion = int.Parse(values[5]);
-                     query = query.Where(t => t.HomePlaces.FirstOrDefault(g => g.DistrictOf.TownOf.RegionId == idRegion) != null);
-                }
-                if (values[6] != string.Empty)
                 {
                     foreach (var i in _context.RealEstateTypes)
                     {
@@ -312,14 +326,21 @@ namespace HomeRealtorApi.Controllers
                             query = query.Where(t => t.TypeId == i.Id);
                     }
                 }
+                if (values[6] != string.Empty)
+                {
+                    int idRegion = int.Parse(values[6]);
+                     query = query.Where(t => t.HomePlaces.FirstOrDefault(g => g.DistrictOf.TownOf.RegionId == idRegion) != null);
+                }
+                
                 if (values[7] != string.Empty)
                 {
-                   // query = query.Where(t => t.HomePlaceOf.Town == values[6]);
+                    int idTown = int.Parse(values[6]);
+                    query = query.Where(t => t.HomePlaces.FirstOrDefault(g => g.DistrictOf.TownId == idTown) != null);
                 }
                 if (values[8] != string.Empty)
                 {
-                    //query = query.Where(t => t.HomePlaceOf.NameOfDistrict == values[7]);
-
+                    int idDistr = int.Parse(values[6]);
+                    query = query.Where(t => t.HomePlaces.FirstOrDefault(g => g.DistrictId == idDistr) != null);
                 }
 
                 var list = query.
