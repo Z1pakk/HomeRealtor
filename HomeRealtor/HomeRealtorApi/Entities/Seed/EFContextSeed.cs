@@ -82,28 +82,28 @@ namespace HomeRealtorApi.Entities.Seed
                         context.RealEstateSellTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateSellTypes());
                         isCanSaveChanges = true;
                     }
-                    //if (!context.Regions.Any())
-                    //{
-                    //    context.Regions.AddRange(PreConfigured.GetPreconfiguredRegions());
-                    //    isCanSaveChanges = true;
-                    //}
-                    //if (!context.DistrictTypes.Any())
-                    //{
-                    //    context.DistrictTypes.AddRange(PreConfigured.GetPreconfiguredDistrictTypes());
-                    //    isCanSaveChanges = true; 
-                        
-                    //}
-                    //if (!context.Towns.Any())
-                    //{
-                    //    context.Towns.AddRange(PreConfigured.GetPreconfiguredTowns());
-                    //    isCanSaveChanges = true;
-                    //}
-                    
-                    //if (!context.Districts.Any())
-                    //{
-                    //    context.Districts.AddRange(PreConfigured.GetPreconfiguredDistricts());
-                    //    isCanSaveChanges = true;
-                    //}
+                    if (!context.Regions.Any())
+                    {
+                        context.Regions.AddRange(PreConfigured.GetPreconfiguredRegions());
+                        isCanSaveChanges = true;
+                    }
+                    if (!context.Towns.Any())
+                    {
+                        context.Towns.AddRange(PreConfigured.GetPreconfiguredTowns());
+                        isCanSaveChanges = true;
+                    }
+                    if (!context.DistrictTypes.Any())
+                    {
+                        context.DistrictTypes.AddRange(PreConfigured.GetPreconfiguredDistrictTypes());
+                        isCanSaveChanges = true;
+                        await context.SaveChangesAsync();
+                    }
+
+                    if (!context.Districts.Any())
+                    {
+                        context.Districts.AddRange(PreConfigured.GetPreconfiguredDistricts());
+                        isCanSaveChanges = true;
+                    }
                     //suda pisat rofliki s rolyami
                     if (!context.RealEstates.Any())
                     {
@@ -139,13 +139,13 @@ namespace HomeRealtorApi.Entities.Seed
                                 })
                             .RuleFor(t => t.Location, f => f.Address.StreetName())
                             .RuleFor(t => t.StateName, f => f.Name.FullName())
-                            .RuleFor(t => t.SellType, f => 1)
+                            .RuleFor(t => t.SellType, f => context.RealEstateSellTypes.First().Id)
                             .RuleFor(t => t.TerritorySize, f => f.Random.Double(40, 500))
                             .RuleFor(t => t.TimeOfPost, f => DateTime.Now)
                             .RuleFor(t => t.UserId, f => context.Users.First().Id)
                             .RuleFor(t => t.Coordinates, f => "50.6183045,26.2388199")
                             .RuleFor(t => t.Description, f => f.Lorem.Text())
-                            .RuleFor(t => t.TypeId, f => f.Random.Int(1, 3))
+                            .RuleFor(t => t.TypeId, f => f.Random.Int(context.RealEstateTypes.First().Id,context.RealEstateTypes.Last().Id))
                             .RuleFor(t => t.RoomCount, f => f.Random.Int(1, 10))
                             .RuleFor(t => t.Active, f => true);
                         var estates = estatesFaked.Generate(1000);
