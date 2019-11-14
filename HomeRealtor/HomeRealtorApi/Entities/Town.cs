@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
+    // Misto
     [Table("tbl_Towns")]
     public class Town
     {

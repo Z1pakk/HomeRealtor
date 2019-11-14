@@ -55,7 +55,7 @@
                             <DataGridTextColumn Binding="{Binding StateName}" Header="Name" Width="100"/>
                             <DataGridTextColumn Binding="{Binding Price}" Header="Price"/>
                             <DataGridTextColumn Binding="{Binding Location}" Header="Location" Width="100"/>
-                            <DataGridTextColumn Binding="{Binding Status}" Header="Status"/>
+                            <DataGridTextColumn Binding="{Binding Active}" Header="Status"/>
                             <DataGridTextColumn Binding="{Binding TerritorySize}" Header="Size" Width="70"/>
                             <DataGridTextColumn Binding="{Binding TimeOfPost}" Header="Date" Width="90"/>
                             <DataGridTextColumn Binding="{Binding Image}" Header="Image" Width="*"/>

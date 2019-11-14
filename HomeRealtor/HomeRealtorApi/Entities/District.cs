@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeRealtorApi.Entities
 {
+    // Rayon
     [Table("tbl_Districts")]
     public class District
     {

@@ -9,6 +9,9 @@ namespace HomeRealtorApi.Models
     {
         public int Id { get; set; }
         public string StateName { get; set; }
+        public double Price { get; set; }
+        public string Location { get; set; }
+        public bool Active { get; set; }
         public string Image { get; set; }
         public int RoomCount { get; set; }
         public double TerritorySize { get; set; }
