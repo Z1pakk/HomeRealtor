@@ -55,12 +55,13 @@ namespace AdminkaUI.Pages
          
         private void Banbtn_Click(object sender, RoutedEventArgs e)
         {
-            var advertising = AdvertizingDg.SelectedItem;
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/delete/"+ advertising);
+            var advertising = AdvertizingDg.SelectedItem as ShowAdvertisingModel;
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/delete/"+ advertising.Id);
             request.Method = "DELETE";
             request.ContentType = "application/json";
 
             WebResponse response = request.GetResponse();
+            AdvertizingDg.Items.Remove(advertising);
         }
     }
 }

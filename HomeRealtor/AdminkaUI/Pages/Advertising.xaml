@@ -11,8 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
-            <RowDefinition Height="174*"/>
-            <RowDefinition Height="175*"/>
+            <RowDefinition Height="168*"/>
             <RowDefinition Height="51*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -27,8 +26,7 @@
                 <DataGridTextColumn x:Name="Contacts" Header="Contacts" FontSize="15" Width="150" Binding="{Binding Contacts}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="ShowMorebtn" Content="Show More" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button x:Name="Banbtn" Content="Ban" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Banbtn_Click"/>
-   
+        <Button x:Name="Banbtn" Content="Ban" FontSize="15" Height="50" Width="150" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Banbtn_Click" />
+
     </Grid>
 </Page>
