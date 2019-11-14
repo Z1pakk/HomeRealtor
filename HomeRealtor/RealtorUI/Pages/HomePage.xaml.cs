@@ -55,7 +55,6 @@ namespace RealtorUI.Pages
             InitializeComponent();
 
             lbAdvertising.ItemsSource = advertisings;
-
         }
 
         private void LbAdvertising_SelectionChanged(object sender, SelectionChangedEventArgs e)
