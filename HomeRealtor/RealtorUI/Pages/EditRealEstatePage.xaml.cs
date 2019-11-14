@@ -131,7 +131,7 @@ namespace RealtorUI.Pages
                 TimeOfPost = DateTime.Now,
                 RoomCount = Int32.Parse(tbRoomCount.Text),
                 SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
-                HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
+                //HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
                 UserId = UserM.Id,
                 images = images,
                 description = tbAbout.Text
