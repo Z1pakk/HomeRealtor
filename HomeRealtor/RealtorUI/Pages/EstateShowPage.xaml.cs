@@ -158,6 +158,7 @@ namespace RealtorUI.Pages
 
             url = "https://localhost:44325/api/RealEstate/get/regions";
             List<RegionModel> regions = (await service.GetRegions(url, _token)).Result;
+            string er = (await service.GetRegions(url, _token)).ExceptionMessage;
             cbRegion.ItemsSource = regions.Select(t => new ComboBoxModel() { Id = t.Id, Name = t.NameOfRegion }).ToList(); 
             cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
         }

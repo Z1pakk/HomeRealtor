@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealtorUI"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="465" Width="800">
+        Title="MainWindow" Height="465" Width="800" Loaded="MetroWindow_Loaded">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
@@ -16,6 +16,9 @@
     </Controls:MetroWindow.LeftWindowCommands>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <ToggleButton x:Name="tbtnFind" Cursor="Hand" IsChecked="{Binding ElementName=findFlyout, Path=IsOpen}">
+                <Image Height="10"  Source="3lines.png"/>
+            </ToggleButton>
             <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
             <Controls:ToggleSwitch VerticalAlignment="Center" x:Name="togle" Click="ToggleSwitch_Click" OffLabel="Black" OnLabel="White"/>
 
@@ -32,14 +35,14 @@
                     <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
-            <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
+            <!--<Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
                 <StackPanel>
                     
                 </StackPanel>
-            </Controls:Flyout>
+            </Controls:Flyout>-->
 
-            <Controls:Flyout Name="findFlyout" Position="Left" Width="200">
-                <Grid Width="685" HorizontalAlignment="Left">
+            <Controls:Flyout  Name="findFlyout" Position="Top" Background="LightBlue" Width="800">
+                <Grid Margin="0 50 0 0" Width="685" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="239*"/>
                         <ColumnDefinition Width="239*" />

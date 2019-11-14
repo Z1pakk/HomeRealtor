@@ -82,7 +82,28 @@ namespace HomeRealtorApi.Entities.Seed
                         context.RealEstateSellTypes.AddRange(PreConfigured.GetPreconfiguredRealEstateSellTypes());
                         isCanSaveChanges = true;
                     }
-
+                    //if (!context.Regions.Any())
+                    //{
+                    //    context.Regions.AddRange(PreConfigured.GetPreconfiguredRegions());
+                    //    isCanSaveChanges = true;
+                    //}
+                    //if (!context.DistrictTypes.Any())
+                    //{
+                    //    context.DistrictTypes.AddRange(PreConfigured.GetPreconfiguredDistrictTypes());
+                    //    isCanSaveChanges = true; 
+                        
+                    //}
+                    //if (!context.Towns.Any())
+                    //{
+                    //    context.Towns.AddRange(PreConfigured.GetPreconfiguredTowns());
+                    //    isCanSaveChanges = true;
+                    //}
+                    
+                    //if (!context.Districts.Any())
+                    //{
+                    //    context.Districts.AddRange(PreConfigured.GetPreconfiguredDistricts());
+                    //    isCanSaveChanges = true;
+                    //}
                     //suda pisat rofliki s rolyami
                     if (!context.RealEstates.Any())
                     {
