@@ -3,6 +3,7 @@ using APIConnectService.Models;
 using APIConnectService.Service;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using RealtorUI.Pages;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,11 +56,22 @@ namespace RealtorUI
             frame.Content = home;
         }
 
-        private void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void BtnExit_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", "");
-            Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
+            var settings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Yes",
+                NegativeButtonText = "No",
+            };
+
+            var res = await this.ShowMessageAsync("Are you sure ?", "Are you sure to close window ?", MessageDialogStyle.AffirmativeAndNegative, settings);
+            if (res == MessageDialogResult.Affirmative)
+            {
+
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", "");
+                Process.Start(Application.ResourceAssembly.Location);
+                Application.Current.Shutdown();
+            }
         }
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

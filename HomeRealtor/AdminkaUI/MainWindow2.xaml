@@ -7,19 +7,13 @@
         xmlns:local="clr-namespace:AdminUI"
         mc:Ignorable="d"
         Title="MainWindow2" Background="WhiteSmoke" Height="450" Width="800">
-    
+
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
         IsChecked="{Binding ElementName=yourMahAppFlyout, Path=IsOpen}" Cursor="Hand"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="yourMahAppFlyout" Position="Left" Width="200">

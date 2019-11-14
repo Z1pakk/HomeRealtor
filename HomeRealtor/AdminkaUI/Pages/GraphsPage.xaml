@@ -3,23 +3,110 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:MetroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:local="clr-namespace:AdminkaUI.Pages"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GraphsPage">
 
+    <Page.Resources>
+        <chart:ResourceDictionaryCollection x:Key="MonoChrome">
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush1" Color="#FFA1A1A1" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush2" Color="#FF999999" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush3" Color="#FF919191" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush4" Color="#FF898989" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush5" Color="#FF818181" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush6" Color="#FF797979" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush7" Color="#FF717171" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush8" Color="#FF696969" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush9" Color="#FF616161" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush10" Color="#FF595959" />
+            </ResourceDictionary>
+            <ResourceDictionary>
+                <SolidColorBrush x:Key="Brush11" Color="#FF515151" />
+            </ResourceDictionary>
+
+        </chart:ResourceDictionaryCollection>
+
+    </Page.Resources>
     <Grid>
-        <!--<MetroChart:RadialGaugeChart ChartSubTitle="Population in percentage"  
-                                 ChartTitle="Countries by population" 
-                                 Background="White">
-            <MetroChart:RadialGaugeChart.Series>
-                <MetroChart:ChartSeries ValueMember="Count" />
-            </MetroChart:RadialGaugeChart.Series>
-        </MetroChart:RadialGaugeChart>-->
-        <MetroChart:ClusteredColumnChart>
-            
-        </MetroChart:ClusteredColumnChart>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        
+        <GroupBox
+        Header="Registered users" 
+                 
+                  Grid.ColumnSpan="2">
+            <chart:ClusteredBarChart
+                Name="usersChart"
+                ChartTitle="Goals"
+                ChartSubTitle="Top Scorers"
+                ChartTitleVisibility="Collapsed"
+                ChartLegendVisibility="Collapsed"
+                SelectedBrush="{DynamicResource AccentColorBrush}"
+                SelectedItem="{Binding SelectedMonth, Mode=TwoWay}"
+                Palette="{StaticResource MonoChrome}"
+                
+                >
+                <chart:ClusteredBarChart.Series>
+                    <chart:ChartSeries Name="uCs"
+                        SeriesTitle=" "
+                        ItemsSource="{Binding UsersCount}"
+                        DisplayMember="date"
+                        ValueMember="Count"
+                        ></chart:ChartSeries>
+                </chart:ClusteredBarChart.Series>
+
+            </chart:ClusteredBarChart>
+            <!--<ListBox Grid.Column="1" 
+                 BorderThickness="0"
+                 Grid.Row="1" 
+                 ItemsSource="{Binding Goalscorers}">
+            </ListBox>-->
+        </GroupBox>
+        <GroupBox Grid.Column="2" Header="Types">
+            <chart:DoughnutChart  
+                Name="typeChart"
+                ChartTitle="Types"
+                ChartSubTitle="Sell and Rent"
+                InnerRadiusRatio=".75">
+                <chart:DoughnutChart.Series>
+                    <chart:ChartSeries Name="cs"
+                        ItemsSource="{Binding OverallStats}"
+                        
+                        DisplayMember="Name"
+                        ValueMember="Count"
+                        SeriesTitle="Overall"
+                        ></chart:ChartSeries>
+                </chart:DoughnutChart.Series>
+            </chart:DoughnutChart>
+
+           
+        </GroupBox>
     </Grid>
 </Page>

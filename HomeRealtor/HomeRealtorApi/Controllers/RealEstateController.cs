@@ -216,7 +216,14 @@ namespace HomeRealtorApi.Controllers
             string estateJson = JsonConvert.SerializeObject(model);
             return Content(estateJson);
         }
-
+        [HttpGet("getCount")]
+        public string GetRealEstateCount(int _id)
+        {
+            int countSell = _context.RealEstates.Where(x => x.SellType == 2179).Count();
+            int countRent = _context.RealEstates.Where(x => x.SellType == 2180).Count();
+           
+            return countSell+","+countRent;
+        }
         // POST api/values/realestate/add
         [HttpPost("add")]
         public ContentResult AddRealEstate([FromBody]RealEstateViewModel model)

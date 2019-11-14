@@ -375,7 +375,7 @@ namespace HomeRealtorApi.Controllers
             }
             catch (Exception)
             {
-                _context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
+                //_context.Users.FirstOrDefault(t => t.Email == loginModel.Email).CountOfLogins++;
                 await _context.SaveChangesAsync();
                 return "Error";
             }
@@ -444,7 +444,36 @@ namespace HomeRealtorApi.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("getCount")]
+        public  ContentResult GetCount()
+        {
+            List<UserCountModel> count = new List<UserCountModel>();
+            var w = _context.Users.ToList();
+            for (int i = 1; i <= 12; i++)
+            {
+                try
+                {
+                    var e = _context.Users.Where(t => t.RegisterDate.Month == i);
+ 
+                    var de = e.Count();
+                    count.Add(new UserCountModel
+                    {
+                        Count =de,
+                        date = new DateTime(2019, i, 1)
+                    });
+                   
+                }
+                catch 
+                {
 
+                  break;
+                }
+               
+            }
+            string json = JsonConvert.SerializeObject(count);
+
+            return Content(json);
+        }
         [HttpPost("checkcode")]
         public async Task<IActionResult> CheckCode([FromBody]CheckCodeModel model)
         {
