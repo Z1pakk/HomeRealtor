@@ -22,14 +22,14 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <Image Name="imgPerson" Margin="15,15,15,60"/>
-                        <Button Margin="15 15 100 15" VerticalAlignment="Bottom" Content="Change image" Click="Button_Click_Image" />
+                        <Button HorizontalAlignment="Center" Margin="15 15 15 15" VerticalAlignment="Bottom" Content="Change image" Click="Button_Click_Image" />
                     </Grid>
                     <StackPanel Grid.Column="1">
                         <Label Name="lblName" Margin="0 0 0 10" FontSize="17" Content="Your name: "/>
                         <Label Name="lblEmail" Margin="0 10" FontSize="17" Content="Your email: "/>
                         <Label Name="lblPhone" Margin="0 10" FontSize="17" Content="Your phone number: "/>
                         <Label Name="lblAge" Margin="0 10 0 0" FontSize="17" Content="Your age: "/>
-                        <Button Margin="5 15 100 0" Content="Change password" Click="Button_Click" />
+                        <Button Margin="5 15 15 0" HorizontalAlignment="Center" Content="Change password" Click="Button_Click" />
                     </StackPanel>
                     <Label Content="About me info:" FontSize="18" Height="35" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
                     <TextBox Name="txtAboutMe" TextWrapping="Wrap" Margin="10 35 0 40" Grid.Row="1" Grid.ColumnSpan="2" FontSize="18"/>
