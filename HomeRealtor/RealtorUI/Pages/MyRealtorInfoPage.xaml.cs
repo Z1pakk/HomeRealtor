@@ -145,7 +145,8 @@ namespace RealtorUI.Pages
                     StateName = model.StateName,
                     Contacts = model.FullName,
                     Price = model.Price,
-                    RealEstateId = model.Id
+                    RealEstateId = model.Id,
+                    UserId = model.UserId
                 };
 
                 HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
