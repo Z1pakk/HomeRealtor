@@ -67,6 +67,11 @@ namespace RealtorUI
                     string image = ImageHelper.ImageToBase64(ImagePath);
                     user.Image = image;
                 }
+                else
+                {
+                    string image = ImageHelper.ImageToBase64(Environment.CurrentDirectory + "\\..\\..\\Content\\no-photo.png");
+                    user.Image = image;
+                }
 
                 string token = service.AddUser("https://localhost:44325/api/user/add/", user);
                 if (token == "Mail")
