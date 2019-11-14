@@ -177,9 +177,13 @@ namespace AdminUI
 
                     IsDeleted = false;
                 }
-                var uri = new Uri(model.Image);
-                var bitmap = new BitmapImage(uri);
-                img_Estate.Source = bitmap;
+                if (!String.IsNullOrEmpty(model.Image))
+                {
+
+                    var uri = new Uri(model.Image);
+                    var bitmap = new BitmapImage(uri);
+                    img_Estate.Source = bitmap;
+                }
                 txt_Name.Text = "Real Estate Title: " + model.StateName;
                 txt_Price.Text = "Prcie: " + model.Price.ToString();
                 txt_Location.Text = "Location: " + model.Location;
