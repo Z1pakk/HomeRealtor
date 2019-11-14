@@ -13,6 +13,7 @@ using System.Transactions;
 
 namespace HomeRealtorApi.Entities.Seed
 {
+
     public class EFContextSeed
     {
         public static async Task SeedAsync(IApplicationBuilder app, IHostingEnvironment env, IConfiguration configuration)
@@ -169,6 +170,23 @@ namespace HomeRealtorApi.Entities.Seed
                     }
 
                     scope.Complete();
+
+
+
+
+                    User user = new User()
+                    {
+                        UserName = "admin",
+                        Email = "admin@gmail.com",
+                        Age = 12,
+                        PhoneNumber ="0503458675",
+                        FirstName = "Jesus",
+                        AboutMe = "I admin hello, I can BAN you",
+                        LastName = "unknown",
+                        CountOfLogins = 0
+                    };
+                    await usermanager.AddToRoleAsync(user, "Admin");
+                    var result = await usermanager.CreateAsync(user, "Qwerty-1");
                 }
             }
             catch (Exception ex)

@@ -6,12 +6,19 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="28.4.1" />
+    <Compile Remove="Migrations\20191022132129_init.cs" />
+    <Compile Remove="Migrations\20191022132129_init.Designer.cs" />
+    <Compile Remove="Migrations\20191022132202_init.cs" />
+    <Compile Remove="Migrations\20191022132202_init.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
 	<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
