@@ -64,7 +64,7 @@ namespace HomeRealtorApi.Entities.Seed
 
                     if (!context.Users.Any())
                     {
-                        User user = new User()
+                        User user1 = new User()
                         {
                             Email = "admin@hr.com",
                             FirstName = "Super",
@@ -74,8 +74,8 @@ namespace HomeRealtorApi.Entities.Seed
                             LockoutEnabled=false
                         };
 
-                        await usermanager.CreateAsync(user, "Qwerty-1");
-                        await usermanager.AddToRoleAsync(user, "Admin");
+                        await usermanager.CreateAsync(user1, "Qwerty-1");
+                        await usermanager.AddToRoleAsync(user1, "Admin");
                     }
                     
 

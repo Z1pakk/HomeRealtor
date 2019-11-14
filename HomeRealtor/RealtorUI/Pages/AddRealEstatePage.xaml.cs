@@ -173,7 +173,7 @@ namespace RealtorUI.Pages
             foreach (var town in towns)
                 townId.Add(town.NameOfTown);
             foreach (var districtType in districtTypes)
-                districtTypeId.Add(districtType.Name);
+                districtTypeId.Add(districtType.NameOfType);
             foreach (var district in districts)
                 districtId.Add(district.NameOfDistrict);
 
@@ -215,7 +215,7 @@ namespace RealtorUI.Pages
             List<DistrictModel> list = new List<DistrictModel>();
             
             int idTown = towns.FirstOrDefault(t => t.NameOfTown == (string)cbTowns.SelectedItem).Id;
-            int idDistrictType = districtTypes.FirstOrDefault(t => t.Name == (string)cbDistrictTypes.SelectedItem).Id;
+            int idDistrictType = districtTypes.FirstOrDefault(t => t.NameOfType == (string)cbDistrictTypes.SelectedItem).Id;
 
             list = districts.Where(t => t.TownId == idTown).Where(t => t.DistrictTypeId == idDistrictType).ToList();
             districtId.Clear();

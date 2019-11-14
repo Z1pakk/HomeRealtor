@@ -157,6 +157,7 @@ namespace RealtorUI.Pages
                 }
 
                 WebResponse response = request.GetResponse();
+                MessageBox.Show("Advertising is added");
             }
             catch(Exception ex)
             {
