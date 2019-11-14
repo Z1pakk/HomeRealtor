@@ -69,7 +69,8 @@ namespace HomeRealtorApi.Entities.Seed
                             FirstName = "Super",
                             LastName = "Admin",
                             UserName = "superAdmin",
-                            CountOfLogins=0
+                            CountOfLogins=0,
+                            LockoutEnabled=false
                         };
 
                         await usermanager.CreateAsync(user, "Qwerty-1");
