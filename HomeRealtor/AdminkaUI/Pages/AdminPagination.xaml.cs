@@ -105,6 +105,7 @@ namespace AdminUI
                 bi3.EndInit();
                 image.Source = bi3;
             }
+            AboutMe.Text = item.AboutMy;
         }
     }
 }
