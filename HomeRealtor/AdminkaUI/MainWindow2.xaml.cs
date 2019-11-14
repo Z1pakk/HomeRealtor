@@ -25,9 +25,11 @@ namespace AdminUI
     /// </summary>
     public partial class MainWindow2 : MetroWindow
     {
-        public MainWindow2()
+        string ema;
+        public MainWindow2(string email)
         {
             InitializeComponent();
+            ema = email;
         }
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -47,7 +49,7 @@ namespace AdminUI
         private void BtnBAN_Click(object sender, RoutedEventArgs e)
         {
             
-            frame.Navigate(new AdminBanPage());
+            frame.Navigate(new AdminBanPage(ema));
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)

@@ -77,7 +77,7 @@ namespace AdminkaUI
             {
                     File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
                     File.WriteAllText(Directory.GetCurrentDirectory() + @"\role.txt", "Admin");
-                    MainWindow2 mainWindow = new MainWindow2();
+                    MainWindow2 mainWindow = new MainWindow2(loginBox.Text);
                     this.Visibility = Visibility.Hidden;
                     this.Close();
                     mainWindow.ShowDialog();

@@ -23,16 +23,22 @@ namespace AdminkaUI.Pages
     public partial class AdminBanPage : Page
     {
         GetUsersPaginationService service = new GetUsersPaginationService();
-        public AdminBanPage()
+        string ema;
+        public AdminBanPage(string emailMy)
         {
             InitializeComponent();
+            ema = emailMy;
         }
 
         private void ButAccept_Click(object sender, RoutedEventArgs e)
         {
-            string email = BanEmail.Text;
-            string get = service.Ban("https://localhost:44325/api/Admin/ban/", email);
-            answer.Text = get;
+            if (ema != BanEmail.Text)
+            {
+                string email = BanEmail.Text;
+                string get = service.Ban("https://localhost:44325/api/Admin/ban/", email);
+                answer.Text = get;
+            }
+            else { answer.Text = "You can`t ban yourself!!!!BAKA"; }
         }
     }
 }
