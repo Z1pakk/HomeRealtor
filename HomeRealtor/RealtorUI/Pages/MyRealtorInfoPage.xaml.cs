@@ -37,7 +37,7 @@ namespace RealtorUI.Pages
         {
             InitializeComponent();
             UserM = user;
-            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages" + user.Image));
+            imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/Users/" + user.Image));
             lblName.Content = lblName.Content + user.FirstName + " " + user.LastName;
             lblEmail.Content = lblEmail.Content + user.Email;
             lblAge.Content = lblAge.Content + user.Age.ToString();
@@ -66,21 +66,9 @@ namespace RealtorUI.Pages
                 }
             }
         }
-        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private  void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/get/sell", string.Empty, "GET",tok);
-            if (res.Success == true)
-            {
-                dgEstates.Items.Clear();
-                foreach (var item in res.Result)
-                {
-                    if (((RealEstateModel)(item)).UserId == UserM.Id)
-                    {
-                        dgEstates.Items.Add(item);
-                    }
-                }
-            }
-            else MessageBox.Show(res.ExceptionMessage);
+            Update();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -119,7 +107,7 @@ namespace RealtorUI.Pages
                 }
             }
             else MessageBox.Show(res.ExceptionMessage);
-
+            Update();
         }
 
         private async void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -157,7 +145,8 @@ namespace RealtorUI.Pages
                     StateName = model.StateName,
                     Contacts = model.FullName,
                     Price = model.Price,
-                    RealEstateId = model.Id
+                    RealEstateId = model.Id,
+                    UserId = model.UserId
                 };
 
                 HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44399/api/advertising/add");
@@ -169,6 +158,7 @@ namespace RealtorUI.Pages
                 }
 
                 WebResponse response = request.GetResponse();
+                MessageBox.Show("Advertising is added");
             }
             catch(Exception ex)
             {
@@ -195,12 +185,26 @@ namespace RealtorUI.Pages
                     res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
                     if (res.Success == true)
                     {
-                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages/" + res.Result.Image));
+                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/Users/" + res.Result.Image));
                     }
                 }
             }
             else MessageBox.Show("You didn`t choose an image");
             
+        }
+        public async void Update()
+        {
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/myEstatesRealtor", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    dgEstates.Items.Add(item);
+
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
         }
     }
 }

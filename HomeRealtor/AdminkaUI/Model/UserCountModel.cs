@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace AdminkaUI.Model
 {
-    public class DelAdvertisingModel
+    public class UserCountModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Context { get; set; }
+        public int Count { get; set; }
+        public DateTime date { get; set; }
     }
 }

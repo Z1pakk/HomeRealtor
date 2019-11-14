@@ -146,7 +146,7 @@ namespace RealtorUI.Pages
                     res = await services.GetCurrentUser("https://localhost:44325/api/user/current", tok);
                     if (res.Success == true)
                     {
-                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/UserImages/" + res.Result.Image));
+                        imgPerson.Source = new BitmapImage(new Uri("https://localhost:44325/Content/Users/" + res.Result.Image));
                     }
                 }
             }

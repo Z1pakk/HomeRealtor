@@ -19,6 +19,8 @@ using RealtorUI.Models;
 using Newtonsoft.Json;
 using APIConnectService.Models;
 using System.Collections.ObjectModel;
+using APIConnectService.Service;
+using APIConnectService.Helpers;
 
 namespace RealtorUI.Pages
 {
@@ -28,6 +30,8 @@ namespace RealtorUI.Pages
     /// 
     public partial class AddRealEstatePage : Page
     {
+        string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+        BaseServices services = new BaseServices();
         public UserInfoModel UserM { get; set; }
 
         ObservableCollection<LVImages> lvImages = new ObservableCollection<LVImages>();
@@ -35,11 +39,17 @@ namespace RealtorUI.Pages
 
         List<TypeViewModel> types = new List<TypeViewModel>();
         List<TypeViewModel> sellTypes = new List<TypeViewModel>();
-        List<TypeViewModel> homePlace = new List<TypeViewModel>();
+        List<RegionModel> regions = new List<RegionModel>();
+        List<TownModel> towns = new List<TownModel>();
+        List<DistrictModel> districts = new List<DistrictModel>();
+        List<DistrictTypeModel> districtTypes = new List<DistrictTypeModel>();
 
         List<string> typesId = new List<string>();
         List<string> sellTypesId = new List<string>();
-        List<string> homePlaceId = new List<string>();
+        List<string> regionId = new List<string>();
+        List<string> townId = new List<string>();
+        List<string> districtId = new List<string>();
+        List<string> districtTypeId = new List<string>();
         private string imagePath;
 
         public AddRealEstatePage(UserInfoModel u)
@@ -48,42 +58,10 @@ namespace RealtorUI.Pages
             this.WindowHeight = 750;
             this.WindowWidth = 800;
             UserM = u;
-            HttpWebRequest httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/types");
-            httpWebRequest.Method = "GET";
-            httpWebRequest.ContentType = "application/json";
-            WebResponse webResponse = httpWebRequest.GetResponse();
-            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
-            {
-                types = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
-            }
-
-            httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/selltypes");
-            webResponse = httpWebRequest.GetResponse();
-            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
-            {
-                sellTypes = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
-            }
-
-            httpWebRequest = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/get/hmpl/types");
-            webResponse = httpWebRequest.GetResponse();
-            using (StreamReader reader = new StreamReader(webResponse.GetResponseStream()))
-            {
-                homePlace = JsonConvert.DeserializeObject<List<TypeViewModel>>(reader.ReadToEnd());
-            }
-
-            foreach (var type in types)
-                typesId.Add(type.Name);
-            foreach (var sell in sellTypes)
-                sellTypesId.Add(sell.Name);
-            foreach (var place in homePlace)
-                homePlaceId.Add(place.Name);
-
-            cbType.ItemsSource = typesId;
-            cbSellType.ItemsSource = sellTypesId;
-            cbHomePlace.ItemsSource = homePlaceId;
-            lvPhotos.ItemsSource = lvImages;
-
-
+            cbTowns.IsEnabled = false;
+            cbDistrictTypes.IsEnabled = false;
+            cbDistricts.IsEnabled = false;
+            setLists();
         }
 
         private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -104,38 +82,146 @@ namespace RealtorUI.Pages
 
         private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
         {
-            imagePath = images.First();
-            RealEstateViewModel realEstate = new RealEstateViewModel()
-            {
-                Active = true,
-                Image = imagePath,
-                Location = tbStreet.Text,
-                Price = Double.Parse(tbPrice.Text),
-                StateName = tbState.Text,
-                TerritorySize = Double.Parse(tbArea.Text),
-                TypeId = types.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
-                TimeOfPost = DateTime.Now,
-                RoomCount = Int32.Parse(tbRoomCount.Text),
-                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
-                HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
-                UserId = UserM.Id,
-                images = images,
-                description = tbAbout.Text
-                
-            };
+            if (tbStreet == null || tbAbout == null || tbArea == null || tbPrice == null || tbRoomCount == null || tbState == null || cbDistricts.SelectedItem == null
+                || cbDistrictTypes.SelectedItem == null || cbRegions.SelectedItem == null || cbSellType.SelectedItem == null || cbTowns.SelectedItem == null || cbType.SelectedItem == null
+                || lvPhotos == null)
+                MessageBox.Show("You must fill all fields, and add at least one image");
+            else {
+                imagePath = images.First();
+                RealEstateViewModel realEstate = new RealEstateViewModel()
+                {
+                    Active = true,
+                    Image = imagePath,
+                    Location = tbStreet.Text,
+                    Price = Double.Parse(tbPrice.Text),
+                    StateName = tbState.Text,
+                    TerritorySize = Double.Parse(tbArea.Text),
+                    TypeId = types.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
+                    TimeOfPost = DateTime.Now,
+                    RoomCount = Int32.Parse(tbRoomCount.Text),
+                    SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
+                    UserId = UserM.Id,
+                    images = images,
+                    description = tbAbout.Text,
+                    DistrictId = districts.FirstOrDefault(t => t.NameOfDistrict == (string)cbDistricts.SelectedItem).Id
+                };
 
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(JsonConvert.SerializeObject(realEstate));
+                }
+
+                WebResponse webResponse = request.GetResponse();
+
+                NavigationService.GoBack();
+            }
+        }
+        private async void setLists()
+        {
+            ServiceResult res ;
+            List<TypeViewModel> list =  services.GetEstateTypes("https://localhost:44325/api/realEstate/get/types", "GET", tok);
+            if (list.Any())
             {
-                writer.Write(JsonConvert.SerializeObject(realEstate));
+                foreach (var item in list)
+                    types.Add(item);
+            }
+            list = services.GetEstateTypes("https://localhost:44325/api/realEstate/get/selltypes", "GET", tok);
+            if (list.Any())
+            {
+                foreach (var item in list)
+                    sellTypes.Add(item);
             }
 
-            WebResponse webResponse = request.GetResponse();
-         
-            NavigationService.GoBack();
 
+            res = await services.GetRegions("https://localhost:44325/api/realEstate/get/regions", tok);
+            if (res.Success == true)
+            {
+                foreach (var item in res.Result)
+                    regions.Add(item);
+            }
+
+
+            res = await services.GetTowns("https://localhost:44325/api/realEstate/get/towns", tok);
+            if (res.Success == true)
+            {
+                foreach (var item in res.Result)
+                    towns.Add(item);
+            }
+
+            res = await services.GetDistrictTypes("https://localhost:44325/api/realEstate/get/district/types", tok);
+            if (res.Success == true)
+            {
+                foreach (var item in res.Result)
+                    districtTypes.Add(item);
+            }
+            res = await services.GetDistricts("https://localhost:44325/api/realEstate/get/districts", tok);
+            if (res.Success == true)
+            {
+                foreach (var item in res.Result)
+                    districts.Add(item);
+            }
+
+            foreach (var type in types)
+                typesId.Add(type.Name);
+            foreach (var sell in sellTypes)
+                sellTypesId.Add(sell.Name);
+            foreach (var region in regions)
+                regionId.Add(region.NameOfRegion);
+            foreach (var town in towns)
+                townId.Add(town.NameOfTown);
+            foreach (var districtType in districtTypes)
+                districtTypeId.Add(districtType.NameOfType);
+            foreach (var district in districts)
+                districtId.Add(district.NameOfDistrict);
+
+            cbType.ItemsSource = typesId;
+            cbSellType.ItemsSource = sellTypesId;
+            cbRegions.ItemsSource = regionId;
+            cbTowns.ItemsSource = townId;
+            cbDistrictTypes.ItemsSource = districtTypeId;
+            lvPhotos.ItemsSource = lvImages;
+        }
+
+        private void CbRegions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbTowns.ItemsSource = null;
+            List<TownModel> list = new List<TownModel>();
+            cbTowns.IsEnabled = true;
+            int id = regions.FirstOrDefault(t => t.NameOfRegion == (string)cbRegions.SelectedItem).Id;
+            list = towns.Where(t => t.RegionId == id).ToList();
+            townId.Clear();
+            foreach (var item in list)
+                townId.Add(item.NameOfTown);
+            cbTowns.ItemsSource = townId;
+        }
+
+        private void CbTowns_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbDistrictTypes.IsEnabled = true;
+            cbDistricts.ItemsSource = null;
+        }
+
+        private void CbDistrictTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbDistricts.ItemsSource = null;
+            cbDistricts.IsEnabled = true;
+        }
+
+        private void CbDistricts_GotFocus(object sender, RoutedEventArgs e)
+        {
+            List<DistrictModel> list = new List<DistrictModel>();
+            
+            int idTown = towns.FirstOrDefault(t => t.NameOfTown == (string)cbTowns.SelectedItem).Id;
+            int idDistrictType = districtTypes.FirstOrDefault(t => t.NameOfType == (string)cbDistrictTypes.SelectedItem).Id;
+
+            list = districts.Where(t => t.TownId == idTown).Where(t => t.DistrictTypeId == idDistrictType).ToList();
+            districtId.Clear();
+            foreach (var item in list)
+                districtId.Add(item.NameOfDistrict);
+            cbDistricts.ItemsSource = districtId;
         }
     }
 }

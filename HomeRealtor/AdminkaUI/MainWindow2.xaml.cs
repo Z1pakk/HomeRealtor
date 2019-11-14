@@ -17,7 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using MahApps.Metro.Controls.Dialogs;
 namespace AdminUI
 {
     /// <summary>
@@ -25,11 +25,10 @@ namespace AdminUI
     /// </summary>
     public partial class MainWindow2 : MetroWindow
     {
-        string ema;
-        public MainWindow2(string email)
+        public MainWindow2()
         {
             InitializeComponent();
-            ema = email;
+            frame.Navigate(new GraphsPage());
         }
         private async void ToggleButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -49,7 +48,7 @@ namespace AdminUI
         private void BtnBAN_Click(object sender, RoutedEventArgs e)
         {
             
-            frame.Navigate(new AdminBanPage(ema));
+            frame.Navigate(new AdminBanPage());
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e)
@@ -70,6 +69,19 @@ namespace AdminUI
         private void BtnGraphs_Click(object sender, RoutedEventArgs e)
         {
             frame.Navigate(new GraphsPage());
+        }
+
+        private async void BtnExit_Click_1(object sender, RoutedEventArgs e)
+        {
+            var settings = new MetroDialogSettings()
+            {
+                AffirmativeButtonText = "Yes",
+                NegativeButtonText = "No",
+            };
+
+            var res=await this.ShowMessageAsync("Are you sure ?", "Are you sure to close window ?", MessageDialogStyle.AffirmativeAndNegative, settings);
+            if(res == MessageDialogResult.Affirmative)
+            this.Close();
         }
 
         private void BtnNews(object sender, RoutedEventArgs e)
