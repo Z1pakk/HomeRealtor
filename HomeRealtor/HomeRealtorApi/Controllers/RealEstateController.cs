@@ -60,7 +60,7 @@ namespace HomeRealtorApi.Controllers
         // GET api/values
         [HttpGet("myEstatesRealtor")]
         [Authorize]
-        public ContentResult GetRealEstates()
+        public ContentResult GetMyRealEstates()
         {
             User user= _userManager.FindByNameAsync(this.User.Identity.Name).Result;
 

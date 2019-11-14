@@ -71,11 +71,14 @@ namespace HomeRealtorApi.Entities.Seed
                             LastName = "Admin",
                             UserName = "superAdmin",
                             CountOfLogins=0,
-                            LockoutEnabled=false
+                            LockoutEnabled = false,
+                            EmailConfirmed = true
                         };
 
                         await usermanager.CreateAsync(user, "Qwerty-1");
                         await usermanager.AddToRoleAsync(user, "Admin");
+                        await usermanager.AddToRoleAsync(user, "User");
+                        await usermanager.AddToRoleAsync(user, "Realtor");
                     }
                     
 
@@ -171,22 +174,6 @@ namespace HomeRealtorApi.Entities.Seed
 
                     scope.Complete();
 
-
-
-
-                    User user = new User()
-                    {
-                        UserName = "admin",
-                        Email = "admin@gmail.com",
-                        Age = 12,
-                        PhoneNumber ="0503458675",
-                        FirstName = "Jesus",
-                        AboutMe = "I admin hello, I can BAN you",
-                        LastName = "unknown",
-                        CountOfLogins = 0
-                    };
-                    await usermanager.AddToRoleAsync(user, "Admin");
-                    var result = await usermanager.CreateAsync(user, "Qwerty-1");
                 }
             }
             catch (Exception ex)

@@ -130,39 +130,6 @@ namespace HomeRealtorApi.Migrations
                     b.ToTable("tbl_HomePlaces");
                 });
 
-            modelBuilder.Entity("HomeRealtorApi.Entities.ForgotPassword", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code")
-                        .IsRequired();
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("tbl_ForgotPassword");
-                });
-
-            modelBuilder.Entity("HomeRealtorApi.Entities.HomePlace", b =>
-                {
-                    b.Property<int>("DistrictId");
-
-                    b.Property<int>("RealEstateId");
-
-                    b.HasKey("DistrictId", "RealEstateId");
-
-                    b.HasIndex("RealEstateId");
-
-                    b.ToTable("tbl_HomePlaces");
-                });
-
             modelBuilder.Entity("HomeRealtorApi.Entities.ImageEstate", b =>
                 {
                     b.Property<int>("Id")
