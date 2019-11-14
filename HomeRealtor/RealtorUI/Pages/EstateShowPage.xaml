@@ -15,15 +15,17 @@
             <TabItem Header="Buy" Width="100">
                 <Grid Margin="10,10,10,10">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="151*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="990*"/>
                     </Grid.RowDefinitions>
-                    <Grid Width="685" HorizontalAlignment="Left">
+                    <Expander Margin="0 0 0 10" Header="Find">
+                        <Grid Width="685" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="239*"/>
                             <ColumnDefinition Width="239*" />
                             <ColumnDefinition Width="207*"/>
                         </Grid.ColumnDefinitions>
+                        
                         <StackPanel>
                             <ComboBox x:Name="cbRegion" IsEditable="True" FontSize="15" Text="Region" Margin="10" Height="30" SelectionChanged="cbRegion_SelectionChangedAsync"/>
                             <ComboBox x:Name="cbTown" IsEditable="True" FontSize="15" Text="Town" Margin="10" Height="30" SelectionChanged="cbTown_SelectionChangedAsync"/>
@@ -48,6 +50,8 @@
                         <ComboBox Grid.Column="2" x:Name="cbType" IsEditable="True" FontSize="15" VerticalAlignment="Top" Text="Type of real estate" Margin="10" Height="30"/>
                         <Button Name="btnFind" Content="Find" FontSize="13" Grid.Column="2" Margin="30 0 30 10" VerticalAlignment="Bottom" Height="30" Click="Button_ClickAsync"/>
                     </Grid>
+
+                    </Expander>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="931" />

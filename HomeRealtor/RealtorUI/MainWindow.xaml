@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RealtorUI"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="465" Width="800" Loaded="MetroWindow_Loaded">
+        Title="MainWindow" Height="465" Width="800" >
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
@@ -16,11 +16,11 @@
     </Controls:MetroWindow.LeftWindowCommands>
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <ToggleButton x:Name="tbtnFind" Cursor="Hand" IsChecked="{Binding ElementName=findFlyout, Path=IsOpen}">
+            <!--<ToggleButton x:Name="tbtnFind" Cursor="Hand" IsChecked="{Binding ElementName=findFlyout, Path=IsOpen}">
                 <Image Height="10"  Source="3lines.png"/>
-            </ToggleButton>
+            </ToggleButton>-->
             <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
-            <Controls:ToggleSwitch VerticalAlignment="Center" x:Name="togle" Click="ToggleSwitch_Click" OffLabel="Black" OnLabel="White"/>
+            <Controls:ToggleSwitch VerticalAlignment="Center" x:Name="togle" Click="ToggleSwitch_Click" OffLabel="Black"  Margin="10 0 5 5" OnLabel="White"/>
 
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
@@ -35,13 +35,9 @@
                     <Button Name="btnExit" Click="BtnExit_Click" Content="Exit" Height="50" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
-            <!--<Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">
-                <StackPanel>
-                    
-                </StackPanel>
-            </Controls:Flyout>-->
+            
 
-            <Controls:Flyout  Name="findFlyout" Position="Top" Background="LightBlue" Width="800">
+            <!--<Controls:Flyout  Name="findFlyout" Position="Top"  Width="800">
                 <Grid Margin="0 50 0 0" Width="685" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="239*"/>
@@ -72,7 +68,7 @@
                     <ComboBox Grid.Column="2" x:Name="cbType" IsEditable="True" FontSize="15" VerticalAlignment="Top" Text="Type of real estate" Margin="10" Height="30"/>
                     <Button Content="Find" FontSize="13" Grid.Column="2" Margin="30 0 30 10" VerticalAlignment="Bottom" Height="30" Name="btnFind" />
                 </Grid>
-            </Controls:Flyout>
+            </Controls:Flyout>-->
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
     

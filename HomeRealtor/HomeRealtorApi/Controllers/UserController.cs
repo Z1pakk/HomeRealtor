@@ -198,7 +198,15 @@ namespace HomeRealtorApi.Controllers
             {
                 User us = _context.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
                 IdentityResult res = await _userManager.ChangePasswordAsync(us, Passwords[0], Passwords[1]);
-                return Content("OK");
+                if (res.Succeeded)
+                    return Content("OK");
+                else
+                {
+                    string er="Error: ";
+                    foreach (var item in res.Errors)
+                        er += item.Description;
+                    return Content(er);
+                } 
             }
             catch (Exception ex)
             {

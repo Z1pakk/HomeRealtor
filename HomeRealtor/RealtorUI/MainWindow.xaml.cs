@@ -18,7 +18,6 @@ namespace RealtorUI
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        EstateShowPage estateSP ;
         public MainWindow()
         {
            
@@ -31,11 +30,11 @@ namespace RealtorUI
             HomePage home = new HomePage();
             frame.Content = home;
             Id = id;
-            estateSP = new EstateShowPage(Id);
-            btnFind.Click += estateSP.Button_ClickAsync;
-            cbTown.SelectionChanged += estateSP.cbTown_SelectionChangedAsync;
-            cbRegion.SelectionChanged += estateSP.cbRegion_SelectionChangedAsync;
-            tbtnFind.Margin = new Thickness(0, 10, this.Width/7.5, 0);
+            //estateSP = new EstateShowPage(Id);
+            //btnFind.Click += estateSP.Button_ClickAsync;
+            //cbTown.SelectionChanged += estateSP.cbTown_SelectionChangedAsync;
+            //cbRegion.SelectionChanged += estateSP.cbRegion_SelectionChangedAsync;
+            //tbtnFind.Margin = new Thickness(0, 10, this.Width/7.5, 0);
 
         }
 
@@ -48,7 +47,9 @@ namespace RealtorUI
 
         private void btn_BuyClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            frame.Navigate(estateSP);
+            string tok = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
+            EstateShowPage estateShow = new EstateShowPage(tok);
+            frame.Navigate(estateShow);
             
         }
 
@@ -95,21 +96,6 @@ namespace RealtorUI
             }
         }
 
-        private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            string _token = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
-            BaseServices service = new BaseServices();
-            string url = "https://localhost:44325/api/RealEstate/get/types";
-            List<TypeViewModel> res = service.GetEstateTypes(url, "GET", _token);
-            List<ComboBoxModel> temp = res.Select(t => new ComboBoxModel() { Id = t.Id, Name = t.Name }).ToList();
-            cbType.ItemsSource = temp;
-
-            url = "https://localhost:44325/api/RealEstate/get/regions";
-            List<RegionModel> regions = (await service.GetRegions(url, _token)).Result;
-            string er = (await service.GetRegions(url, _token)).ExceptionMessage;
-            cbRegion.ItemsSource = regions.Select(t => new ComboBoxModel() { Id = t.Id, Name = t.NameOfRegion }).ToList();
-            cbRCount.ItemsSource = new string[] { "1", "2", "3", "4+" };
-        }
+        
     }
 }
