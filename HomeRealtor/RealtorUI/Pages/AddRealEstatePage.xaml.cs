@@ -82,38 +82,42 @@ namespace RealtorUI.Pages
 
         private void BtnAddRealEstate_Click(object sender, RoutedEventArgs e)
         {
-            imagePath = images.First();
-            RealEstateViewModel realEstate = new RealEstateViewModel()
-            {
-                Active = true,
-                Image = imagePath,
-                Location = tbStreet.Text,
-                Price = Double.Parse(tbPrice.Text),
-                StateName = tbState.Text,
-                TerritorySize = Double.Parse(tbArea.Text),
-                TypeId = types.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
-                TimeOfPost = DateTime.Now,
-                RoomCount = Int32.Parse(tbRoomCount.Text),
-                SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
-                //HomePlaceId = homePlace.FirstOrDefault(t => t.Name == (string)cbHomePlace.SelectedItem).Id,
-                UserId = UserM.Id,
-                images = images,
-                description = tbAbout.Text,
-                
-            };
+            if (tbStreet == null || tbAbout == null || tbArea == null || tbPrice == null || tbRoomCount == null || tbState == null || cbDistricts.SelectedItem == null
+                || cbDistrictTypes.SelectedItem == null || cbRegions.SelectedItem == null || cbSellType.SelectedItem == null || cbTowns.SelectedItem == null || cbType.SelectedItem == null
+                || lvPhotos == null)
+                MessageBox.Show("You must fill all fields, and add at least one image");
+            else {
+                imagePath = images.First();
+                RealEstateViewModel realEstate = new RealEstateViewModel()
+                {
+                    Active = true,
+                    Image = imagePath,
+                    Location = tbStreet.Text,
+                    Price = Double.Parse(tbPrice.Text),
+                    StateName = tbState.Text,
+                    TerritorySize = Double.Parse(tbArea.Text),
+                    TypeId = types.FirstOrDefault(t => t.Name == (string)cbType.SelectedItem).Id,
+                    TimeOfPost = DateTime.Now,
+                    RoomCount = Int32.Parse(tbRoomCount.Text),
+                    SellType = sellTypes.FirstOrDefault(t => t.Name == (string)cbSellType.SelectedItem).Id,
+                    UserId = UserM.Id,
+                    images = images,
+                    description = tbAbout.Text,
+                    DistrictId = districts.FirstOrDefault(t => t.NameOfDistrict == (string)cbDistricts.SelectedItem).Id
+                };
 
-            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
-            {
-                writer.Write(JsonConvert.SerializeObject(realEstate));
+                HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/realEstate/add");
+                request.Method = "POST";
+                request.ContentType = "application/json";
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(JsonConvert.SerializeObject(realEstate));
+                }
+
+                WebResponse webResponse = request.GetResponse();
+
+                NavigationService.GoBack();
             }
-
-            WebResponse webResponse = request.GetResponse();
-         
-            NavigationService.GoBack();
-
         }
         private async void setLists()
         {
@@ -197,17 +201,19 @@ namespace RealtorUI.Pages
         private void CbTowns_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cbDistrictTypes.IsEnabled = true;
-        }
-
-        private void CbDistricts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
+            cbDistricts.ItemsSource = null;
         }
 
         private void CbDistrictTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<DistrictModel> list = new List<DistrictModel>();
+            cbDistricts.ItemsSource = null;
             cbDistricts.IsEnabled = true;
+        }
+
+        private void CbDistricts_GotFocus(object sender, RoutedEventArgs e)
+        {
+            List<DistrictModel> list = new List<DistrictModel>();
+            
             int idTown = towns.FirstOrDefault(t => t.NameOfTown == (string)cbTowns.SelectedItem).Id;
             int idDistrictType = districtTypes.FirstOrDefault(t => t.Name == (string)cbDistrictTypes.SelectedItem).Id;
 

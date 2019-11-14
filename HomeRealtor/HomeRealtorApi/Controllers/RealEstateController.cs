@@ -66,6 +66,9 @@ namespace HomeRealtorApi.Controllers
                 new GetListEstateViewModel()
                 {
                     Id = t.Id,
+                    Active = t.Active,
+                    Location = t.Location,
+                    Price = t.Price,
                     Image = t.Image,
                     RoomCount = t.RoomCount,
                     StateName = t.StateName,
@@ -241,13 +244,13 @@ namespace HomeRealtorApi.Controllers
                     TimeOfPost = model.TimeOfPost,
                     RoomCount = model.RoomCount,
                     SellType = model.SellType,
-                    HomePlaceId = model.HomePlaceId,
                     Description = model.description,             
+             
                 };
                 _context.RealEstates.Add(estate);
                 HomePlace homePlace = new HomePlace()
                 {
-                    DistrictId = 1,
+                    DistrictId = model.DistrictId,
                     RealEstateId = estate.Id
                 };
                 foreach (var imgEst in model.images)
@@ -308,7 +311,6 @@ namespace HomeRealtorApi.Controllers
                 estate.TypeId = model.TypeId;
                 estate.RoomCount = model.RoomCount;
                 estate.SellType = model.SellType;
-                estate.HomePlaceId = model.HomePlaceId;
                 estate.Description = model.description;
                 _context.SaveChanges();
                 return Content("Real Estate is edited");

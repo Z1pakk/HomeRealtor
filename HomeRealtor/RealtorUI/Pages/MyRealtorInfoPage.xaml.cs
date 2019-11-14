@@ -64,19 +64,9 @@ namespace RealtorUI.Pages
                 }
             }
         }
-        private async void btnUpdate_Click(object sender, RoutedEventArgs e)
+        private  void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/myEstatesRealtor", string.Empty, "GET",tok);
-            if (res.Success == true)
-            {
-                dgEstates.Items.Clear();
-                foreach (var item in res.Result)
-                {
-                     dgEstates.Items.Add(item);
-                    
-                }
-            }
-            else MessageBox.Show(res.ExceptionMessage);
+            Update();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -115,7 +105,7 @@ namespace RealtorUI.Pages
                 }
             }
             else MessageBox.Show(res.ExceptionMessage);
-
+            Update();
         }
 
         private async void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -168,6 +158,20 @@ namespace RealtorUI.Pages
             }
             else MessageBox.Show("You didn`t choose an image");
             
+        }
+        public async void Update()
+        {
+            ServiceResult res = await services.RealEstateMethod("https://localhost:44325/api/realestate/myEstatesRealtor", string.Empty, "GET", tok);
+            if (res.Success == true)
+            {
+                dgEstates.Items.Clear();
+                foreach (var item in res.Result)
+                {
+                    dgEstates.Items.Add(item);
+
+                }
+            }
+            else MessageBox.Show(res.ExceptionMessage);
         }
     }
 }

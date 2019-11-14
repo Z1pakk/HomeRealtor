@@ -238,8 +238,6 @@ namespace HomeRealtorApi.Migrations
                         .IsRequired()
                         .HasMaxLength(5000);
 
-                    b.Property<int>("HomePlaceId");
-
                     b.Property<string>("Image")
                         .IsRequired();
 
