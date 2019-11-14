@@ -538,7 +538,7 @@ namespace HomeRealtorApi.Migrations
                         .HasForeignKey("RealEstsateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
+                    b.HasOne("HomeRealtorApi.Entities.User")
                         .WithMany("Advertisings")
                         .HasForeignKey("UserId");
                 });
