@@ -32,7 +32,7 @@ namespace RealtorUI
                 if (File.Exists(Directory.GetCurrentDirectory() + @"\token.txt"))
                 {
 
-                
+
                     var stream = File.ReadAllText(Directory.GetCurrentDirectory() + @"\token.txt");
                     if (stream != "")
                     {
@@ -41,20 +41,33 @@ namespace RealtorUI
                         var jsonToken = handler.ReadToken(stream);
                         if (jsonToken.ValidTo >= DateTime.Now)
                         {
-                            MainWindow mainWindow = new MainWindow(stream);
-                            this.Visibility = Visibility.Hidden;
-                            this.Close();
-                            mainWindow.ShowDialog();
-                            return;
+                            if (File.ReadAllText(Directory.GetCurrentDirectory() + @"\role.txt") == "User")
+                            {
+                                MainWindow mainWindow = new MainWindow(stream);
+                                this.Visibility = Visibility.Hidden;
+                                this.Close();
+                                mainWindow.ShowDialog();
+                                return;
+                            }
+                            else if (File.ReadAllText(Directory.GetCurrentDirectory() + @"\role.txt") == "Realtor")
+                            {
+                                MainWindowRealtor mainWindow = new MainWindowRealtor(stream);
+                                this.Visibility = Visibility.Hidden;
+                                this.Close();
+                                mainWindow.ShowDialog();
+                                return;
+                            }
+                            //LoginRoles loginRoles = new LoginRoles(stream);
+
                         }
                     }
                 }
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+
             }
-            
+
             InitializeComponent();
         }
 
@@ -71,13 +84,13 @@ namespace RealtorUI
             window.ShowDialog();
         }
         private async Task<string> LoginAsync()
-        {
-          
-            
-
+        { 
+            string Role;
             HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/user/login");
             request.Method = "POST";
             request.ContentType = "application/json";
+
+            Role = rbtnUser.IsChecked==true ? "User": "Realtor";
 
             using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
             {
@@ -86,68 +99,105 @@ namespace RealtorUI
                 {
 
                     Password = passwdBox.Password,
-                    Email = loginBox.Text
+                    Email = loginBox.Text,
+                    Role = Role
                 }));
             }
-            WebResponse response =await request.GetResponseAsync();
+            WebResponse response = await request.GetResponseAsync();
 
-            string token;
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-            {
-                string temp = reader.ReadToEnd();
-                token = temp;
+                string token;
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string temp = reader.ReadToEnd();
+                    token = temp;
+                }
+                return token;
             }
-            return token;
-        }
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-            sP.Visibility = Visibility.Hidden;
-            sP2.Visibility = Visibility.Hidden;
-            lB.Visibility = Visibility.Hidden;
-            mE.Visibility = Visibility.Visible;
-
-            string token=await LoginAsync();
-            
-            
-
-
-            //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
-            if (token == "Locked")
-            {
-                sP.Visibility = Visibility.Visible;
-                sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
-                mE.Visibility = Visibility.Hidden;
-                MessageBox.Show("Your account is banned ! Please unlock your account in your email");
-                return;
-            }
-            if (token != "Error")
+            private async void Button_Click_1(object sender, RoutedEventArgs e)
             {
 
-                File.WriteAllText( Directory.GetCurrentDirectory()+@"\token.txt", token);
-                MainWindow mainWindow = new MainWindow(token);
-                this.Visibility = Visibility.Hidden;
-                this.Close();
-                mainWindow.ShowDialog();
-            }
-            else
-            {
-                sP.Visibility = Visibility.Visible;
-                sP2.Visibility = Visibility.Visible;
-                lB.Visibility = Visibility.Visible;
-                mE.Visibility = Visibility.Hidden;
-                passwdBox.BorderBrush = Brushes.Red;
-                passwdBox.Password = "";
-               MessageBox.Show("Incorrect login or password");
-            }
-          
-        }
+                sP.Visibility = Visibility.Hidden;
+                sP2.Visibility = Visibility.Hidden;
+                //btn.Visibility = Visibility.Hidden;
+                //lB.Visibility = Visibility.Hidden;
+                mE.Visibility = Visibility.Visible;
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            ForgotPasswordWindow window = new ForgotPasswordWindow();
-            window.ShowDialog();
+                string token = await LoginAsync();
+
+
+
+
+                //var tokenS = handler.ReadToken(tokenJwtReponse.access_token) as JwtSecurityToken;
+                if (token == "Locked")
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
+                    // lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    MessageBox.Show("Your account is banned ! Please unlock your account in your email");
+                    return;
+                }
+                if (token == "Role")
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    //btn.Visibility = Visibility.Visible;
+                    // lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    MessageBox.Show("You haven`t got this role");
+                    return;
+                }
+                if(token == "Confirm")
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    sP.Visibility = Visibility.Visible;
+                    //lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    MessageBox.Show("Need to confirm your email!");
+                    return;
+                }
+                if (token != "Error")
+                {
+                    if (rbtnUser.IsChecked == true)
+                    {
+                        File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                        File.WriteAllText(Directory.GetCurrentDirectory() + @"\role.txt", "User");
+                        MainWindow mainWindow = new MainWindow(token);
+                        this.Visibility = Visibility.Hidden;
+                        this.Close();
+                        mainWindow.ShowDialog();
+                    } else if (rbtnRealtor.IsChecked == true)
+                    {
+                        File.WriteAllText(Directory.GetCurrentDirectory() + @"\token.txt", token);
+                        File.WriteAllText(Directory.GetCurrentDirectory() + @"\role.txt", "Realtor");
+                        MainWindowRealtor mainWindow = new MainWindowRealtor(token);
+                        this.Visibility = Visibility.Hidden;
+                        this.Close();
+                        mainWindow.ShowDialog();
+                    }
+
+                }
+                else
+                {
+                    sP.Visibility = Visibility.Visible;
+                    sP2.Visibility = Visibility.Visible;
+                    sP.Visibility = Visibility.Visible;
+                    //lB.Visibility = Visibility.Visible;
+                    mE.Visibility = Visibility.Hidden;
+                    passwdBox.BorderBrush = Brushes.Red;
+                    passwdBox.Password = "";
+                    MessageBox.Show("Incorrect login or password");
+                }
+
+            }
+
+            private void Button_Click_2(object sender, RoutedEventArgs e)
+            {
+                ForgotPasswordWindow window = new ForgotPasswordWindow();
+                window.ShowDialog();
+            }
         }
     }
-}
+

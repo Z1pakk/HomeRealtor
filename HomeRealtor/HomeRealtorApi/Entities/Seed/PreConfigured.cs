@@ -99,5 +99,25 @@ namespace HomeRealtorApi.Entities.Seed
                 }
             };
         }
+
+        public static IEnumerable<User> GetPreconfiguredUsers()
+        {
+            return new List<User>
+            {
+                new User()
+                {
+                    Email = "admin@admin.com",
+                    UserName = "Admin",
+                    PhoneNumber = "+380547896325",
+                    FirstName = "Admin",
+                    LastName = "Adminovich",
+                    Age = 25
+                }
+            };
+        }
+
+        
+
+       
     }
 }

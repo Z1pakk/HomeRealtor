@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealtorUI.Models
+namespace APIConnectService.Models
 {
-    public class ImageEstateModel
+    public class HomePlaceTypeModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public int EstateId { get; set; }
     }
 }

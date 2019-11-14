@@ -76,19 +76,14 @@ namespace HomeRealtorApi
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content")))
-            {
-                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content"));
-            }
-            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content","EstateImages")))
-            {
-                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "EstateImages"));
-            }
-
             app.UseStaticFiles();
-
             // Seed the database
             await EFContextSeed.SeedAsync(app, env, Configuration);
+
+            if (!Directory.Exists(Path.Combine(env.WebRootPath, "Content", "Advertising")))
+            {
+                Directory.CreateDirectory(Path.Combine(env.WebRootPath, "Content", "Advertising"));
+            }
         }
 
 

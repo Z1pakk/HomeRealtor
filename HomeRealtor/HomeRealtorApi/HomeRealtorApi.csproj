@@ -19,19 +19,31 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
-	  <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
+	<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
-
   <ItemGroup>
+    <Compile Update="Startup.cs">
+      <Generator>w</Generator>
+    </Compile>
+  </ItemGroup>
+
+   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\Content\EstateImages\2.jpg" />
-  </ItemGroup>
+   <ItemGroup>
+     <ProjectReference Include="..\APIConnectService\APIConnectService.csproj" />
+   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+   <ItemGroup>
+     <Reference Include="PresentationFramework">
+       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationFramework.dll</HintPath>
+     </Reference>
+   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

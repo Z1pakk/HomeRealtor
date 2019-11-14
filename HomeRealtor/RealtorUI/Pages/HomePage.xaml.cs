@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RealtorUI.Models;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +24,45 @@ namespace RealtorUI.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        string _token;
+        int _id;
+
         public HomePage()
         {
+            HttpWebRequest request = WebRequest.CreateHttp("https://localhost:44325/api/advertising/advertising");
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            List<AdvertisingModel> advertisings = new List<AdvertisingModel>();
+
+            WebResponse response = request.GetResponse();
+            using (StreamReader writer = new StreamReader(response.GetResponseStream()))
+            {
+                string temp = writer.ReadToEnd();
+                advertisings = JsonConvert.DeserializeObject<List<AdvertisingModel>>(temp);
+            }
+
+            using (StreamReader reader = new StreamReader("token.txt"))
+            {
+                string temp = reader.ReadToEnd();
+                _token = temp;
+            }
+
+            foreach(var item in advertisings)
+            {
+                item.Image = "https://localhost:44325/content/" + item.Image;
+            }
+
             InitializeComponent();
+
+            lbAdvertising.ItemsSource = advertisings;
+
+        }
+
+        private void LbAdvertising_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _id = ((AdvertisingModel)lbAdvertising.SelectedItems[0]).RealEstateId;
+            RealEstateAboutPage page = new RealEstateAboutPage(_id, _token);
+            NavigationService.Navigate(page);
         }
     }
 }

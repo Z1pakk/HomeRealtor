@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIConnectService.Service;
 using HomeRealtorApi.Entities;
 using HomeRealtorApi.Models;
 using Microsoft.AspNetCore.Http;
@@ -27,12 +28,10 @@ namespace HomeRealtorApi.Controllers
             {
                 Advertising advertising = new Advertising()
                 {
-                    StateName = Advertising.StateName,
-                    Price = Advertising.Price,
-                    Image = Advertising.Image,
-                    Contacts = Advertising.Contacts,
-                    UserId = Advertising.UserId
+                    UserId = Advertising.UserId,
+                    RealEstsateId = Advertising.RealEstateId
                 };
+
 
                 var result = _context.Advertisings.Add(advertising);
                 return Ok();
@@ -43,11 +42,25 @@ namespace HomeRealtorApi.Controllers
             }
         }
 
-        [HttpGet("advertising_")]
+        [HttpGet("advertising")]
         public ContentResult GetProducts()
         {
             List<Advertising> advertisings = _context.Advertisings.ToList();
-            string json = JsonConvert.SerializeObject(advertisings);
+            List<AdvertisingModel> models = new List<AdvertisingModel>();
+            foreach(var item in advertisings)
+            {
+                AdvertisingModel model = new AdvertisingModel()
+                {
+                    UserId = item.UserId,
+                    RealEstateId = item.RealEstsateId,
+                    Image = item.RealEstateOf.Image,
+                    Contacts = item.UserOf.Email,
+                    StateName = item.RealEstateOf.StateName
+                };
+                models.Add(model);
+            }
+
+            string json = JsonConvert.SerializeObject(models);
             return Content(json, "application/json");
         }
     }
