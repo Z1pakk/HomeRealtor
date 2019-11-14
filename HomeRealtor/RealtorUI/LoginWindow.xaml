@@ -7,7 +7,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:RealtorUI"
         mc:Ignorable="d"
-        Title="Login" Height="512" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Name="window" Title="Login" Height="512" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="17*"/>

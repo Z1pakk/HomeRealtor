@@ -314,6 +314,8 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<DateTime>("RegisterDate");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");

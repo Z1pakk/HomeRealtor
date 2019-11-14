@@ -7,19 +7,13 @@
         xmlns:local="clr-namespace:AdminUI"
         mc:Ignorable="d"
         Title="MainWindow2" Background="WhiteSmoke" Height="450" Width="800">
-    
+
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <ToggleButton Content="Menu" 
         IsChecked="{Binding ElementName=yourMahAppFlyout, Path=IsOpen}" Cursor="Hand"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <ToggleButton Content="Account" PreviewMouseDown="ToggleButton_PreviewMouseDown" Cursor="Hand"/>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout Name="yourMahAppFlyout" Position="Left" Width="200">
@@ -27,8 +21,8 @@
                     <Button Name="btnPag" Click="BtnPag_Click" Content="Admin Pagination" Height="50" FontSize="18" />
                     <Button Name="btnBAN" Click="BtnBAN_Click" Content="BAN" Height="50" FontSize="18"/>
                     <Button Name="btnReal" Content="Real estates" Click="BtnReal_Click" Height="50" FontSize="18"/>
-                    <Button Name="btnGraphs" Content="Graphs" Click="BtnGraphs_Click" Height="50" FontSize="18"/>
-                    <Button Name="btnExit" Content="Exit" Height="50" FontSize="18"/>
+                    <Button Name="btnGraphs" Content="Graphics" Click="BtnGraphs_Click" Height="50" FontSize="18"/>
+                    <Button Name="btnExit" Content="Exit" Height="50" Click="BtnExit_Click_1" FontSize="18"/>
                 </StackPanel>
             </Controls:Flyout>
             <Controls:Flyout Name="checkOutFlayout" Background="LightBlue" MaxHeight="200" Position="Top" HorizontalAlignment="Right" MaxWidth="200">

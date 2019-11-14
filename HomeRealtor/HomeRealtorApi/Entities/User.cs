@@ -20,6 +20,7 @@ namespace HomeRealtorApi.Entities
         public int CountOfLogins { get; set; }
         public string AboutMe { get; set; }
         public string Image { get; set; }
+        public DateTime RegisterDate { get; set; }
         public virtual ICollection<ImageUser> ImageUsers { get; set; }
 
         public virtual ICollection<UserUnlockCodes> UserUnlockCodes { get; set; }
