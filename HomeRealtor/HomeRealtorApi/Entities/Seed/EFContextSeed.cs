@@ -100,7 +100,6 @@ namespace HomeRealtorApi.Entities.Seed
                     if (!context.DistrictTypes.Any())
                     {
                         context.DistrictTypes.AddRange(PreConfigured.GetPreconfiguredDistrictTypes());
-                        isCanSaveChanges = true;
                         await context.SaveChangesAsync();
                     }
 
@@ -155,10 +154,27 @@ namespace HomeRealtorApi.Entities.Seed
                             .RuleFor(t => t.Active, f => true);
                         var estates = estatesFaked.Generate(1000);
                         context.RealEstates.AddRange(estates);
-                        
+                        await context.SaveChangesAsync();
+
+                    }
+                    if (!context.HomePlaces.Any())
+                    {
+                        Random random = new Random();
+
+                        List<HomePlace> hm = new List<HomePlace>();
+
+                        foreach (var item in context.RealEstates)
+                        {
+                            hm.Add(new HomePlace()
+                            {
+                                RealEstateId = item.Id,
+                                DistrictId = random.Next(context.Districts.First().Id, context.Districts.Last().Id)
+                            });
+                        }
+
+                        context.HomePlaces.AddRange(hm);
                         isCanSaveChanges = true;
                     }
-
                     //if (!context.RealEstates.Any())
                     //{
                     //    context.RealEstates.AddRange(PreConfigured.GetPreconfiguredRealEstates());
