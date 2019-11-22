@@ -28,11 +28,10 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("Contacts")
                         .IsRequired();
 
-                    b.Property<string>("Image");
+                    b.Property<string>("Image")
+                        .IsRequired();
 
                     b.Property<double>("Price");
-
-                    b.Property<int>("RealEstsateId");
 
                     b.Property<string>("StateName")
                         .IsRequired();
@@ -40,8 +39,6 @@ namespace HomeRealtorApi.Migrations
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RealEstsateId");
 
                     b.HasIndex("UserId");
 
@@ -76,7 +73,13 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<int>("EstateId");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LargeImage")
+                        .IsRequired();
+
+                    b.Property<string>("MediumImage")
+                        .IsRequired();
+
+                    b.Property<string>("SmallImage")
                         .IsRequired();
 
                     b.HasKey("Id");
@@ -158,6 +161,12 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<string>("Coordinates");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(5000);
+
                     b.Property<string>("Image")
                         .IsRequired();
 
@@ -173,7 +182,7 @@ namespace HomeRealtorApi.Migrations
 
                     b.Property<string>("StateName")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(300);
 
                     b.Property<double>("TerritorySize");
 
@@ -421,11 +430,6 @@ namespace HomeRealtorApi.Migrations
 
             modelBuilder.Entity("HomeRealtorApi.Entities.Advertising", b =>
                 {
-                    b.HasOne("HomeRealtorApi.Entities.RealEstate", "RealEstateOf")
-                        .WithMany("Advertisings")
-                        .HasForeignKey("RealEstsateId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("HomeRealtorApi.Entities.User", "UserOf")
                         .WithMany("Advertisings")
                         .HasForeignKey("UserId");

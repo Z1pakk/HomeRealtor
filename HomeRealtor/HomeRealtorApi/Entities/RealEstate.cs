@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace HomeRealtorApi.Entities
 {
@@ -16,7 +17,7 @@ namespace HomeRealtorApi.Entities
         [Required]
         public string Image { get; set; }
 
-        [Required, StringLength(20)]
+        [Required, StringLength(300)]
         public string StateName { get; set; }
 
         [Required]
@@ -33,6 +34,12 @@ namespace HomeRealtorApi.Entities
         public double TerritorySize { get; set; }
 
         [Required]
+        [MaxLength(5000)]
+        public string Description { get; set; }
+
+        public string Coordinates { get; set; }
+
+        [Required]
         public bool Active { get; set; }
 
         [ForeignKey("TypeOf")]
@@ -44,6 +51,10 @@ namespace HomeRealtorApi.Entities
         [ForeignKey("SellOf")]
         public int SellType { get; set; }
 
+        [ForeignKey("HomePlaceOf")]
+        public int HomePlaceId { get; set; }
+
+        public virtual HomePlace HomePlaceOf { get; set; }
         public virtual RealEstateType TypeOf { get; set; }
         public virtual User UserOf { get; set; }
         public virtual RealEstateSellType SellOf { get; set; }

@@ -135,12 +135,18 @@ namespace APIConnectService.Service
             {
                 return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
             }
-        }
+        }         
 
-        public List<GetListEstateViewModel> GetEstates(string url, string method)
+        public List<GetListEstateViewModel> GetFindedEstates(string url,string json, string method,string token)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = method;
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {token}"); 
+            if (json != string.Empty)
+                using (StreamWriter stream = new StreamWriter(request.GetRequestStream()))
+                {
+                    stream.Write(json);
+                }
             WebResponse wr = request.GetResponse();
             string responceFromServer;
             using (Stream streamResponce = wr.GetResponseStream())
@@ -152,7 +158,22 @@ namespace APIConnectService.Service
             List<GetListEstateViewModel> models = JsonConvert.DeserializeObject<List<GetListEstateViewModel>>(responceFromServer);
             return models;
         }
-
+        public List<TypeViewModel> GetEstateTypes(string url, string method,string token)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {token}");
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            List<TypeViewModel> models = JsonConvert.DeserializeObject<List<TypeViewModel>>(responceFromServer);
+            return models;
+        }
         public async Task<ServiceResult> GetCurrentUser(string url, string token)
         {
             try
@@ -177,6 +198,54 @@ namespace APIConnectService.Service
                 return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
             }
         }
+        public async Task<ServiceResult> GetHomePlaces(string url, string method, string token)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(url);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+                request.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + token);
+                WebResponse wr = await request.GetResponseAsync();
+                string responceFromServer;
+                using (Stream streamResponce = wr.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(streamResponce);
+                    responceFromServer = reader.ReadToEnd();
+                }
+                wr.Close();
+                List<HomePlaceModel> m = JsonConvert.DeserializeObject<List<HomePlaceModel>>(responceFromServer);
+                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = m };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
+            }
+        }
+        public async Task<ServiceResult> GetHomePlaceTypes(string url, string method, string token)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(url);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+                request.Headers.Add(HttpRequestHeader.Authorization, "Bearer " + token);
+                WebResponse wr = await request.GetResponseAsync();
+                string responceFromServer;
+                using (Stream streamResponce = wr.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(streamResponce);
+                    responceFromServer = reader.ReadToEnd();
+                }
+                wr.Close();
+                List<HomePlaceTypeModel> m = JsonConvert.DeserializeObject<List<HomePlaceTypeModel>>(responceFromServer);
+                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = m };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
+            }
+        }
         public GetRealEstateViewModel GetEstate(string url, string method)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -191,6 +260,46 @@ namespace APIConnectService.Service
             }
             wr.Close();
             return JsonConvert.DeserializeObject<GetRealEstateViewModel>(responceFromServer);
+        }
+
+        public ServiceResult GetEstateImages(string url)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(url);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+                WebResponse wr =  request.GetResponse();
+                string responceFromServer;
+                using (Stream streamResponse = wr.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(streamResponse);
+                    responceFromServer = reader.ReadToEnd();
+                }
+                wr.Close();
+                List<GetEstateImagesViewModel> m = JsonConvert.DeserializeObject<List<GetEstateImagesViewModel>>(responceFromServer); 
+                return new ServiceResult() { Success = true, ExceptionMessage = null, Result = m };
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult() { Success = false, ExceptionMessage = "Error: " + ex.Message, Result = null };
+            }
+        }
+
+        public GetEstatesAndCountViewModel GetEstates(string url, string method)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = method;
+            WebResponse wr = request.GetResponse();
+            string responceFromServer;
+            using (Stream streamResponce = wr.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(streamResponce);
+                responceFromServer = reader.ReadToEnd();
+            }
+            wr.Close();
+            GetEstatesAndCountViewModel models = JsonConvert.DeserializeObject<GetEstatesAndCountViewModel>(responceFromServer);
+            return models;
         }
     }
 }

@@ -5,11 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191022132129_init.cs" />
+    <Compile Remove="Migrations\20191022132129_init.Designer.cs" />
+    <Compile Remove="Migrations\20191022132202_init.cs" />
+    <Compile Remove="Migrations\20191022132202_init.Designer.cs" />
+    <Compile Remove="Models\SendCodeModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="28.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
 	<PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
@@ -22,8 +32,17 @@
 
    <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="wwwroot\Content\" />
   </ItemGroup>
+
+   <ItemGroup>
+     <ProjectReference Include="..\APIConnectService\APIConnectService.csproj" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <Reference Include="PresentationFramework">
+       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationFramework.dll</HintPath>
+     </Reference>
+   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
